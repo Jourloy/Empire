@@ -7,7 +7,7 @@ function claim(creep) {
             if (creep.room.controller && !creep.room.controller.my) {
                 if (creep.claimController(creep.room.controller) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.controller); 
             }
-            if (creep.room.controller && !creep.room.controller == Memory.code) {
+            if (creep.room.controller && creep.room.controller.sign != Memory.code) {
                 if (creep.signController(creep.room.controller, Memory.code) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.controller); 
             }
         }
