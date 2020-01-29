@@ -38,7 +38,7 @@ function getResource(creep) {
     }
 }
 
-function repair(creep) {
+function doRepair(creep) {
     const structures = creep.room.find(FIND_STRUCTURES, {
         filter: (structure) => {
             return (structure.structureType == STRUCTURE_EXTENSION ||
@@ -126,6 +126,7 @@ const BasicFunctions = {
         if (aim == "getResource") getResource(creep);
         if (aim == "upgrade") doUpgrade(creep);
         if (aim == "refill") doRefill(creep);
+        if (aim == "repair") doRepair(creep);
     }
 }
 module.exports = BasicFunctions;
