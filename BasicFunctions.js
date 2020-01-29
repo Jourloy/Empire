@@ -17,10 +17,43 @@ function getResource(creep) {
             if (creep.room.storage && (creep.room.storage.store[RESOURCE_ENERGY] > 100000 && source.length == 2) || creep.room.storage && (creep.room.storage.store[RESOURCE_ENERGY] > 20000 && source.length == 1)) {
                 if (creep.withdraw(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 20 });
             } else {
-                const source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
-                if (creep.harvest(source) == ERR_NOT_IN_RANGE) creep.moveTo(source);
+                const droppedEnergy = creep.room.find(FIND_DROPPED_RESOURCES, {
+                    filter: (d) => {
+                        return (d.resourceType == "energy");
+                    }
+                });
+                if (droppedEnergy.length > 0) {
+                    const droppedEnergyNear = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES, {
+                        filter: (d) => {
+                            return (d.resourceType == "energy");
+                        }
+                    });
+                    if (creep.pickup(droppedEnergyNear) == ERR_NOT_IN_RANGE) creep.moveTo(droppedEnergyNear);
+                } else {
+                    const source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
+                    if (creep.harvest(source) == ERR_NOT_IN_RANGE) creep.moveTo(source);
+                }
             }
         }
+    }
+}
+
+function repair(creep) {
+    const structures = creep.room.find(FIND_STRUCTURES, {
+        filter: (structure) => {
+            return (structure.structureType == STRUCTURE_EXTENSION ||
+                structure.structureType == STRUCTURE_TOWER ||
+                structure.structureType == STRUCTURE_ROAD ||
+                structure.structureType == STRUCTURE_STORAGE ||
+                structure.structureType == STRUCTURE_RAMPART ||
+                structure.structureType == STRUCTURE_SPAWN) && structure.hits < structure.hitsMax;
+        }
+    });
+    if (structures.length > 0) {
+        structures.sort((a,b) => a.hits - b.hits);
+        if (creep.repair(structures[0]) == ERR_NOT_IN_RANGE) creep.moveTo(structures[0])
+    } else {
+        doUpgrade();
     }
 }
 
