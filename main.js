@@ -1,6 +1,6 @@
 /*
 @ Author: Jourloy
-@ Repository: https://github.com/Jourloy/Empire
+@ Repository: https://github.com/Jourloy/VIKING
 @ How to use: Will be soon
 */
 
