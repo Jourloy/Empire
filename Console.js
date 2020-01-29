@@ -1,6 +1,6 @@
 function params() {
     global.help = function (com) {
-        help = []
+        let help = [];
         if (!com) {
             help.push("info()                          - Print information about all your rooms")
             help.push("calculate_time(time, tickRate)  - Convert ticks to real time")
@@ -44,7 +44,7 @@ function params() {
         </script>`;
         notification = notification.replace(/\r?\n|\r/g, ' ');
         console.log(`<a target="_blank" href="https://screeps.com/a/#!/room/${Game.shard.name}/${room}">${room} is in trouble. Click on me to open this room!</a>`);
-        return notification
+        return notification;
     }
 
     global.expandBodyArrayString = function(bodyString) {
@@ -736,7 +736,7 @@ function params() {
 
         const resources = [RESOURCE_ENERGY, RESOURCE_POWER, RESOURCE_OPS, RESOURCE_HYDROGEN, RESOURCE_OXYGEN, RESOURCE_UTRIUM, RESOURCE_LEMERGIUM, RESOURCE_LEMERGIUM, RESOURCE_KEANIUM, RESOURCE_ZYNTHIUM, RESOURCE_CATALYST, RESOURCE_GHODIUM];
 
-        info = [];
+        let info = [];
         info.push("--------------------------")
 
         let spawns = [];
