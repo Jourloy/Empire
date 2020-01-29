@@ -9,9 +9,11 @@ function amountCreeps() {
     for (let z in Game.rooms) {
         let room = Game.rooms[z];
         const sourceInRoom = room.find(FIND_MINERALS);
+        const constructionSite = room.find(FIND_CONSTRUCTION_SITES);
         if (room.controller && room.controller.my) {
             for (let i in Memory.rolies) {
-                if ("DroneBuilder" == Memory.rolies[i]) Memory.room[room.name + ".amount." + Memory.rolies[i]] = 1;
+                if (constructionSite.length > 0) if ("DroneBuilder" == Memory.rolies[i]) Memory.room[room.name + ".amount." + Memory.rolies[i]] = 1;
+                else if ("DroneBuilder" == Memory.rolies[i]) Memory.room[room.name + ".amount." + Memory.rolies[i]] = 0;
                 if ("DroneMiner1" == Memory.rolies[i]) Memory.room[room.name + ".amount." + Memory.rolies[i]] = 1;
                 if ("DroneMiner2" == Memory.rolies[i]) Memory.room[room.name + ".amount." + Memory.rolies[i]] = 1;
                 if ("DroneRefiller" == Memory.rolies[i]) Memory.room[room.name + ".amount." + Memory.rolies[i]] = 1;
@@ -20,7 +22,7 @@ function amountCreeps() {
                 } else {
                     if ("DroneSeller" == Memory.rolies[i]) Memory.room[room.name + ".amount." + Memory.rolies[i]] = 0;
                 }
-                if ("DroneUpgrader" == Memory.rolies[i]) Memory.room[room.name + ".amount." + Memory.rolies[i]] = 0;
+                if ("DroneUpgrader" == Memory.rolies[i]) Memory.room[room.name + ".amount." + Memory.rolies[i]] = 1;
                 if ("DroneWarrior" == Memory.rolies[i]) Memory.room[room.name + ".amount." + Memory.rolies[i]] = 0;
                 if (!sourceInRoom[0].ticksToRegeneration) {
                     if ("DroneMineralMiner" == Memory.rolies[i]) Memory.room[room.name + ".amount." + Memory.rolies[i]] = 1;
