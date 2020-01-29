@@ -59,6 +59,68 @@ function params() {
         return notification;
     }
 
+    global.marketInfo = function() {
+        const resources = [RESOURCE_ENERGY, RESOURCE_POWER, RESOURCE_OPS, RESOURCE_HYDROGEN, RESOURCE_OXYGEN, RESOURCE_UTRIUM, RESOURCE_LEMERGIUM, RESOURCE_KEANIUM, RESOURCE_ZYNTHIUM, RESOURCE_CATALYST, RESOURCE_GHODIUM];
+
+        result = [];
+        result.push("<table border=\"1\">");
+        result.push('<caption> MARKET\n</caption>');
+        result.push("<tr>");
+        result.push("<th></th>");
+        result.push("<th> MIN SELL PRICE </th>");
+        result.push("<th> AMOUNT ON SELL, K </th>");
+        result.push("<th> AVG SELL PRICE </th>");
+        result.push("<th> MAX SELL PRICE </th>");
+        result.push("<th> AMOUNT SELL ORDERS </th>");
+        result.push("<th></th>");
+        result.push("<th> MIN BUY PRICE </th>");
+        result.push("<th> AMOUNT ON BUY, K </th>");
+        result.push("<th> AVG BUY PRICE </th>");
+        result.push("<th> MAX BUY PRICE </th>");
+        result.push("<th> AMOUNT BUY ORDERS </th>");
+        result.push("</tr>");
+
+        for (i in resources) {
+            const ordersSell = Game.market.getAllOrders(order => order.resourceType == resources[i] && order.type == ORDER_SELL);
+            const ordersBuy = Game.market.getAllOrders(order => order.resourceType == resources[i] && order.type == ORDER_BUY)
+
+            let averageSellPrice = 0;
+            let averageBuyPrice = 0;
+
+            for (z in ordersSell) {
+                averageSellPrice += ordersSell[z].price;
+            }
+
+            for (z in ordersBuy) {
+                averageBuyPrice += ordersBuy[z].price;
+            }
+
+            averageSellPrice = Math.round((averageSellPrice/ordersSell.length)*10000)/10000;
+            averageBuyPrice = Math.round((averageBuyPrice/ordersBuy.length)*10000)/10000;
+
+            ordersSell.sort((a,b) => a.price - b.price);
+            ordersBuy.sort((a,b) => a.price - b.price);
+
+            result.push("<tr>"); 
+            result.push("<td> " + resourceImg(resources[i]) + " </td>"); 
+            result.push("<td> " + ordersSell[0].price + " </td>");
+            result.push("<td> " + ordersSell[0].amount/1000 + " </td>"); 
+            result.push("<td> " + averageSellPrice + " </td>");
+            result.push("<td> " + ordersSell[ordersSell.length-1].price + " </td>");
+            result.push("<td> " + ordersSell.length + " </td>");
+            result.push("<td> " + resourceImg(resources[i]) + " </td>"); 
+            result.push("<td> " + ordersBuy[0].price + " </td>");
+            result.push("<td> " + ordersBuy[0].amount/1000 + " </td>"); 
+            result.push("<td> " + averageBuyPrice + " </td>");
+            result.push("<td> " + ordersBuy[ordersBuy.length-1].price + " </td>");
+            result.push("<td> " + ordersBuy.length + " </td>"); 
+            result.push("</tr>");
+        }
+
+        result = result.join("");
+        return result
+    }
+
     global.expandBodyArrayString = function(bodyString) {
         var preg = /(\d+)\(([0-9a-zA-Z]+)\)/;
         var match; 
