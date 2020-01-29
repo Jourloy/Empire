@@ -749,7 +749,6 @@ function params() {
         const resources = [RESOURCE_ENERGY, RESOURCE_POWER, RESOURCE_OPS, RESOURCE_HYDROGEN, RESOURCE_OXYGEN, RESOURCE_UTRIUM, RESOURCE_LEMERGIUM, RESOURCE_LEMERGIUM, RESOURCE_KEANIUM, RESOURCE_ZYNTHIUM, RESOURCE_CATALYST, RESOURCE_GHODIUM];
 
         let info = [];
-        info.push("--------------------------")
 
         let spawns = [];
         for (let i in Game.rooms) {
@@ -759,6 +758,7 @@ function params() {
         }
         for (let i in spawns) {
             let spawn = spawns[i];
+            info.push("\n\n--------------------------")
             info.push('\nRoom name: ' + spawn.room.name );
             //
             info.push("\n\n")
@@ -775,7 +775,7 @@ function params() {
             info.push("</tr>");
             info.push("</table>");
             //
-            info.push("\n\n")
+            info.push("\n")
             //
             info.push("<table align=\"center\" border=\"1\">");
             info.push('<caption>CONTROLLER\n' + progressBar(Math.round(spawn.room.controller.progress / spawn.room.controller.progressTotal * 100)) + '\n(' + (Math.round(spawn.room.controller.progress / spawn.room.controller.progressTotal * 100)) + '%)\n\n</caption>');
@@ -789,7 +789,7 @@ function params() {
             info.push("</tr>");
             info.push("</table>");
             //
-            info.push("\n\n")
+            info.push("\n")
             //
             if (spawn.room.storage) {
                 info.push("<table align=\"center\" border=\"1\">");
@@ -811,7 +811,7 @@ function params() {
                 info.push("</table>");
             }
             //
-            info.push("\n\n")
+            info.push("\n")
             //
             if (spawn.room.terminal) {
                 info.push("<table align=\"center\" border=\"1\">");
