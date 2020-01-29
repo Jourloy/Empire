@@ -2,14 +2,16 @@ function params() {
     global.help = function (com) {
         let help = [];
         if (!com) {
-            help.push("info()                          - Print information about all your rooms")
-            help.push("calculate_time(time, tickRate)  - Convert ticks to real time")
-            help.push("  * time                        - amount TICKS.")
-            help.push("  * tickRate                    - Tick rate of server. NOT NECESSARY. Default: 2.69")
-            help.push("Creeps(body)                    - Calculate cost and time of build creep")
-            help.push("  * body                        - List with creep's body")
-            help.push("CreepBuilder(body)              - Build creep");
-            help.push("  * body                        - help(\"CreepBuilder\") for learn about this parameter");
+            help.push("info()                              - Print information about all your rooms")
+            help.push("calculate_time(time, tickRate)      - Convert ticks to real time")
+            help.push("  * time                            - amount TICKS.")
+            help.push("  * tickRate                        - Tick rate of server. NOT NECESSARY. Default: 2.69")
+            help.push("Creeps(body, bodyString, creepRole) - Calculate cost and time of build creep")
+            help.push("  * body                            - List with creep's body")
+            help.push("  * bodyString                      - String with creep's body")
+            help.push("  * creepRole                       - Only for my code")
+            help.push("CreepBuilder(body, stringBody)      - Build creep");
+            help.push("  * body, stringBody                - help(\"CreepBuilder\") for learn about this parameter");
         }
 
         if (com == "CreepBuilder") {
@@ -25,6 +27,16 @@ function params() {
             help.push("CLAIM {claim:N}");
             help.push("Default all parameters is 0. \nN - amount.");
             help.push("\nSo, if you want create creep with 2 WORK and 2 MOVE, you need write in console: CreepBuilder({work:2, move:2})");
+            help.push("\nOr you can type:");
+            help.push("m = move");
+            help.push("c = carry");
+            help.push("w = work");
+            help.push("a = attack");
+            help.push("r = rangedAttack");
+            help.push("h = heal");
+            help.push("t = tough");
+            help.push("x = claim");
+            help.push("\nSo, if you want create creep with 2 WORK and 2 MOVE, you need write in console: CreepBuilder(null, \"2w2m\") or CreepBuilder(null, \"wwmm\") or CreepBuilder(null, \"2(mw)\")");
         }
 
         help = help.join("\n");
