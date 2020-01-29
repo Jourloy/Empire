@@ -203,6 +203,10 @@ function creepBody(energy, role) {
         return [MOVE, MOVE, MOVE, MOVE, MOVE, CLAIM];
     }
 
+    if (role == "DroneHelperHealer") {
+        return [MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL];
+    }
+
 }
 
 let roleSpawn = {
@@ -226,6 +230,7 @@ let roleSpawn = {
         if (role == "DroneMineralMiner") newName = maleNames[Game.time%maleNames.length] + " [" + Game.time%1001 + "]";
         if (role == "DroneSeller") newName = femaleNames[Game.time%femaleNames.length] + " [" + Game.time%1001 + "]";
         if (role == "DroneClaimer") newName = femaleNames[Game.time%femaleNames.length] + " [" + Game.time%1001 + "]";
+        if (role == "DroneHelperHealer") newName = femaleNames[Game.time%femaleNames.length] + " [" + Game.time%1001 + "]";
         body = creepBody(amountEnergy, role);
         if (!Memory.room[spawn.room.name + ".amountIsLive." + "DroneRefiller"] && !Memory.room[spawn.room.name + ".amountIsLive." + "DroneBuilder"] && !Memory.room[spawn.room.name + ".amountIsLive." + "DroneUpgrader"] && spawn.room.energyCapacityAvailable > spawn.room.energyAvailable) {
             spawn.spawnCreep([MOVE, MOVE, CARRY, CARRY], newName, { memory: { role: "DroneRefiller" } });
