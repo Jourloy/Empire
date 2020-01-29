@@ -121,12 +121,21 @@ function doUpgrade(creep) {
     else if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.controller, { heuristicWeight: 1.2, range: 3, reusePath: 20 });
 }
 
+function doRenew(creep) {
+    const spawn = creep.pos.findClosestByPath(FIND_MY_SPAWNS);
+
+    if (spawn) {
+        if (spawn.renewCreep(creep) == ERR_NOT_IN_RANGE) creep.moveTo(spawn)
+    }
+}
+
 const BasicFunctions = {
     run(creep, aim) {
         if (aim == "getResource") getResource(creep);
         if (aim == "upgrade") doUpgrade(creep);
         if (aim == "refill") doRefill(creep);
         if (aim == "repair") doRepair(creep);
+        if (aim == "renew") doRenew(creep);
     }
 }
 module.exports = BasicFunctions;
