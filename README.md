@@ -1,1 +1,2 @@
-# EMPIRE
+# VIKING
+AI for Screeps
