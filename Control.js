@@ -5,7 +5,7 @@ function amountCreeps() {
         }
     }
     Memory.rolies = ["DroneBuilder", "DroneMiner1", "DroneMiner2", "DroneMineralMiner", "DroneRefiller", "DroneSeller", "DroneUpgrader", "DroneWarrior", "DroneRenamer", "DroneClaimer", "DroneHelperBuilder", "DroneHelperUpgrader", "DroneHelperWarrior"];
-    Memory.code = "Ginnungagap, Niflheim, Muspelheim. Ild, is, dråber falder. Ymir, Jotun, skaber aser."
+    Memory.code = "VIKING"
     for (let z in Game.rooms) {
         let room = Game.rooms[z];
         const sourceInRoom = room.find(FIND_MINERALS);
