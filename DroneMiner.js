@@ -61,6 +61,11 @@ function doMine(creep) {
     }
 }
 
+function goRenew(creep) {
+    gR = require("BasicFunctions")
+    gR.run(creep, "renew");
+}
+
 const DroneMiner = {
     /** @param {Creep} creep **/
     control(creep) {
@@ -68,7 +73,11 @@ const DroneMiner = {
             creep.memory.room = creep.room.name;
         } else {
             if (creep.room.name == creep.memory.room) {
-                doMine(creep);
+                if (creep.ticksToLive <= Math.ceil(1500-(600/(creep.hitsMax/50))-100-800)) creep.memory.renew = true;
+                else if (creep.ticksToLive > 1480) creep.memory.renew = false;
+
+                if (creep.memory.renew) goRenew(creep);
+                else doMine(creep);
             } else {
                 creep.moveTo(new RoomPosition(25, 25, creep.memory.room), { ignoreRoads: true, heuristicWeight: 1.2, range: 1, reusePath: 50 });
             }
