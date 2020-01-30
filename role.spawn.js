@@ -207,6 +207,10 @@ function creepBody(energy, role) {
         return [MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL];
     }
 
+    if (role == "DroneHelperArcher") {
+        return [RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE]
+    }
+
 }
 
 let roleSpawn = {
@@ -231,10 +235,12 @@ let roleSpawn = {
         if (role == "DroneSeller") newName = femaleNames[Game.time%femaleNames.length] + " [" + Game.time%1001 + "]";
         if (role == "DroneClaimer") newName = femaleNames[Game.time%femaleNames.length] + " [" + Game.time%1001 + "]";
         if (role == "DroneHelperHealer") newName = femaleNames[Game.time%femaleNames.length] + " [" + Game.time%1001 + "]";
+        if (role == "DroneHelperArcher") newName = maleNames[Game.time%maleNames.length] + " [" + Game.time%1001 + "]";
         body = creepBody(amountEnergy, role);
         if (!Memory.room[spawn.room.name + ".amountIsLive." + "DroneRefiller"] && !Memory.room[spawn.room.name + ".amountIsLive." + "DroneBuilder"] && !Memory.room[spawn.room.name + ".amountIsLive." + "DroneUpgrader"] && spawn.room.energyCapacityAvailable > spawn.room.energyAvailable) {
             spawn.spawnCreep([MOVE, MOVE, CARRY, CARRY], newName, { memory: { role: "DroneRefiller" } });
         }
+        console.log(spawn.spawnCreep(body, newName, { memory: { role: role } }))
         spawn.spawnCreep(body, newName, { memory: { role: role } });
     }
 };
