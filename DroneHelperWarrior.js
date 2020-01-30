@@ -38,7 +38,7 @@ let DroneHelperWarrior = {
                     });
                     if (hostileCreeps.length > 0) {
                         const speak = ['ODIN,', "MY", "FATHER!", "I", "BEG", "YOU!", "BLAST", "ME!"]
-                        creep.say(speak[Game.time%speak.length]);
+                        creep.say(speak[Game.time%speak.length], true);
                         killCreeps(creep);
                     } else {
                         const hostileStructures = creep.room.find(FIND_HOSTILE_STRUCTURES, {
