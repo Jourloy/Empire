@@ -19,21 +19,26 @@ module.exports.loop = function () {
     Nydus.run();
     roleTower.control();
 
-    let spawns = [];
-    for (let i in Game.rooms) {
-        let room = Game.rooms[i];
-        if (room.terminal) Terminal.control(room);
-        let roomSpawns = room.find(FIND_MY_STRUCTURES, { filter: { structureType: STRUCTURE_SPAWN } });
-        spawns = spawns.concat(roomSpawns);
-    }
-    for (let i in spawns) {
-        let spawn = spawns[i];
-        let amountEnergy = spawn.room.energyCapacityAvailable;
+    for (z in Game.rooms) {
+        room = Game.rooms[z];
 
-        for (let i in Memory.rolies) {
-            if (spawn.spawning == null) {
-                if ((!Memory.room[spawn.room.name + ".amountIsLive." + Memory.rolies[i]] && Memory.room[spawn.room.name + ".amount." + Memory.rolies[i]] > 0) || Memory.room[spawn.room.name + ".amountIsLive." + Memory.rolies[i]] < Memory.room[spawn.room.name + ".amount." + Memory.rolies[i]]) {
-                    roleSpawn.run(spawn, amountEnergy, Memory.rolies[i]);
+        if (room.controller && room.controller.my) {
+
+            if (room.terminal) Terminal.control(room);
+
+            for (i in Memory.rolies) {
+                if ((!Memory.room[room.name + ".amountIsLive." + Memory.rolies[i]] && Memory.room[room.name + ".amount." + Memory.rolies[i]] > 0) || Memory.room[room.name + ".amountIsLive." + Memory.rolies[i]] < Memory.room[room.name + ".amount." + Memory.rolies[i]]) {
+                    const spawns = room.find(FIND_MY_SPAWNS);
+                    if (spawns[0] && spawns[0].spawning == null) {
+                        const amountEnergy = spawns[0].room.energyCapacityAvailable;
+                        roleSpawn.run(spawns[0], amountEnergy, Memory.rolies[i]);
+                    } else if (spawns[1] && spawns[1].spawning == null) {
+                        const amountEnergy = spawns[1].room.energyCapacityAvailable;
+                        roleSpawn.run(spawns[1], amountEnergy, Memory.rolies[i]);
+                    } else if (spawns[2] && spawns[2].spawning == null) {
+                        const amountEnergy = spawns[2].room.energyCapacityAvailable;
+                        roleSpawn.run(spawns[2], amountEnergy, Memory.rolies[i]);
+                    }
                 }
             }
         }
