@@ -855,7 +855,7 @@ function params() {
             //
             if (spawn.room.storage) {
                 info.push("<table align=\"center\" border=\"1\">");
-                info.push('<caption>STORAGE\n' + progressBar(Math.round(spawn.room.storage.store[RESOURCE_ENERGY] / spawn.room.storage.store.getFreeCapacity() * 100)) + '\n(' + (Math.round(spawn.room.storage.store[RESOURCE_ENERGY] / spawn.room.storage.store.getFreeCapacity() * 100)) + '%)\n\n</caption>');
+                info.push('<caption>STORAGE\n' + progressBar(Math.round(spawn.room.storage.store.getUsedCapacity() / spawn.room.storage.store.getFreeCapacity() * 100)) + '\n(' + (Math.round(spawn.room.storage.store.getUsedCapacity() / spawn.room.storage.store.getFreeCapacity() * 100)) + '%)\n\n</caption>');
                 info.push("<tr>");
                 info.push("<th></th>");
                 info.push("<th> USED CAPACITY </th>");
@@ -877,7 +877,7 @@ function params() {
             //
             if (spawn.room.terminal) {
                 info.push("<table align=\"center\" border=\"1\">");
-                info.push('<caption>TERMINAL\n' + progressBar(Math.round(spawn.room.storage.store[RESOURCE_ENERGY] / spawn.room.storage.store.getFreeCapacity() * 100)) + '\n(' + (Math.round(spawn.room.storage.store[RESOURCE_ENERGY] / spawn.room.storage.store.getFreeCapacity() * 100)) + '%)\n\n</caption>');
+                info.push('<caption>TERMINAL\n' + progressBar(Math.round(spawn.room.storage.store.getUsedCapacity() / spawn.room.storage.store.getFreeCapacity() * 100)) + '\n(' + (Math.round(spawn.room.storage.store.getUsedCapacity() / spawn.room.storage.store.getFreeCapacity() * 100)) + '%)\n\n</caption>');
                 info.push("<tr>");
                 info.push("<th></th>");
                 info.push("<th> USED CAPACITY </th>");
