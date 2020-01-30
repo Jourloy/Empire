@@ -1,7 +1,7 @@
 function healCreeps(creep) {
     const target = creep.pos.findClosestByPath(FIND_CREEPS, {
         filter: (crps) => {
-            return crps.owner.username != "kotyara" && crps.owner.username != "JOURLOY";
+            return (crps.owner.username == "kotyara" || crps.owner.username == "JOURLOY") && crps.hits < crps.hitsMax;
         }
     });
     if (target) {
@@ -9,6 +9,8 @@ function healCreeps(creep) {
             creep.rangedHeal(target)
             creep.moveTo(target);
         }
+    } else {
+        creep.moveTo(Game.flags.Attack);
     }
 }
 
@@ -18,21 +20,11 @@ let DroneHelperWarrior = {
         if (creep.spawning) {
             creep.memory.room = creep.room.name;
         } else {
-            if (Game.flags.Claim) {
-                if (Game.flags.Claim.room != creep.room) {
-                    creep.moveTo(Game.flags.Claim);
+            if (Game.flags.Attack) {
+                if (Game.flags.Attack.room != creep.room) {
+                    creep.moveTo(Game.flags.Attack);
                 } else {
-                    
-                    const hostileCreeps = creep.room.find(FIND_HOSTILE_CREEPS, {
-                        filter: (crps) => {
-                            return crps.owner.username != "kotyara";
-                        }
-                    });
-                    if (hostileCreeps.length > 0) {
-                        healCreeps(creep);
-                    } else {
-                        creep.moveTo(Game.flags.Claim);
-                    }
+                    healCreeps(creep);
                 }
             }
 
