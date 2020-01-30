@@ -10,7 +10,7 @@ function doWork(creep) {
         if (creep.build(constructionSite) == ERR_NOT_IN_RANGE) creep.moveTo(constructionSite, { heuristicWeight: 1.2, range: 3, reusePath: 20 });
     } else {
         gR = require("BasicFunctions")
-        gR.run(creep, "upgrade");
+        gR.run(creep, "repair");
     }
 }
 
