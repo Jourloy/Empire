@@ -1,5 +1,5 @@
 function goGetResource(creep) {
-    if (Game.flags.Clear.room == undefined || Game.flags.Clear.room != undefined && Game.flags.Clear.room == creep.room) {
+    if (Game.flags.Clear.room == undefined || Game.flags.Clear.room != undefined && Game.flags.Clear.room != creep.room) {
         if (creep.memory.step == 0) {
             if (creep.room.name == "W49S29") creep.memory.step = 1;
             creep.moveTo(new RoomPosition(25, 25, "W49S29"), {ignoreRoads: true, heuristicWeight: 1.2, range: 1, reusePath: 50 });
