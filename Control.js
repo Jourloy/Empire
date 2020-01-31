@@ -4,11 +4,18 @@ function amountCreeps() {
             delete Memory.creeps[name];
         }
     }
-    Memory.rolies = ["DroneBuilder", "DroneMiner1", "DroneMiner2", "DroneMineralMiner", "DroneRefiller", "DroneSeller", "DroneUpgrader", "DroneWarrior", "DroneRenamer", "DroneClaimer", "DroneHelperBuilder", "DroneHelperUpgrader", "DroneHelperWarrior", "DroneHelperHealer", "DroneHelperArcher"];
+    Memory.rolies = ["DroneBuilder", "DroneMiner1", "DroneMiner2", "DroneMineralMiner", "DroneRefiller", "DroneSeller", "DroneUpgrader", "DroneWarrior", "DroneRenamer", "DroneClaimer", "DroneHelperBuilder", "DroneHelperUpgrader", "DroneHelperWarrior", "DroneHelperHealer", "DroneHelperArcher", "DroneHelperTransporter"];
     Memory.code = "VIKING"
 
     if (!Memory.storageEnergyCapacity) Memory.storageEnergyCapacity = 300000;
     else Memory.storageEnergyCapacity = Memory.storageEnergyCapacity;
+
+    for (let z in Game.rooms) {
+        let room = Game.rooms[z];
+        for (i in Memory.rolies) {
+            Memory.room[room.name + ".amount." + Memory.rolies[i]] = 0;
+        }
+    }
 
     for (let z in Game.rooms) {
         let room = Game.rooms[z];
@@ -22,23 +29,20 @@ function amountCreeps() {
                     Memory.room[room.name + ".amount.DroneHelperBuilder"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperUpgrader"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperWarrior"] = 0;
-                    Memory.room[room.name + ".amount.DroneHelperHealer"] = 1;
-                    Memory.room[room.name + ".amount.DroneHelperArcher"] = 1;
-                } else {
+                    Memory.room[room.name + ".amount.DroneHelperHealer"] = 0;
+                    Memory.room[room.name + ".amount.DroneHelperArcher"] = 0;
+                    Memory.room[room.name + ".amount.DroneHelperTransporter"] = 0;
+                }
+                if (Game.flags.Clear) {
                     Memory.room[room.name + ".amount.DroneHelperBuilder"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperUpgrader"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperWarrior"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperHealer"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperArcher"] = 0;
+                    Memory.room[room.name + ".amount.DroneHelperTransporter"] = 5;
                 }
-            } else {
-                if (Game.flags.Attack) {
-                    Memory.room[room.name + ".amount.DroneHelperBuilder"] = 0;
-                    Memory.room[room.name + ".amount.DroneHelperUpgrader"] = 0;
-                    Memory.room[room.name + ".amount.DroneHelperWarrior"] = 0;
-                    Memory.room[room.name + ".amount.DroneHelperHealer"] = 0;
-                    Memory.room[room.name + ".amount.DroneHelperArcher"] = 0;
-                }
+            } else if (room.name == "W49S29") {
+                
             }
 
             for (let i in Memory.rolies) {
@@ -68,6 +72,8 @@ function amountCreeps() {
                         if (room.terminal.store[RESOURCE_ENERGY] < 100000 || room.storage.store[RESOURCE_HYDROGEN] > 20000 && room.terminal.store[RESOURCE_HYDROGEN] < 100000 || room.terminal.store[RESOURCE_ENERGY] < 5000) {
                             Memory.room[room.name + ".amount." + Memory.rolies[i]] = 1;
                         } else Memory.room[room.name + ".amount." + Memory.rolies[i]] = 0;
+                    } else if (room.terminal && room.terminal.store[RESOURCE_ENERGY] < 5000) {
+                        Memory.room[room.name + ".amount." + Memory.rolies[i]] = 0;
                     } else Memory.room[room.name + ".amount." + Memory.rolies[i]] = 0;
                 }
 
@@ -191,6 +197,10 @@ function runCreep() {
                         break;
                     case "DroneHelperArcher":
                         droneTask = require("DroneHelperArcher");
+                        droneTask.control(creep);
+                        break;
+                    case "DroneHelperTransporter":
+                        droneTask = require("DroneHelperTransporter");
                         droneTask.control(creep);
                         break;
                 }
