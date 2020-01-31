@@ -59,7 +59,7 @@ function getResource(creep) {
                                 });
                                 if (creep.withdraw(ruins, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(ruins, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
                             } else {
-                                if (creep.room.storage && creep.room.storage.store[RESOURCE_ENERGY] < Memory.storageEnergyCapacity / 3 && creep.room.terminal && creep.room.terminal.store[RESOURCE_ENERGY] > 0) {
+                                if (creep.room.storage && creep.room.storage.store[RESOURCE_ENERGY] < Memory.storageEnergyCapacity / 3 && creep.room.terminal && creep.room.terminal.store[RESOURCE_ENERGY] > 5000) {
                                     if (creep.withdraw(creep.room.terminal, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.terminal, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
                                 } else {
                                     const containerInRoom = creep.room.find(FIND_STRUCTURES, {
