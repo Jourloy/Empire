@@ -34,8 +34,15 @@ function goGetResource(creep) {
 
 function doWork(creep) {
     if (creep.room.name == creep.memory.room) {
-        gR = require("BasicFunctions")
-        gR.run(creep, "refill");
+        if (creep.room.storage && creep.room.storage.store[RESOURCE_ENERGY] < 500001) {
+            if (creep.transfer(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 20 });
+            }
+        } else if (creep.room.terminal && creep.room.terminal.store[RESOURCE_ENERGY] < 100000) {
+            if (creep.transfer(creep.room.terminal, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(creep.room.terminal, { heuristicWeight: 1.2, range: 1, reusePath: 20 });
+            }
+        }
     } else {
         if (creep.memory.step == 1) {
             if (creep.room.name == "W49S29") creep.memory.step = 0;
