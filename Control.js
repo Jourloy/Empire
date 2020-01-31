@@ -21,10 +21,23 @@ function amountCreeps() {
         let room = Game.rooms[z];
         const sourceInRoom = room.find(FIND_MINERALS);
         const extractor = room.find(FIND_STRUCTURES, { filter: s => s.structureType == STRUCTURE_EXTRACTOR });
+        const constructionSite = room.find(FIND_CONSTRUCTION_SITES);
+        const containersInRoom = room.find(FIND_STRUCTURES, {
+            filter: (structure) => {
+                return (structure.structureType == STRUCTURE_CONTAINER) && structure.store[RESOURCE_ENERGY] > 1500;
+            }
+        });
 
         if (room.controller && room.controller.my) {
 
             if (room.name == "W49S28") {
+                if (!sourceInRoom[0].ticksToRegeneration && extractor.length > 0) Memory.room[room.name + ".amount.DroneMineralMiner"] = 1;
+                if (containersInRoom.length > 1) Memory.room[room.name + ".amount.DroneRefiller"] = 2;
+                else Memory.room[room.name + ".amount.DroneRefiller"] = 1;
+                if (constructionSite.length > 0) Memory.room[room.name + ".amount.DroneBuilder"] = 1;
+                Memory.room[room.name + ".amount.DroneMiner1"] = 1;
+                Memory.room[room.name + ".amount.DroneMiner2"] = 1;
+
                 if (Game.flags.Attack) {
                     Memory.room[room.name + ".amount.DroneHelperBuilder"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperUpgrader"] = 0;
@@ -42,30 +55,33 @@ function amountCreeps() {
                     Memory.room[room.name + ".amount.DroneHelperTransporter"] = 5;
                 }
             } else if (room.name == "W49S29") {
-                
+                if (!sourceInRoom[0].ticksToRegeneration && extractor.length > 0) Memory.room[room.name + ".amount.DroneMineralMiner"] = 1;
+                if (containersInRoom.length > 1) Memory.room[room.name + ".amount.DroneRefiller"] = 2;
+                else Memory.room[room.name + ".amount.DroneRefiller"] = 1;
+                if (constructionSite.length > 0) Memory.room[room.name + ".amount.DroneBuilder"] = 1;
+                Memory.room[room.name + ".amount.DroneMiner1"] = 1;
+                Memory.room[room.name + ".amount.DroneMiner2"] = 1;
+                Memory.room[room.name + ".amount.DroneUpgrader"] = 3;
+
+                if (Game.flags.Attack) {
+                    Memory.room[room.name + ".amount.DroneHelperBuilder"] = 0;
+                    Memory.room[room.name + ".amount.DroneHelperUpgrader"] = 0;
+                    Memory.room[room.name + ".amount.DroneHelperWarrior"] = 0;
+                    Memory.room[room.name + ".amount.DroneHelperHealer"] = 0;
+                    Memory.room[room.name + ".amount.DroneHelperArcher"] = 0;
+                    Memory.room[room.name + ".amount.DroneHelperTransporter"] = 0;
+                }
+                if (Game.flags.Clear) {
+                    Memory.room[room.name + ".amount.DroneHelperBuilder"] = 0;
+                    Memory.room[room.name + ".amount.DroneHelperUpgrader"] = 0;
+                    Memory.room[room.name + ".amount.DroneHelperWarrior"] = 0;
+                    Memory.room[room.name + ".amount.DroneHelperHealer"] = 0;
+                    Memory.room[room.name + ".amount.DroneHelperArcher"] = 0;
+                    Memory.room[room.name + ".amount.DroneHelperTransporter"] = 0;
+                }
             }
 
             for (let i in Memory.rolies) {
-
-                if ("DroneBuilder" == Memory.rolies[i]) {
-                    const constructionSite = room.find(FIND_CONSTRUCTION_SITES);
-                    if (constructionSite.length > 0) Memory.room[room.name + ".amount." + Memory.rolies[i]] = 1;
-                    else Memory.room[room.name + ".amount." + Memory.rolies[i]] = 0;
-                }
-
-                if ("DroneMiner1" == Memory.rolies[i]) Memory.room[room.name + ".amount." + Memory.rolies[i]] = 1;
-                if ("DroneMiner2" == Memory.rolies[i]) Memory.room[room.name + ".amount." + Memory.rolies[i]] = 1;
-                if ("DroneUpgrader" == Memory.rolies[i]) Memory.room[room.name + ".amount." + Memory.rolies[i]] = 1;
-
-                if ("DroneRefiller" == Memory.rolies[i]) {
-                    const containersInRoom = room.find(FIND_STRUCTURES, {
-                        filter: (structure) => {
-                            return (structure.structureType == STRUCTURE_CONTAINER) && structure.store[RESOURCE_ENERGY] > 1000;
-                        }
-                    });
-                    if (containersInRoom.length > 1) Memory.room[room.name + ".amount." + Memory.rolies[i]] = 2;
-                    else Memory.room[room.name + ".amount." + Memory.rolies[i]] = 1;
-                }
 
                 if ("DroneSeller" == Memory.rolies[i]) {
                     if (room.storage && room.storage.store[RESOURCE_ENERGY] > Memory.storageEnergyCapacity + 10000) {
@@ -78,11 +94,6 @@ function amountCreeps() {
                 }
 
                 if ("DroneWarrior" == Memory.rolies[i]) Memory.room[room.name + ".amount." + Memory.rolies[i]] = 0;
-                if (!sourceInRoom[0].ticksToRegeneration && extractor.length > 0) {
-                    if ("DroneMineralMiner" == Memory.rolies[i]) Memory.room[room.name + ".amount." + Memory.rolies[i]] = 1;
-                } else {
-                    if ("DroneMineralMiner" == Memory.rolies[i]) Memory.room[room.name + ".amount." + Memory.rolies[i]] = 0;
-                }
                 if (!room.controller.sign || (room.controller.sign && room.controller.sign.text != Memory.code)) {
                     if ("DroneRenamer" == Memory.rolies[i]) Memory.room[room.name + ".amount." + Memory.rolies[i]] = 1;
                 } else {
@@ -92,20 +103,6 @@ function amountCreeps() {
                     if ("DroneClaimer" == Memory.rolies[i]) Memory.room[room.name + ".amount." + Memory.rolies[i]] = 1;
                 } else {
                     if ("DroneClaimer" == Memory.rolies[i]) Memory.room[room.name + ".amount." + Memory.rolies[i]] = 0;
-                }
-                if (Game.flags.Claim && Game.flags.Claim.room != undefined && Game.flags.Claim.room.controller.my) {
-                    const spawn = Game.flags.Claim.room.find(FIND_MY_SPAWNS);
-                    if (spawn.length == 0) {
-                        if ("DroneHelperBuilder" == Memory.rolies[i]) Memory.room[room.name + ".amount." + Memory.rolies[i]] = 2;
-                        if ("DroneHelperUpgrader" == Memory.rolies[i]) Memory.room[room.name + ".amount." + Memory.rolies[i]] = 1;
-                        if ("DroneHelperWarrior" == Memory.rolies[i]) Memory.room[room.name + ".amount." + Memory.rolies[i]] = 1;
-                        if ("DroneHelperHealer" == Memory.rolies[i]) Memory.room[room.name + ".amount." + Memory.rolies[i]] = 1;
-                    } else {
-                        if ("DroneHelperBuilder" == Memory.rolies[i]) Memory.room[room.name + ".amount." + Memory.rolies[i]] = 0;
-                        if ("DroneHelperUpgrader" == Memory.rolies[i]) Memory.room[room.name + ".amount." + Memory.rolies[i]] = 0;
-                        if ("DroneHelperWarrior" == Memory.rolies[i]) Memory.room[room.name + ".amount." + Memory.rolies[i]] = 0;
-                        if ("DroneHelperHealer" == Memory.rolies[i]) Memory.room[room.name + ".amount." + Memory.rolies[i]] = 0;
-                    }
                 }
             }
         }
