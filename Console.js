@@ -81,9 +81,15 @@ function params() {
         result.push("<th> AMOUNT BUY ORDERS </th>");
         result.push("</tr>");
 
+
+        const orders = Game.market.getAllOrders();
+
         for (i in resources) {
-            const ordersSell = Game.market.getAllOrders(order => order.resourceType == resources[i] && order.type == ORDER_SELL);
-            const ordersBuy = Game.market.getAllOrders(order => order.resourceType == resources[i] && order.type == ORDER_BUY)
+
+            orderMinerals = orders.filter(order => order.resourceType == resources[i])
+
+            ordersSell = orderMinerals.filter(order => order.type == "sell");
+            ordersBuy = orderMinerals.filter(order => order.type == "buy");
 
             let averageSellPrice = 0;
             let averageBuyPrice = 0;
