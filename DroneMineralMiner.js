@@ -13,14 +13,23 @@ function doMine(creep) {
         const source = creep.room.find(FIND_MINERALS);
         const containerNear = creep.pos.findInRange(FIND_STRUCTURES, 1, { filter: s => s.structureType == STRUCTURE_CONTAINER });
 
-        if (containerNear.length == 1 && creep.pos.isNearTo(source[0])) {
-            if (!creep.pos.isEqualTo(containerNear[0].pos)) {
-                creep.moveTo(containerNear[0].pos, { ignoreCreeps: false, reusePath: 50 });
-            } else if (containerNear[0].store[RESOURCE_ENERGY] < 1950) {
-                creep.harvest(source[0]);
+
+        if (source[0].ticksToRegeneration > 300) {
+            const spawn = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, { filter: { structureType: STRUCTURE_SPAWN } });
+            if (spawn) {
+                if (creep.pos.isNearTo(spawn)) spawn.recycleCreep(creep);
+                else creep.moveTo(spawn, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
             }
         } else {
-            creep.moveTo(source[0], { ignoreCreeps: false, reusePath: 10 });
+            if (containerNear.length == 1 && creep.pos.isNearTo(source[0])) {
+                if (!creep.pos.isEqualTo(containerNear[0].pos)) {
+                    creep.moveTo(containerNear[0].pos, { ignoreCreeps: false, reusePath: 50 });
+                } else if (containerNear[0].store[RESOURCE_ENERGY] < 1950) {
+                    creep.harvest(source[0]);
+                }
+            } else {
+                creep.moveTo(source[0], { ignoreCreeps: false, reusePath: 10 });
+            }
         }
     }
 }
