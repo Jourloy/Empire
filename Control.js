@@ -4,16 +4,18 @@ function amountCreeps() {
             delete Memory.creeps[name];
         }
     }
-    Memory.rolies = ["DroneBuilder", "DroneMiner1", "DroneMiner2", "DroneMineralMiner", "DroneRefiller", "DroneSeller", "DroneUpgrader", "DroneWarrior", "DroneRenamer", "DroneClaimer", "DroneHelperBuilder", "DroneHelperUpgrader", "DroneHelperWarrior", "DroneHelperHealer", "DroneHelperArcher", "DroneHelperTransporter"];
+    Memory.rolies = ["DroneBuilder", "DroneMiner1", "DroneMiner2", "DroneMineralMiner", "DroneRefiller", "DroneSeller", "DroneUpgrader", "DroneWarrior", "DroneRenamer", "DroneClaimer", "DroneHelperBuilder", "DroneHelperUpgrader", "DroneHelperWarrior", "DroneHelperHealer", "DroneHelperArcher", "DroneHelperTransporter", "DroneHelperDismantler"];
     Memory.code = "VIKING"
 
-    if (!Memory.storageEnergyCapacity) Memory.storageEnergyCapacity = 300000;
+    if (!Memory.storageEnergyCapacity) Memory.storageEnergyCapacity = 200000;
     else Memory.storageEnergyCapacity = Memory.storageEnergyCapacity;
 
     for (let z in Game.rooms) {
         let room = Game.rooms[z];
-        for (i in Memory.rolies) {
-            Memory.room[room.name + ".amount." + Memory.rolies[i]] = 0;
+        if (room.controller && room.controller.my) {
+            for (i in Memory.rolies) {
+                Memory.room[room.name + ".amount." + Memory.rolies[i]] = 0;
+            }
         }
     }
 
@@ -31,10 +33,13 @@ function amountCreeps() {
         if (room.controller && room.controller.my) {
 
             if (room.name == "W49S28") {
+
+                if (room.storage && room.storage.store[RESOURCE_ENERGY] > Memory.storageEnergyCapacity)  Memory.room[room.name + ".amount.DroneSeller"] = 0;
+                else if (room.terminal && room.terminal.store[RESOURCE_ENERGY] < 5000)  Memory.room[room.name + ".amount.DroneSeller"] = 0;
+
                 if (!sourceInRoom[0].ticksToRegeneration && extractor.length > 0) Memory.room[room.name + ".amount.DroneMineralMiner"] = 1;
-                if (containersInRoom.length > 1) Memory.room[room.name + ".amount.DroneRefiller"] = 2;
-                else Memory.room[room.name + ".amount.DroneRefiller"] = 1;
                 if (constructionSite.length > 0) Memory.room[room.name + ".amount.DroneBuilder"] = 1;
+                Memory.room[room.name + ".amount.DroneRefiller"] = 1;
                 Memory.room[room.name + ".amount.DroneMiner1"] = 1;
                 Memory.room[room.name + ".amount.DroneMiner2"] = 1;
 
@@ -44,7 +49,8 @@ function amountCreeps() {
                     Memory.room[room.name + ".amount.DroneHelperWarrior"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperHealer"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperArcher"] = 0;
-                    Memory.room[room.name + ".amount.DroneHelperTransporter"] = 0;
+                    Memory.room[room.name + ".amount.DroneHelperTransporter"] = 2;
+                    Memory.room[room.name + ".amount.DroneHelperDismantler"] = 3;
                 }
                 if (Game.flags.Clear) {
                     Memory.room[room.name + ".amount.DroneHelperBuilder"] = 0;
@@ -55,13 +61,16 @@ function amountCreeps() {
                     Memory.room[room.name + ".amount.DroneHelperTransporter"] = 5;
                 }
             } else if (room.name == "W49S29") {
+
+                if (room.storage && room.storage.store[RESOURCE_ENERGY] > Memory.storageEnergyCapacity)  Memory.room[room.name + ".amount.DroneSeller"] = 1;
+                else if (room.terminal && room.terminal.store[RESOURCE_ENERGY] < 5000)  Memory.room[room.name + ".amount.DroneSeller"] = 1;
+
                 if (!sourceInRoom[0].ticksToRegeneration && extractor.length > 0) Memory.room[room.name + ".amount.DroneMineralMiner"] = 1;
-                if (containersInRoom.length > 1) Memory.room[room.name + ".amount.DroneRefiller"] = 2;
-                else Memory.room[room.name + ".amount.DroneRefiller"] = 1;
                 if (constructionSite.length > 0) Memory.room[room.name + ".amount.DroneBuilder"] = 1;
+                Memory.room[room.name + ".amount.DroneRefiller"] = 1;
                 Memory.room[room.name + ".amount.DroneMiner1"] = 1;
                 Memory.room[room.name + ".amount.DroneMiner2"] = 1;
-                Memory.room[room.name + ".amount.DroneUpgrader"] = 3;
+                Memory.room[room.name + ".amount.DroneUpgrader"] = 1;
 
                 if (Game.flags.Attack) {
                     Memory.room[room.name + ".amount.DroneHelperBuilder"] = 0;
@@ -77,20 +86,14 @@ function amountCreeps() {
                     Memory.room[room.name + ".amount.DroneHelperWarrior"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperHealer"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperArcher"] = 0;
-                    Memory.room[room.name + ".amount.DroneHelperTransporter"] = 0;
+                    Memory.room[room.name + ".amount.DroneHelperTransporter"] = 3;
                 }
             }
 
             for (let i in Memory.rolies) {
 
                 if ("DroneSeller" == Memory.rolies[i]) {
-                    if (room.storage && room.storage.store[RESOURCE_ENERGY] > Memory.storageEnergyCapacity + 10000) {
-                        if (room.terminal.store[RESOURCE_ENERGY] < 100000 || room.storage.store[RESOURCE_HYDROGEN] > 20000 && room.terminal.store[RESOURCE_HYDROGEN] < 100000 || room.terminal.store[RESOURCE_ENERGY] < 5000) {
-                            Memory.room[room.name + ".amount." + Memory.rolies[i]] = 1;
-                        } else Memory.room[room.name + ".amount." + Memory.rolies[i]] = 0;
-                    } else if (room.terminal && room.terminal.store[RESOURCE_ENERGY] < 5000) {
-                        Memory.room[room.name + ".amount." + Memory.rolies[i]] = 0;
-                    } else Memory.room[room.name + ".amount." + Memory.rolies[i]] = 0;
+                    
                 }
 
                 if ("DroneWarrior" == Memory.rolies[i]) Memory.room[room.name + ".amount." + Memory.rolies[i]] = 0;
@@ -198,6 +201,10 @@ function runCreep() {
                         break;
                     case "DroneHelperTransporter":
                         droneTask = require("DroneHelperTransporter");
+                        droneTask.control(creep);
+                        break;
+                    case "DroneHelperDismantler":
+                        droneTask = require("DroneHelperDismantler");
                         droneTask.control(creep);
                         break;
                 }
