@@ -60,6 +60,50 @@ function params() {
         return notification;
     }
 
+    global.myMinerals = function() {
+        let result = [];
+        result.push("<table border=\"1\">");
+        result.push('<caption> RESOURCE\n</caption>');
+        result.push("<tr>");
+        result.push("<th></th>");
+        result.push("<th> AMOUNT </th>");
+        result.push("</tr>");
+
+        for (i in Memory.resources) {
+
+            result.push("<tr>"); 
+            result.push("<td> " + resourceImg(Memory.resources[i]) + " </td>");
+            result.push("<td> " + amountResources(Memory.resources[i]) + " </td>");
+            result.push("</tr>");
+        }
+
+        result = result.join("");
+        return result
+    }
+
+    global.amountResources = function (resource) {
+        let amount = 0
+        let allStr = []
+
+        for (i in Game.rooms) {
+            room = Game.rooms[i];
+            
+            storeStr = room.find(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return (structure.store);
+                }
+            });
+
+            allStr = allStr.concat(storeStr);
+        }
+
+        for (i in allStr) {
+            if (allStr[i].store[resource] > 0) amount += allStr[i].store[resource];
+        }
+
+        return amount
+    }
+
     global.marketInfo = function() {
         const resources = [RESOURCE_ENERGY, RESOURCE_POWER, RESOURCE_OPS, RESOURCE_HYDROGEN, RESOURCE_OXYGEN, RESOURCE_UTRIUM, RESOURCE_LEMERGIUM, RESOURCE_KEANIUM, RESOURCE_ZYNTHIUM, RESOURCE_CATALYST, RESOURCE_GHODIUM];
 
