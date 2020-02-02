@@ -3,7 +3,7 @@ function params() {
         let help = [];
         if (!com) {
             help.push("info()                              - Print information about all your rooms")
-            help.push("calculate_time(time, tickRate)      - Convert ticks to real time")
+            help.push("calculateTime(time, tickRate)       - Convert ticks to real time")
             help.push("  * time                            - amount TICKS.")
             help.push("  * tickRate                        - Tick rate of server. NOT NECESSARY. Default: 2.69")
             help.push("Creeps(body, bodyString, creepRole) - Calculate cost and time of build creep")
@@ -12,6 +12,7 @@ function params() {
             help.push("  * creepRole                       - Only for my code")
             help.push("CreepBuilder(body, stringBody)      - Build creep");
             help.push("  * body, stringBody                - help(\"CreepBuilder\") for learn about this parameter");
+            help.push("marketInfo()                        - Output information about basic resources at market");
         }
 
         if (com == "CreepBuilder") {
@@ -241,7 +242,7 @@ function params() {
         return '<a target="_blank" href="https://screeps.com/a/#!/market/all/' + Game.shard.name + '/' + resourceType + '"><img src ="https://s3.amazonaws.com/static.screeps.com/upload/mineral-icons/' + resourceType + '.png" /></a>';
     };
 
-    global.calculate_time = function (time, tickRate) {
+    global.calculateTime = function (time, tickRate) {
         if (tickRate) {
             ticks = tickRate;
         } else {
