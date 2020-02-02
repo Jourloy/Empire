@@ -14,7 +14,8 @@ function params() {
             help.push("CreepBuilder(body, stringBody)      - Build creep");
             help.push("  * body, stringBody                - help(\"CreepBuilder\") for learn about this parameter");
             help.push("marketInfo()                        - Output information about basic resources at market");
-            help.push("myResources()                       - Output information about all your resources");
+            help.push("myResources(hide)                   - Output information about all your resources");
+            help.push("  * hide                            - true or false. If true, than you will not see resources if you don't have they. NOT NECESSARY. Default: false");
         }
 
         if (com == "CreepBuilder") {
@@ -145,6 +146,10 @@ function params() {
 
 
         const orders = Game.market.getAllOrders();
+
+        let test;
+
+        test = _.groupBy(orders,o=>o.type);
 
         for (i in RESOURCES_ALL) {
 
