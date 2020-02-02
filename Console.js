@@ -1,7 +1,5 @@
 function params() {
 
-    Memory.resources = [RESOURCE_ENERGY, RESOURCE_POWER, RESOURCE_OPS, RESOURCE_HYDROGEN, RESOURCE_OXYGEN, RESOURCE_UTRIUM, RESOURCE_LEMERGIUM, RESOURCE_KEANIUM, RESOURCE_ZYNTHIUM, RESOURCE_CATALYST, RESOURCE_GHODIUM];
-
     global.help = function (com) {
         let help = [];
         if (!com) {
@@ -64,7 +62,7 @@ function params() {
         return notification;
     }
 
-    global.myResources = function() {
+    global.myResources = function(hide = false) {
         let result = [];
         result.push("<table border=\"1\">");
         result.push('<caption> RESOURCE\n</caption>');
@@ -73,12 +71,23 @@ function params() {
         result.push("<th> AMOUNT </th>");
         result.push("</tr>");
 
-        for (i in Memory.resources) {
+        for (i in RESOURCES_ALL) {
 
-            result.push("<tr>"); 
-            result.push("<td> " + resourceImg(Memory.resources[i]) + " </td>");
-            result.push("<td> " + amountResources(Memory.resources[i]) + " </td>");
-            result.push("</tr>");
+            let resource = RESOURCES_ALL[i]
+
+            if (!hide) {
+                result.push("<tr>"); 
+                result.push("<td> " + resourceImg(resource) + " </td>");
+                result.push("<td> " + amountResources(resource) + " </td>");
+                result.push("</tr>");
+            } else {
+                if (amountResources(resource) > 0) {
+                    result.push("<tr>"); 
+                    result.push("<td> " + resourceImg(resource) + " </td>");
+                    result.push("<td> " + amountResources(resource) + " </td>");
+                    result.push("</tr>");
+                }
+            }
         }
 
         result = result.join("");
@@ -109,7 +118,14 @@ function params() {
     }
 
     global.marketInfo = function() {
-        const resources = [RESOURCE_ENERGY, RESOURCE_POWER, RESOURCE_OPS, RESOURCE_HYDROGEN, RESOURCE_OXYGEN, RESOURCE_UTRIUM, RESOURCE_LEMERGIUM, RESOURCE_KEANIUM, RESOURCE_ZYNTHIUM, RESOURCE_CATALYST, RESOURCE_GHODIUM];
+
+        let amountSell
+        let amountBuy
+        let priceSell
+        let lastPriceSell
+        let priceBuy
+        let lastPriceBuy
+
 
         result = [];
         result.push("<table border=\"1\">");
@@ -117,14 +133,12 @@ function params() {
         result.push("<tr>");
         result.push("<th></th>");
         result.push("<th> MIN SELL PRICE </th>");
-        result.push("<th> AMOUNT ON SELL, K </th>");
-        result.push("<th> AVG SELL PRICE </th>");
+        result.push("<th> AMOUNT ON SELL </th>");
         result.push("<th> MAX SELL PRICE </th>");
         result.push("<th> AMOUNT SELL ORDERS </th>");
         result.push("<th></th>");
         result.push("<th> MIN BUY PRICE </th>");
-        result.push("<th> AMOUNT ON BUY, K </th>");
-        result.push("<th> AVG BUY PRICE </th>");
+        result.push("<th> AMOUNT ON BUY </th>");
         result.push("<th> MAX BUY PRICE </th>");
         result.push("<th> AMOUNT BUY ORDERS </th>");
         result.push("</tr>");
@@ -132,42 +146,56 @@ function params() {
 
         const orders = Game.market.getAllOrders();
 
-        for (i in resources) {
+        for (i in RESOURCES_ALL) {
 
-            orderMinerals = orders.filter(order => order.resourceType == resources[i])
+            resources = RESOURCES_ALL[i]
+
+            orderMinerals = orders.filter(order => order.resourceType == resources)
 
             ordersSell = orderMinerals.filter(order => order.type == "sell");
             ordersBuy = orderMinerals.filter(order => order.type == "buy");
 
-            let averageSellPrice = 0;
-            let averageBuyPrice = 0;
-
-            for (z in ordersSell) {
-                averageSellPrice += ordersSell[z].price;
-            }
-
-            for (z in ordersBuy) {
-                averageBuyPrice += ordersBuy[z].price;
-            }
-
-            averageSellPrice = Math.round((averageSellPrice/ordersSell.length)*10000)/10000;
-            averageBuyPrice = Math.round((averageBuyPrice/ordersBuy.length)*10000)/10000;
-
             ordersSell.sort((a,b) => a.price - b.price);
             ordersBuy.sort((a,b) => a.price - b.price);
 
+            if (ordersSell[0] && ordersSell[0].price) {
+                priceSell = ordersSell[0].price;
+                lastPriceSell = ordersSell[ordersSell.length-1].price
+            } else {
+                priceSell = " - ";
+                lastPriceSell = " - ";
+            }
+
+            if (ordersBuy[0] && ordersBuy[0].price) {
+                priceBuy = ordersBuy[0].price;
+                lastPriceBuy = ordersBuy[ordersBuy.length-1].price
+            } else {
+                priceBuy = " - ";
+                lastPriceBuy = " - ";
+            }
+
+            if (ordersSell[0] && ordersSell[0].amount) {
+                amountSell = ordersSell[0].amount;
+                if (amountSell > 1000) amountSell = amountSell / 1000 + "K"
+            }
+            else amountSell = " - ";
+
+            if (ordersBuy[0] && ordersBuy[0].amount) {
+                amountBuy = ordersBuy[ordersBuy.length-1].amount;
+                if (amountBuy > 1000) amountBuy = amountBuy / 1000 + "K"
+
+            } else amountBuy = " - ";
+
             result.push("<tr>"); 
-            result.push("<td> " + resourceImg(resources[i]) + " </td>"); 
-            result.push("<td> " + ordersSell[0].price + " </td>");
-            result.push("<td> " + ordersSell[0].amount/1000 + " </td>"); 
-            result.push("<td> " + averageSellPrice + " </td>");
-            result.push("<td> " + ordersSell[ordersSell.length-1].price + " </td>");
+            result.push("<td> " + resourceImg(resources) + " </td>"); 
+            result.push("<td> " + priceSell + " </td>");
+            result.push("<td> " + amountSell + " </td>");
+            result.push("<td> " + lastPriceSell + " </td>");
             result.push("<td> " + ordersSell.length + " </td>");
-            result.push("<td> " + resourceImg(resources[i]) + " </td>"); 
-            result.push("<td> " + ordersBuy[0].price + " </td>");
-            result.push("<td> " + ordersBuy[0].amount/1000 + " </td>"); 
-            result.push("<td> " + averageBuyPrice + " </td>");
-            result.push("<td> " + ordersBuy[ordersBuy.length-1].price + " </td>");
+            result.push("<td> " + resourceImg(resources) + " </td>"); 
+            result.push("<td> " + priceBuy + " </td>");
+            result.push("<td> " + amountBuy + " </td>");
+            result.push("<td> " + lastPriceBuy + " </td>");
             result.push("<td> " + ordersBuy.length + " </td>"); 
             result.push("</tr>");
         }
