@@ -1,4 +1,7 @@
 function params() {
+
+    Memory.resources = [RESOURCE_ENERGY, RESOURCE_POWER, RESOURCE_OPS, RESOURCE_HYDROGEN, RESOURCE_OXYGEN, RESOURCE_UTRIUM, RESOURCE_LEMERGIUM, RESOURCE_KEANIUM, RESOURCE_ZYNTHIUM, RESOURCE_CATALYST, RESOURCE_GHODIUM];
+
     global.help = function (com) {
         let help = [];
         if (!com) {
@@ -13,6 +16,7 @@ function params() {
             help.push("CreepBuilder(body, stringBody)      - Build creep");
             help.push("  * body, stringBody                - help(\"CreepBuilder\") for learn about this parameter");
             help.push("marketInfo()                        - Output information about basic resources at market");
+            help.push("myResources()                       - Output information about all your resources");
         }
 
         if (com == "CreepBuilder") {
@@ -60,7 +64,7 @@ function params() {
         return notification;
     }
 
-    global.myMinerals = function() {
+    global.myResources = function() {
         let result = [];
         result.push("<table border=\"1\">");
         result.push('<caption> RESOURCE\n</caption>');
@@ -862,15 +866,16 @@ function params() {
         const resources = [RESOURCE_ENERGY, RESOURCE_POWER, RESOURCE_OPS, RESOURCE_HYDROGEN, RESOURCE_OXYGEN, RESOURCE_UTRIUM, RESOURCE_LEMERGIUM, RESOURCE_LEMERGIUM, RESOURCE_KEANIUM, RESOURCE_ZYNTHIUM, RESOURCE_CATALYST, RESOURCE_GHODIUM];
 
         let info = [];
+        let myRooms = [];
 
-        let spawns = [];
         for (let i in Game.rooms) {
             let room = Game.rooms[i];
-            let roomSpawns = room.find(FIND_MY_STRUCTURES, { filter: { structureType: STRUCTURE_SPAWN } });
-            spawns = spawns.concat(roomSpawns);
+            if (room.controller && room.controller.my) {
+                myRooms.push(room);
+            }
         }
-        for (let i in spawns) {
-            let spawn = spawns[i];
+        for (let i in myRooms) {
+            let spawn = myRooms[i].find(FIND_MY_SPAWNS)[0];
             info.push("\n\n--------------------------")
             info.push('\nRoom name: ' + spawn.room.name );
             //
