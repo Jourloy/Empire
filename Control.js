@@ -6,6 +6,7 @@ function amountCreeps() {
     }
     Memory.rolies = ["DroneBuilder", "DroneMiner1", "DroneMiner2", "DroneMineralMiner", "DroneRefiller", "DroneSeller", "DroneUpgrader", "DroneWarrior", "DroneRenamer", "DroneClaimer", "DroneHelperBuilder", "DroneHelperUpgrader", "DroneHelperWarrior", "DroneHelperHealer", "DroneHelperArcher", "DroneHelperTransporter", "DroneHelperDismantler"];
     Memory.code = "VIKING"
+    Memory.resources = [RESOURCE_ENERGY, RESOURCE_POWER, RESOURCE_OPS, RESOURCE_HYDROGEN, RESOURCE_OXYGEN, RESOURCE_UTRIUM, RESOURCE_LEMERGIUM, RESOURCE_KEANIUM, RESOURCE_ZYNTHIUM, RESOURCE_CATALYST, RESOURCE_GHODIUM];
 
     if (!Memory.storageEnergyCapacity) Memory.storageEnergyCapacity = 200000;
     else Memory.storageEnergyCapacity = Memory.storageEnergyCapacity;
