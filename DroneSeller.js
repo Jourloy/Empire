@@ -9,7 +9,7 @@ function getResource(creep) {
     } else {
         if (creep.room.terminal.store[RESOURCE_ENERGY] < 5000) {
             if (creep.withdraw(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
-        } else if (creep.room.storage && creep.room.storage.store[RESOURCE_ENERGY] >= 100000+creep.store.getCapacity()) {
+        } else if (creep.room.storage && creep.room.storage.store[RESOURCE_ENERGY] >= Memory.storageEnergyCapacity+creep.store.getCapacity()) {
             if (creep.withdraw(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
         } else if (creep.room.storage && creep.room.storage.store[RESOURCE_HYDROGEN] >= 10000+creep.store.getCapacity()) {
             if (creep.withdraw(creep.room.storage, RESOURCE_HYDROGEN) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
