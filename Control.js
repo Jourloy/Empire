@@ -49,7 +49,7 @@ function amountCreeps() {
                     Memory.room[room.name + ".amount.DroneHelperWarrior"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperHealer"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperArcher"] = 0;
-                    Memory.room[room.name + ".amount.DroneHelperTransporter"] = 2;
+                    Memory.room[room.name + ".amount.DroneHelperTransporter"] = 4;
                     Memory.room[room.name + ".amount.DroneHelperDismantler"] = 3;
                 }
                 if (Game.flags.Clear) {
@@ -62,7 +62,7 @@ function amountCreeps() {
                 }
             } else if (room.name == "W49S29") {
 
-                if (room.storage && room.storage.store[RESOURCE_ENERGY] > Memory.storageEnergyCapacity)  Memory.room[room.name + ".amount.DroneSeller"] = 1;
+                if (room.terminal && room.storage && room.storage.store[RESOURCE_ENERGY] > Memory.storageEnergyCapacity)  Memory.room[room.name + ".amount.DroneSeller"] = 1;
                 else if (room.terminal && room.terminal.store[RESOURCE_ENERGY] < 5000)  Memory.room[room.name + ".amount.DroneSeller"] = 1;
 
                 if (!sourceInRoom[0].ticksToRegeneration && extractor.length > 0) Memory.room[room.name + ".amount.DroneMineralMiner"] = 1;
@@ -133,83 +133,12 @@ function amountCreepsIsLive() {
 
 function runCreep() {
     let droneTask = null;
-    for (let z in Game.rooms) {
-        let room = Game.rooms[z];
-        if (room.controller && room.controller.my) {
-            for (let i in Game.creeps) {
-                let creep = Game.creeps[i];
-                switch (creep.memory.role) {
-                    case "DroneBuilder":
-                        droneTask = require("DroneBuilder");
-                        droneTask.control(creep);
-                        break;
-                    case "DroneMiner1":
-                        droneTask = require("DroneMiner");
-                        droneTask.control(creep);
-                        break;
-                    case "DroneMiner2":
-                        droneTask = require("DroneMiner");
-                        droneTask.control(creep);
-                        break;
-                    case "DroneRefiller":
-                        droneTask = require("DroneRefiller");
-                        droneTask.control(creep);
-                        break;
-                    case "DroneUpgrader":
-                        droneTask = require("DroneUpgrader");
-                        droneTask.control(creep);
-                        break;
-                    case "DroneWarrior":
-                        droneTask = require("DroneWarrior");
-                        droneTask.control(creep);
-                        break;
-                    case "DroneRenamer":
-                        droneTask = require("DroneRenamer");
-                        droneTask.control(creep);
-                        break;
-                    case "DroneMineralMiner":
-                        droneTask = require("DroneMineralMiner");
-                        droneTask.control(creep);
-                        break;
-                    case "DroneSeller":
-                        droneTask = require("DroneSeller");
-                        droneTask.control(creep);
-                        break;
-                    case "DroneClaimer":
-                        droneTask = require("DroneClaimer");
-                        droneTask.control(creep);
-                        break;
-                    case "DroneHelperBuilder":
-                        droneTask = require("DroneHelperBuilder");
-                        droneTask.control(creep);
-                        break;
-                    case "DroneHelperUpgrader":
-                        droneTask = require("DroneHelperUpgrader");
-                        droneTask.control(creep);
-                        break;
-                    case "DroneHelperWarrior":
-                        droneTask = require("DroneHelperWarrior");
-                        droneTask.control(creep);
-                        break;
-                    case "DroneHelperHealer":
-                        droneTask = require("DroneHelperHealer");
-                        droneTask.control(creep);
-                        break;
-                    case "DroneHelperArcher":
-                        droneTask = require("DroneHelperArcher");
-                        droneTask.control(creep);
-                        break;
-                    case "DroneHelperTransporter":
-                        droneTask = require("DroneHelperTransporter");
-                        droneTask.control(creep);
-                        break;
-                    case "DroneHelperDismantler":
-                        droneTask = require("DroneHelperDismantler");
-                        droneTask.control(creep);
-                        break;
-                }
-            }
-        }
+    for (let i in Game.creeps) {
+        let creep = Game.creeps[i];
+        if (creep.memory.role == "DroneMiner1" || creep.memory.role == "DroneMiner2") droneTask = require("DroneMiner");
+        else droneTask = require(creep.memory.role);
+        if(droneTask) droneTask.control(creep);
+        else console.log(`Invalid creep role ${creep.memory.role}`);
     }
 }
 const Control = {
