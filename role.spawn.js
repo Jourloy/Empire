@@ -1,232 +1,24 @@
-function creepBody(energy, role) {
+function getBodyParts(spawn, pattern, count, optional) {
 
-    if (role == "DroneBuilder" || role == "DroneUpgrader" || role == "DroneHelperBuilder" || role == "DroneHelperUpgrader") {
-        if (energy == 300) {
-            return [MOVE, MOVE, CARRY, WORK]
-        } else if (energy == 350) {
-            return [MOVE, MOVE, CARRY, WORK]
-        } else if (energy == 400) {
-            return [MOVE, MOVE, MOVE, CARRY, WORK, WORK]
-        } else if (energy == 450) {
-            return [MOVE, MOVE, MOVE, CARRY, WORK, WORK]
-        } else if (energy == 500) {
-            return [MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, WORK, WORK]
-        } else if (energy == 550) {
-            return [MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, WORK, WORK]
-        } else if (energy == 600) {
-            return [MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, WORK, WORK]
-        } else if (energy == 650) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, WORK, WORK, WORK]
-        } else if (energy == 700) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, WORK, WORK, WORK]
-        } else if (energy == 750) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, WORK, WORK, WORK]
-        } else if (energy == 800) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, WORK, WORK, WORK, WORK]
-        } else if (energy == 850) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, WORK, WORK, WORK, WORK]
-        } else if (energy == 900) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, WORK, WORK, WORK, WORK]
-        } else if (energy == 1000) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, WORK, WORK, WORK, WORK]
-        } else if (energy == 1050) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, WORK, WORK, WORK, WORK, WORK]
-        } else if (energy == 1100) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, WORK, WORK, WORK, WORK, WORK]
-        } else if (energy == 1150) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, WORK, WORK, WORK, WORK, WORK]
-        } else if (energy == 1200) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, WORK, WORK, WORK, WORK, WORK]
-        } else if (energy == 1250) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, WORK, WORK, WORK, WORK, WORK]
-        } else if (energy == 1300) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, WORK, WORK, WORK, WORK, WORK]
-        } else if (energy == 1350) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, WORK, WORK, WORK, WORK, WORK]
-        } else if (energy == 1400) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, WORK, WORK, WORK, WORK, WORK]
-        } else if (energy == 1450) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, WORK, WORK, WORK, WORK, WORK]
-        } else if (energy == 1500) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, WORK, WORK, WORK, WORK, WORK, WORK]
-        } else if (energy == 1550) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, WORK, WORK, WORK, WORK, WORK, WORK]
-        } else if (energy == 1600) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, WORK, WORK, WORK, WORK, WORK, WORK]
-        } else if (energy == 1650) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, WORK, WORK, WORK, WORK, WORK, WORK, WORK]
-        } else if (energy == 1700) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, WORK, WORK, WORK, WORK, WORK, WORK, WORK]
-        } else if (energy == 1750) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, WORK, WORK, WORK, WORK, WORK, WORK, WORK]
-        } else if (energy == 1800) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK]
-        } else if (energy == 1850) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK]
-        } else if (energy == 1900) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK]
-        } else if (energy == 1950) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK]
-        } else if (energy == 2000) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK]
-        } else if (energy == 2050) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK]
-        } else if (energy == 2100) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK]
-        } else if (energy == 2150) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK]
-        } else if (energy == 2200) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK]
-        } else if (energy == 2250) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK]
-        } else if (energy >= 2300) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK]
-        }
-    }
+    if (!spawn) return 'Need parameter [Spawn]';
+    if (!pattern) return 'Need parameter [Pattern]';
+    if (!count || count == null) count = 50;
 
-    if (role == "DroneRefiller" || role == "DroneHelperTransporter") {
-        if (energy == 300) {
-            return [MOVE, MOVE, MOVE, CARRY, CARRY, CARRY]
-        } else if (energy == 350) {
-            return [MOVE, MOVE, MOVE, CARRY, CARRY, CARRY]
-        } else if (energy == 400) {
-            return [MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY]
-        } else if (energy == 450) {
-            return [MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY]
-        } else if (energy == 500) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY]
-        } else if (energy == 550) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY]
-        } else if (energy == 600) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY]
-        } else if (energy == 650) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY]
-        } else if (energy == 700) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY]
-        } else if (energy == 750) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY]
-        } else if (energy == 800) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY]
-        } else if (energy == 850) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY]
-        } else if (energy == 900) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY]
-        } else if (energy == 950) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY]
-        } else if (energy == 1000) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY]
-        } else if (energy == 1050) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY]
-        } else if (energy == 1150) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY]
-        } else if (energy == 1200) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY]
-        } else if (energy == 1250) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY]
-        } else if (energy == 1300) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY]
-        } else if (energy >= 1350) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY]
-        }
+    let body = [];
+    let amountEnergy = spawn.room.energyCapacityAvailable;
+    let bodyCost = 0;
+    
+    for (let i = 0; i < count/2; i++) {
+        if (bodyCost < amountEnergy) {
+            if (bodyCost + BODYPART_COST[pattern[count%pattern.length]] + 50 < amountEnergy) {
+                body.push(pattern[count%pattern.length]);
+                bodyCost += BODYPART_COST[pattern[count%pattern.length]]
+                body.push(MOVE);
+                bodyCost += 50;
+            }
+        } else break;
     }
-
-    if (role == "DroneMiner1" || role == "DroneMiner2") {
-        if (energy == 300) {
-            return [MOVE, MOVE, CARRY, WORK]
-        } else if (energy == 350) {
-            return [MOVE, MOVE, CARRY, WORK]
-        } else if (energy == 400) {
-            return [MOVE, MOVE, MOVE, CARRY, WORK, WORK]
-        } else if (energy == 450) {
-            return [MOVE, MOVE, MOVE, CARRY, WORK, WORK]
-        } else if (energy == 500) {
-            return [MOVE, MOVE, MOVE, CARRY, WORK, WORK]
-        } else if (energy == 550) {
-            return [MOVE, MOVE, MOVE, MOVE, CARRY, WORK, WORK, WORK]
-        } else if (energy == 600) {
-            return [MOVE, MOVE, MOVE, MOVE, CARRY, WORK, WORK, WORK]
-        } else if (energy == 650) {
-            return [MOVE, MOVE, MOVE, MOVE, CARRY, WORK, WORK, WORK]
-        } else if (energy == 700) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, WORK, WORK, WORK, WORK]
-        } else if (energy == 750) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, WORK, WORK, WORK, WORK]
-        } else if (energy == 800) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, WORK, WORK, WORK, WORK]
-        } else if (energy == 850) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, WORK, WORK, WORK, WORK, WORK]
-        } else if (energy == 900) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, WORK, WORK, WORK, WORK, WORK]
-        } else if (energy == 950) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, WORK, WORK, WORK, WORK, WORK]
-        } else if (energy >= 1000) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, WORK, WORK, WORK, WORK, WORK, WORK]
-        }
-    }
-
-    if (role == 'DroneWarrior' || role == "DroneHelperWarrior") {
-        if (energy == 300) {
-            return [MOVE, MOVE, ATTACK, ATTACK]
-        } else if (energy == 350) {
-            return [MOVE, MOVE, ATTACK, ATTACK]
-        } else if (energy == 400) {
-            return [MOVE, MOVE, MOVE, ATTACK, ATTACK, ATTACK]
-        } else if (energy == 450) {
-            return [MOVE, MOVE, MOVE, ATTACK, ATTACK, ATTACK]
-        } else if (energy == 500) {
-            return [MOVE, MOVE, MOVE, MOVE, ATTACK, ATTACK, ATTACK, ATTACK]
-        } else if (energy == 550) {
-            return [MOVE, MOVE, MOVE, MOVE, ATTACK, ATTACK, ATTACK, ATTACK]
-        } else if (energy == 600) {
-            return [MOVE, MOVE, MOVE, MOVE, ATTACK, ATTACK, ATTACK, ATTACK]
-        } else if (energy == 650) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK]
-        } else if (energy == 700) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK]
-        } else if (energy == 750) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK]
-        } else if (energy == 800) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK]
-        } else if (energy == 850) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK]
-        } else if (energy == 900) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK]
-        } else if (energy == 950) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK]
-        } else if (energy >= 1000) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, ATTACK]
-        }
-    }
-
-    if (role == "DroneSeller") {
-        return [MOVE,MOVE,MOVE,MOVE,MOVE,CARRY,CARRY,CARRY,CARRY,CARRY];
-    }
-
-    if (role == "DroneMineralMiner") {
-        if (energy >= 2300) {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK]
-        }
-    }
-    if (role == "DroneRenamer") {
-        return [MOVE];
-    }
-
-    if (role == "DroneClaimer") {
-        return [MOVE, MOVE, MOVE, MOVE, MOVE, CLAIM];
-    }
-
-    if (role == "DroneHelperHealer") {
-        return [MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL];
-    }
-
-    if (role == "DroneHelperArcher") {
-        return [RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE]
-    }
-
-    if (role == "DroneHelperDismantler") {
-        return [MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK]
-    }
-
+    return body
 }
 
 let roleSpawn = {
@@ -235,25 +27,40 @@ let roleSpawn = {
         return body
     },
 
-    run(spawn, amountEnergy, role) {
-        let newName = null;
+    run(spawn, role) {
+        
+        let names = ['Arne', 'Birger', 'Bjørn', 'Bo', 'Erik', 'Frode', 'Gorm', 'Halfdan', 'Harald', 'Knud', 'Kåre', 'Leif', 'Njal', 'Roar', 'Rune', 'Sten', 'Skarde', 'Sune', 'Svend', 'Troels', 'Toke', 'Torsten', 'Trygve', 'Ulf', 'Ødger', 'Åge', 'Astrid', 'Bodil', 'Frida', 'Gertrud', 'Gro', 'Estrid', 'Hilda', 'Gudrun', 'Gunhild', 'Helga', 'Inga', 'Liv', 'Randi', 'Signe', 'Sigrid', 'Revna', 'Sif', 'Tora', 'Tove', 'Thyra', 'Thurid', 'Yrsa', 'Ulfhild', 'Åse']
+        let newName = names[Game.time%names.length];
+        let pattern = null;
+        let count = 50;
 
-        let maleNames = ['Arne', 'Birger', 'Bjørn', 'Bo', 'Erik', 'Frode', 'Gorm', 'Halfdan', 'Harald', 'Knud', 'Kåre', 'Leif', 'Njal', 'Roar', 'Rune', 'Sten', 'Skarde', 'Sune', 'Svend', 'Troels', 'Toke', 'Torsten', 'Trygve', 'Ulf', 'Ødger', 'Åge']
-        let femaleNames = ['Astrid', 'Bodil', 'Frida', 'Gertrud', 'Gro', 'Estrid', 'Hilda', 'Gudrun', 'Gunhild', 'Helga', 'Inga', 'Liv', 'Randi', 'Signe', 'Sigrid', 'Revna', 'Sif', 'Tora', 'Tove', 'Thyra', 'Thurid', 'Yrsa', 'Ulfhild', 'Åse']
+        if (role == "DroneBuilder" || role == "DroneUpgrader" || role == "DroneHelperBuilder" || role == "DroneHelperUpgrader") pattern = [WORK, CARRY];
+        if (role == "DroneRefiller" || role == "DroneHelperTransporter") {
+            pattern = [CARRY]; 
+            count = 30;
+        }
+        if (role == "DroneMiner1" || role == "DroneMiner2") {
+            pattern = [WORK]; 
+            count = 20;
+        }
+        if (role == 'DroneWarrior' || role == "DroneHelperWarrior") pattern = [ATTACK];
+        if (role == "DroneSeller") {
+            pattern = [CARRY]; 
+            count = 10;
+        }
+        if (role == "DroneMineralMiner" || role == "DroneHelperDismantler") pattern = [WORK];
+        if (role == "DroneRenamer") {
+            pattern = [CARRY]; 
+            count = 2;
+        }
+        if (role == "DroneClaimer") {
+            pattern = [CARRY]; 
+            count = 8;
+        }
+        if (role == "DroneHelperHealer") pattern = [HEAL];
+        if (role == "DroneHelperArcher") pattern = [RANGED_ATTACK];
 
-        if (role == "DroneBuilder" || role == "DroneHelperBuilder" || role == "DroneHelperDismantler") newName = maleNames[Game.time%maleNames.length] + " [" + Game.time%1001 + "]";
-        if (role == "DroneMiner1" || role == "DroneMiner2") newName = maleNames[Game.time%maleNames.length] + " [" + Game.time%1001 + "]";
-        if (role == "DroneRefiller" || role == "DroneHelperTransporter") newName = femaleNames[Game.time%femaleNames.length] + " [" + Game.time%1001 + "]";
-        if (role == "DroneUpgrader" || role == "DroneHelperUpgrader") newName = femaleNames[Game.time%femaleNames.length] + " [" + Game.time%1001 + "]";
-        if (role == "DroneWarrior" || role == "DroneHelperWarrior") newName = maleNames[Game.time%maleNames.length] + " ID [" + Game.time%1001 + "]";
-        if (role == "DroneRenamer") newName = femaleNames[Game.time%femaleNames.length] + " [" + Game.time%1001 + "]";
-        if (role == "DroneMineralMiner") newName = maleNames[Game.time%maleNames.length] + " [" + Game.time%1001 + "]";
-        if (role == "DroneSeller") newName = femaleNames[Game.time%femaleNames.length] + " [" + Game.time%1001 + "]";
-        if (role == "DroneClaimer") newName = femaleNames[Game.time%femaleNames.length] + " [" + Game.time%1001 + "]";
-        if (role == "DroneHelperHealer") newName = femaleNames[Game.time%femaleNames.length] + " [" + Game.time%1001 + "]";
-        if (role == "DroneHelperArcher") newName = maleNames[Game.time%maleNames.length] + " [" + Game.time%1001 + "]";
-        body = creepBody(amountEnergy, role);
-        spawn.spawnCreep(body, newName, { memory: { role: role } });
+        spawn.spawnCreep(getBodyParts(spawn, pattern, count), newName, { memory: { role: role } });
     }
 };
 module.exports = roleSpawn;
