@@ -19,12 +19,9 @@ module.exports.loop = function () {
     Nydus.run();
     roleTower.control();
 
-
     let room = 0;
-    let spawningCreep = [];
     let spawns;
     let spawn;
-    let amountEnergy = 0
     let rooms = []
 
     for (z in Game.rooms) {
@@ -42,19 +39,13 @@ module.exports.loop = function () {
             }
         });
 
-        if (spawns.length > 1) {
-            if (spawns[Game.time%spawns.length].spawning == null) spawn = spawns[Game.time%spawns.length]
-        }
-        else spawn = spawns[0]
-
-        amountEnergy = room.energyCapacityAvailable;
+        spawn = spawns[0]
 
         if (room.terminal) Terminal.control(room);
 
         for (i in Memory.rolies) {
             if (spawn != undefined && Memory.room[room.name + ".amount." + Memory.rolies[i]] > Memory.room[room.name + ".amountIsLive." + Memory.rolies[i]]) {
-                spawningCreep.push(Memory.rolies[i]);
-                roleSpawn.run(spawn, amountEnergy, Memory.rolies[i]);
+                roleSpawn.run(spawn, Memory.rolies[i]);
             }
         }
     }
