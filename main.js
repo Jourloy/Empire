@@ -39,7 +39,10 @@ module.exports.loop = function () {
             }
         });
 
-        spawn = spawns[0]
+        for (i in spawns) {
+            if (spawns[i].spawning == null) spawns[i].memory.spawningCreep = null;
+            spawn = spawns[Game.time%spawns.length];
+        }
 
         if (room.terminal) Terminal.control(room);
 
