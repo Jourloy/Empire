@@ -15,12 +15,12 @@ function getResource(creep) {
             }
         });
         if (mineralTombstones.length > 0) {
-            tombstones.sort((a, b) => b.store[RESOURCE_HYDROGEN] - a.store[RESOURCE_HYDROGEN]);
-            if (creep.withdraw(tombstones[0], RESOURCE_HYDROGEN) == ERR_NOT_IN_RANGE) creep.moveTo(tombstones[0], { heuristicWeight: 1.2, range: 1, reusePath: 50 });
+            mineralTombstones.sort((a, b) => b.store[RESOURCE_HYDROGEN] - a.store[RESOURCE_HYDROGEN]);
+            if (creep.withdraw(mineralTombstones[0], RESOURCE_HYDROGEN) == ERR_NOT_IN_RANGE) creep.moveTo(mineralTombstones[0], { heuristicWeight: 1.2, range: 1, reusePath: 50 });
         } else {
             const mineralContainer = creep.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
-                    return (structure.structureType == STRUCTURE_CONTAINER) && structure.store[RESOURCE_HYDROGEN] > 0;
+                    return (structure.structureType == STRUCTURE_CONTAINER) && structure.store[RESOURCE_HYDROGEN] > 1500;
                 }
             });
             if (mineralContainer.length > 0) {
@@ -76,10 +76,8 @@ function getResource(creep) {
                                         if (creep.room.terminal && creep.room.terminal.store[RESOURCE_ENERGY] > 100000) {
                                             if (creep.withdraw(creep.room.terminal, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.terminal, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
                                         } else {
-                                            if ((!Memory.room[creep.room.name + ".amountIsLive." + "DroneMiner1"] || Memory.room[creep.room.name + ".amountIsLive." + "DroneMiner1"] == 0) || (!Memory.room[creep.room.name + ".amountIsLive." + "DroneMiner2"] || Memory.room[creep.room.name + ".amountIsLive." + "DroneMiner2"] == 0)) {
-                                                if (creep.room.storage && (creep.room.storage.store[RESOURCE_ENERGY] > 20)) {
-                                                    if (creep.withdraw(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
-                                                }
+                                            if (creep.room.storage && (creep.room.storage.store[RESOURCE_ENERGY] > 20)) {
+                                                if (creep.withdraw(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
                                             }
                                         }
                                     }
