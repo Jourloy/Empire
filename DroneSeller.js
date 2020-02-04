@@ -1,24 +1,16 @@
 function getResource(creep) {
-    const droppedEnergy = creep.room.find(FIND_DROPPED_RESOURCES, {
-        filter: (resource) => {
-            return resource.amount > 0 && resource.resourceType == 'energy';
-        }
-    });
-    if (droppedEnergy.length > 0) {
-        if (creep.pickup(droppedEnergy[0]) == ERR_NOT_IN_RANGE) creep.moveTo(droppedEnergy[0], { heuristicWeight: 1.2, range: 1, reusePath: 50 });
+    if (creep.room.terminal.store[RESOURCE_ENERGY] < 5000) {
+        if (creep.withdraw(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
+    } else if (creep.room.storage && creep.room.storage.store[RESOURCE_ENERGY] >= Memory.storageEnergyCapacity + creep.store.getCapacity()) {
+        if (creep.withdraw(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
+    } else if (creep.room.storage && creep.room.storage.store[RESOURCE_HYDROGEN] >= 15000 + creep.store.getCapacity()) {
+        if (creep.withdraw(creep.room.storage, RESOURCE_HYDROGEN) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
     } else {
-        if (creep.room.terminal.store[RESOURCE_ENERGY] < 5000) {
-            if (creep.withdraw(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
-        } else if (creep.room.storage && creep.room.storage.store[RESOURCE_ENERGY] >= Memory.storageEnergyCapacity+creep.store.getCapacity()) {
-            if (creep.withdraw(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
-        } else if (creep.room.storage && creep.room.storage.store[RESOURCE_HYDROGEN] >= 10000+creep.store.getCapacity()) {
-            if (creep.withdraw(creep.room.storage, RESOURCE_HYDROGEN) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
-        } else {
-            const spawn = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, { filter: { structureType: STRUCTURE_SPAWN } });
-            if (spawn) {
-                if (creep.pos.isNearTo(spawn)) spawn.recycleCreep(creep);
-                else creep.moveTo(spawn, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
-            }
+        creep.say("DIE");
+        const spawn = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, { filter: { structureType: STRUCTURE_SPAWN } });
+        if (spawn) {
+            if (creep.pos.isNearTo(spawn)) spawn.recycleCreep(creep);
+            else creep.moveTo(spawn, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
         }
     }
 }
