@@ -542,15 +542,19 @@ function params() {
         return Creeps(body)
     }
 
-    global.Creeps = function (body = null, bodyString = null, creepRole = null) {
-        if (body || bodyString || creepRole) {
+    global.Creeps = function (body = null, bodyString = null, creepInfo = null) {
+        if (body || bodyString || creepInfo) {
             if (bodyString) {
                 body = createCreepBodyArray(bodyString);
             }
-            if (creepRole && !body) {
-                spawnFile = require("role.spawn");
-                energy = 9999999999
-                body = spawnFile.getBody(energy, creepRole);
+            if (creepInfo) {
+                let room = Game.rooms[creepInfo.room];
+                let role = creepInfo.role || null;
+                let pattern = creepInfo.pattern || null;
+                let spawn = room.find(FIND_MY_SPAWNS)[0];
+
+                body = require("role.spawn").getBody(spawn, role, pattern);
+                console.log(body)
             }
 
             let bodyCount = 0;
