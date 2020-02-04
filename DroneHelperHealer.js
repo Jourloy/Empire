@@ -7,10 +7,10 @@ function healCreeps(creep) {
     if (target) {
         if (creep.heal(target) == ERR_NOT_IN_RANGE) {
             creep.rangedHeal(target)
-            creep.moveTo(target);
+            //creep.moveTo(target);
         }
     } else {
-        creep.moveTo(Game.flags.Attack);
+        creep.heal(heal)
     }
 }
 
@@ -21,11 +21,8 @@ let DroneHelperWarrior = {
             creep.memory.room = creep.room.name;
         } else {
             if (Game.flags.Attack) {
-                if (Game.flags.Attack.room != creep.room) {
-                    creep.moveTo(Game.flags.Attack);
-                } else {
-                    healCreeps(creep);
-                }
+                creep.moveTo(Game.flags.Attack);
+                healCreeps(creep);
             }
 
         }
