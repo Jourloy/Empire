@@ -41,8 +41,9 @@ module.exports.loop = function () {
 
         for (i in spawns) {
             if (spawns[i].spawning == null) spawns[i].memory.spawningCreep = null;
-            spawn = spawns[Game.time%spawns.length];
         }
+        
+        spawn = spawns[Game.time%spawns.length];
 
         if (room.terminal) Terminal.control(room);
 
