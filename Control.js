@@ -40,7 +40,7 @@ function amountCreeps() {
 
                 if (!sourceInRoom[0].ticksToRegeneration && extractor.length > 0) Memory.room[room.name + ".amount.DroneMineralMiner"] = 1;
                 if (constructionSite.length > 0) Memory.room[room.name + ".amount.DroneBuilder"] = 1;
-                Memory.room[room.name + ".amount.DroneRefiller"] = 1;
+                Memory.room[room.name + ".amount.DroneRefiller"] = 2;
                 Memory.room[room.name + ".amount.DroneMiner1"] = 1;
                 Memory.room[room.name + ".amount.DroneMiner2"] = 1;
 
@@ -135,7 +135,7 @@ function amountCreepsIsLive() {
             });
     
             for (i in spawns) {
-                if (spawns[i].spawning != null && spawns[i].spawning.remainingTime > spawns[i].spawning.needTime - 2) Memory.room[room.name + ".amountIsLive." + spawns[i].memory.spawningCreep]++;
+                if (spawns[i].spawning != null && spawns[i].spawning.remainingTime > spawns[i].spawning.needTime - 10) Memory.room[room.name + ".amountIsLive." + spawns[i].memory.spawningCreep]++;
             }
         }
     }
