@@ -10,22 +10,25 @@ function healCreeps(creep) {
             //creep.moveTo(target);
         }
     } else {
-        creep.heal(heal)
+        creep.heal(creep)
     }
 }
 
-let DroneHelperWarrior = {
+let DroneHelperHealer = {
     /** @param {Creep} creep **/
     control(creep) {
         if (creep.spawning) {
             creep.memory.room = creep.room.name;
         } else {
-            if (Game.flags.Attack) {
+            if (Game.flags.Attack && creep.hits == creep.hitsMax) {
                 creep.moveTo(Game.flags.Attack);
+                healCreeps(creep);
+            } else if (creep.hits < creep.hitsMax && Game.flags.Heal) {
+                creep.moveTo(Game.flags.Heal);
                 healCreeps(creep);
             }
 
         }
     }
 };
-module.exports = DroneHelperWarrior;
+module.exports = DroneHelperHealer;
