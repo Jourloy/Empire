@@ -78,10 +78,14 @@ function doWork(creep) {
         if (creep.room.storage && creep.room.storage.store[RESOURCE_ENERGY] < 500001) {
             if (creep.transfer(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 20 });
+            } else {
+                creep.memory.transferedEnergy += creep.store[RESOURCE_ENERGY];
             }
         } else if (creep.room.terminal && creep.room.terminal.store[RESOURCE_ENERGY] < 100000) {
             if (creep.transfer(creep.room.terminal, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(creep.room.terminal, { heuristicWeight: 1.2, range: 1, reusePath: 20 });
+            } else {
+                creep.memory.transferedEnergy += creep.store[RESOURCE_ENERGY]
             }
         }
     } else {
@@ -100,9 +104,11 @@ const DroneHelperTransporter = {
         if (creep.spawning) {
             creep.memory.room = creep.room.name;
             creep.memory.step = 0;
+            creep.memory.transferedEnergy = 0;
         } else {
             if (creep.memory.step == undefined) creep.memory.step = 0;
-            creep.say(creep.memory.step)
+            if (creep.memory.transferedEnergy == undefined) creep.memory.transferedEnergy = 0;
+            creep.say(creep.memory.transferedEnergy / 1000 + "K")
             if (creep.store.getUsedCapacity() == 0) creep.memory.state = "getResource";
             if (creep.store.getUsedCapacity() == creep.store.getCapacity() || creep.store[RESOURCE_HYDROGEN] > 0) creep.memory.state = "doWork";
 
