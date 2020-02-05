@@ -36,11 +36,11 @@ function amountCreeps() {
 
                 if (room.storage && room.storage.store[RESOURCE_ENERGY] > Memory.storageEnergyCapacity + 50000)  Memory.room[room.name + ".amount.DroneSeller"] = 1;
                 else if (room.storage && room.storage.store[RESOURCE_HYDROGEN] > 18000) Memory.room[room.name + ".amount.DroneSeller"] = 1;
-                else if (room.terminal && room.terminal.store[RESOURCE_ENERGY] < 5000)  Memory.room[room.name + ".amount.DroneSeller"] = 1;
+                else if (room.terminal && room.terminal.store[RESOURCE_ENERGY] < 5000 && room.storage && room.storage.store[RESOURCE_ENERGY] > Memory.storageEnergyCapacity + 5000)  Memory.room[room.name + ".amount.DroneSeller"] = 1;
 
                 if (!sourceInRoom[0].ticksToRegeneration && extractor.length > 0) Memory.room[room.name + ".amount.DroneMineralMiner"] = 1;
                 if (constructionSite.length > 0) Memory.room[room.name + ".amount.DroneBuilder"] = 1;
-                Memory.room[room.name + ".amount.DroneRefiller"] = 2;
+                Memory.room[room.name + ".amount.DroneRefiller"] = 1;
                 Memory.room[room.name + ".amount.DroneMiner1"] = 1;
                 Memory.room[room.name + ".amount.DroneMiner2"] = 1;
 
@@ -48,10 +48,10 @@ function amountCreeps() {
                     Memory.room[room.name + ".amount.DroneHelperBuilder"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperUpgrader"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperWarrior"] = 0;
-                    Memory.room[room.name + ".amount.DroneHelperHealer"] = 2;
+                    Memory.room[room.name + ".amount.DroneHelperHealer"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperArcher"] = 0;
-                    Memory.room[room.name + ".amount.DroneHelperTransporter"] = 0;
-                    Memory.room[room.name + ".amount.DroneHelperDismantler"] = 0;
+                    Memory.room[room.name + ".amount.DroneHelperTransporter"] = 1;
+                    Memory.room[room.name + ".amount.DroneHelperDismantler"] = 1;
                 }
                 if (Game.flags.Clear) {
                     Memory.room[room.name + ".amount.DroneHelperBuilder"] = 0;
