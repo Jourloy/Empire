@@ -44,7 +44,6 @@ module.exports.loop = function () {
         }
         
         spawn = spawns[Game.time%spawns.length];
-
         if (room.terminal) Terminal.control(room);
 
         for (i in Memory.rolies) {
