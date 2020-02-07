@@ -4,20 +4,13 @@
 @ How to use: Will be soon
 */
 
-const Console = require("Console");
-const Control = require("Control");
-const roleSpawn = require("role.spawn");
-const roleTower = require("role.tower");
-const Nydus = require("Nydus");
-const Terminal = require("Terminal");
-
 Memory.room = {};
 
 module.exports.loop = function () {
-    Control.control()
-    Console.setting();
-    Nydus.run();
-    roleTower.control();
+    require("Control").control()
+    require("Console").setting();
+    //require("Nydus").run();
+    require("role.tower").control();
 
     let room = 0;
     let spawns;
@@ -44,11 +37,21 @@ module.exports.loop = function () {
         }
         
         spawn = spawns[Game.time%spawns.length];
-        if (room.terminal) Terminal.control(room);
+        if (room.terminal) require("Terminal").control(room);
 
         for (i in Memory.rolies) {
             if (spawn != undefined && Memory.room[room.name + ".amount." + Memory.rolies[i]] > Memory.room[room.name + ".amountIsLive." + Memory.rolies[i]]) {
-                roleSpawn.run(spawn, Memory.rolies[i]);
+                require("role.spawn").run(spawn, Memory.rolies[i]);
+            }
+        }
+    }
+
+    if (Game.time%51 == 20) {
+        for (z in rooms) {
+            console.log("-------------");
+            room = rooms[z]
+            for (i in Memory.rolies) {
+                console.log("ROOM: " + room.name + " | ROLE: " + Memory.rolies[i] + " | AMOUNT: " + Memory.room[room.name + ".amountIsLive." + Memory.rolies[i]] + " / " + Memory.room[room.name + ".amount." + Memory.rolies[i]])
             }
         }
     }
