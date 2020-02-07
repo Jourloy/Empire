@@ -15,9 +15,9 @@ var roleTower = {
                 }
             });
 
-            var friendsCreeps = tower.pos.findInRange(FIND_HOSTILE_CREEPS, 6, {
+            var friendsCreeps = tower.room.find(FIND_MY_CREEPS, {
                 filter: (creep) => {
-                    return (creep.owner.username == "kotyara");
+                    return creep.hits < creep.hitsMax;
                 }
             });
 
@@ -45,6 +45,7 @@ var roleTower = {
                         tower.repair(walls[0]);
                     }
                 }
+                if (friendsCreeps.length > 0) tower.heal(friendsCreeps[0]);
             } else {
                 if (hostileCreeps.length > 0) {
                     tower.attack(hostileCreeps[0]);
