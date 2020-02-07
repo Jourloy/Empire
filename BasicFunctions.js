@@ -96,7 +96,7 @@ function doRefill(creep) {
                     creep.moveTo(labsInRoom, { heuristicWeight: 1.2, range: 1, reusePath: 20 });
                 }
             } else {
-                if (creep.room.storage && creep.room.storage.store[RESOURCE_ENERGY] < 500001) {
+                if (creep.room.storage && creep.room.storage.store[RESOURCE_ENERGY] < 900001) {
                     if (creep.transfer(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 20 });
                     }
