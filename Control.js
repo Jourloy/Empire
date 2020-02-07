@@ -43,6 +43,7 @@ function amountCreeps() {
                 Memory.room[room.name + ".amount.DroneRefiller"] = 1;
                 Memory.room[room.name + ".amount.DroneMiner1"] = 1;
                 Memory.room[room.name + ".amount.DroneMiner2"] = 1;
+                Memory.room[room.name + ".amount.DroneUpgrader"] = 1;
 
                 if (Game.flags.Attack) {
                     Memory.room[room.name + ".amount.DroneHelperBuilder"] = 0;
@@ -50,8 +51,8 @@ function amountCreeps() {
                     Memory.room[room.name + ".amount.DroneHelperWarrior"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperHealer"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperArcher"] = 0;
-                    Memory.room[room.name + ".amount.DroneHelperTransporter"] = 1;
-                    Memory.room[room.name + ".amount.DroneHelperDismantler"] = 1;
+                    Memory.room[room.name + ".amount.DroneHelperTransporter"] = 3;
+                    Memory.room[room.name + ".amount.DroneHelperDismantler"] = 3;
                 }
                 if (Game.flags.Clear) {
                     Memory.room[room.name + ".amount.DroneHelperBuilder"] = 0;
@@ -71,7 +72,7 @@ function amountCreeps() {
                 Memory.room[room.name + ".amount.DroneRefiller"] = 1;
                 Memory.room[room.name + ".amount.DroneMiner1"] = 1;
                 Memory.room[room.name + ".amount.DroneMiner2"] = 1;
-                Memory.room[room.name + ".amount.DroneUpgrader"] = 1;
+                Memory.room[room.name + ".amount.DroneUpgrader"] = 3;
 
                 if (Game.flags.Attack) {
                     Memory.room[room.name + ".amount.DroneHelperBuilder"] = 0;
@@ -135,7 +136,10 @@ function amountCreepsIsLive() {
             });
     
             for (i in spawns) {
-                if (spawns[i].spawning != null && spawns[i].spawning.remainingTime > spawns[i].spawning.needTime - 10) Memory.room[room.name + ".amountIsLive." + spawns[i].memory.spawningCreep]++;
+                if (spawns[i].spawning != null && spawns[i].spawning.remainingTime > spawns[i].spawning.needTime - 10) {
+                    Memory.room[room.name + ".amountIsLive." + spawns[i].memory.spawningCreep]++;
+                    //console.log(Memory.room[room.name + ".amountIsLive." + spawns[i].memory.spawningCreep] + " | " + memory.spawningCreep)
+                }
             }
         }
     }
