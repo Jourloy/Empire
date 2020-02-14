@@ -39,19 +39,20 @@ module.exports.loop = function () {
         spawn = spawns[Game.time%spawns.length];
         if (room.terminal) require("Terminal").control(room);
 
-        for (i in Memory.rolies) {
-            if (spawn != undefined && Memory.room[room.name + ".amount." + Memory.rolies[i]] > Memory.room[room.name + ".amountIsLive." + Memory.rolies[i]]) {
-                require("role.spawn").run(spawn, Memory.rolies[i]);
+        for (i in Memory.roles) {
+            if (spawn != undefined && Memory.room[room.name + ".amount." + Memory.roles[i]] > Memory.room[room.name + ".amountIsLive." + Memory.roles[i]]) {
+                require("role.spawn").run(spawn, Memory.roles[i]);
             }
         }
     }
 
     if (Game.time%51 == 20) {
+        console.log("==============");
         for (z in rooms) {
             console.log("-------------");
             room = rooms[z]
-            for (i in Memory.rolies) {
-                console.log("ROOM: " + room.name + " | ROLE: " + Memory.rolies[i] + " | AMOUNT: " + Memory.room[room.name + ".amountIsLive." + Memory.rolies[i]] + " / " + Memory.room[room.name + ".amount." + Memory.rolies[i]])
+            for (i in Memory.roles) {
+                console.log("ROOM: " + room.name + " | ROLE: " + Memory.roles[i] + " | AMOUNT: " + Memory.room[room.name + ".amountIsLive." + Memory.roles[i]] + " / " + Memory.room[room.name + ".amount." + Memory.roles[i]])
             }
         }
     }
