@@ -5,7 +5,7 @@ function getResource(creep) {
         if (creep.withdraw(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
     } else {
         for (y in RESOURCES_ALL) {
-            if (creep.room.storage.store[RESOURCES_ALL[y]] > 10000) {
+            if (creep.room.storage.store[RESOURCES_ALL[y]] > 10000 && RESOURCES_ALL[y] !=  RESOURCE_ENERGY) {
                 if (creep.withdraw(creep.room.storage, RESOURCES_ALL[y]) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
             }
         }
