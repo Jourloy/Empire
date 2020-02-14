@@ -2,7 +2,7 @@ function getResource(creep) {
 
     const mineralDropped = creep.room.find(FIND_DROPPED_RESOURCES, {
         filter: (resource) => {
-            return resource.amount > 0 && resource.resourceType == 'H';
+            return resource.amount > 0 && (resource.resourceType == 'H' || resource.resourceType == 'L');
         }
     });
 
@@ -11,20 +11,25 @@ function getResource(creep) {
     } else {
         const mineralTombstones = creep.room.find(FIND_TOMBSTONES, {
             filter: (structure) => {
-                return structure.store[RESOURCE_HYDROGEN] > 0;
+                return (structure.store[RESOURCE_HYDROGEN] > 0 || structure.store[RESOURCE_LEMERGIUM] > 0);
             }
         });
         if (mineralTombstones.length > 0) {
-            mineralTombstones.sort((a, b) => b.store[RESOURCE_HYDROGEN] - a.store[RESOURCE_HYDROGEN]);
-            if (creep.withdraw(mineralTombstones[0], RESOURCE_HYDROGEN) == ERR_NOT_IN_RANGE) creep.moveTo(mineralTombstones[0], { heuristicWeight: 1.2, range: 1, reusePath: 50 });
+            let mineral = null
+            if (mineralTombstones[0].store[RESOURCE_HYDROGEN] > 0) mineral = RESOURCE_HYDROGEN;
+            else if (mineralTombstones[0].store[RESOURCE_LEMERGIUM] > 0) mineral = RESOURCE_LEMERGIUM;
+            if (creep.withdraw(mineralTombstones[0], mineral) == ERR_NOT_IN_RANGE) creep.moveTo(mineralTombstones[0], { heuristicWeight: 1.2, range: 1, reusePath: 50 });
         } else {
             const mineralContainer = creep.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
-                    return (structure.structureType == STRUCTURE_CONTAINER) && structure.store[RESOURCE_HYDROGEN] > 1500;
+                    return (structure.structureType == STRUCTURE_CONTAINER) && (structure.store[RESOURCE_HYDROGEN] > 1500|| structure.store[RESOURCE_LEMERGIUM] > 1500);
                 }
             });
             if (mineralContainer.length > 0) {
-                if (creep.withdraw(mineralContainer[0], RESOURCE_HYDROGEN) == ERR_NOT_IN_RANGE) creep.moveTo(mineralContainer[0], { heuristicWeight: 1.2, range: 1, reusePath: 50 });
+                let mineral = null
+                if (mineralContainer[0].store[RESOURCE_HYDROGEN] > 0) mineral = RESOURCE_HYDROGEN;
+                else if (mineralContainer[0].store[RESOURCE_LEMERGIUM] > 0) mineral = RESOURCE_LEMERGIUM;
+                if (creep.withdraw(mineralContainer[0], mineral) == ERR_NOT_IN_RANGE) creep.moveTo(mineralContainer[0], { heuristicWeight: 1.2, range: 1, reusePath: 50 });
             } else {
                 if (creep.room.energyAvailable < creep.room.energyCapacityAvailable / 2 && creep.room.storage && creep.room.storage.store[RESOURCE_ENERGY] >= (Memory.storageEnergyCapacity - 10000)) {
                     if (creep.withdraw(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
@@ -99,6 +104,12 @@ function doWork(creep) {
                 creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 20 });
             }
         }
+    } else if (creep.store[RESOURCE_LEMERGIUM] > 0) {
+        if (creep.room.storage) {
+            if (creep.transfer(creep.room.storage, RESOURCE_LEMERGIUM) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 20 });
+            }
+        }
     } else {
         gR = require("BasicFunctions")
         gR.run(creep, "refill");
@@ -123,7 +134,7 @@ const DroneRefiller = {
                 if (creep.memory.renew) goRenew(creep);
                 else {
                     if (creep.store.getUsedCapacity() == 0) creep.memory.state = "getResource";
-                    if (creep.store.getUsedCapacity() == creep.store.getCapacity() || creep.store[RESOURCE_HYDROGEN] > 0) creep.memory.state = "doWork";
+                    if (creep.store.getUsedCapacity() == creep.store.getCapacity() || creep.store[RESOURCE_HYDROGEN] > 0 || creep.store[RESOURCE_LEMERGIUM] > 0) creep.memory.state = "doWork";
 
                     if (creep.memory.state == "getResource") getResource(creep);
                     if (creep.memory.state == "doWork") doWork(creep);
