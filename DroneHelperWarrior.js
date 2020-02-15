@@ -26,6 +26,35 @@ let DroneHelperWarrior = {
         if (creep.spawning) {
             creep.memory.room = creep.room.name;
         } else {
+            if (Game.flags.Attack) {
+                if (Game.flags.Attack.room != creep.room) {
+                    creep.moveTo(Game.flags.Attack);
+                } else {
+                    
+                    const hostileCreeps = creep.room.find(FIND_HOSTILE_CREEPS, {
+                        filter: (crps) => {
+                            return crps.owner.username != "kotyara";
+                        }
+                    });
+                    if (hostileCreeps.length > 0) {
+                        const speak = ['ODIN,', "MY", "FATHER!", "I", "BEG", "YOU!", "BLAST", "ME!"]
+                        creep.say(speak[Game.time%speak.length], true);
+                        killCreeps(creep);
+                    } else {
+                        const hostileStructures = creep.room.find(FIND_HOSTILE_STRUCTURES, {
+                            filter: (strc) => {
+                                return strc.owner.username != "kotyara" && strc.structureType != "controller";
+                            }
+                        });
+                        if (hostileStructures.length > 0) {
+                            destroyStructures(creep);
+                        } else {
+                            creep.moveTo(Game.flags.Attack);
+                        }
+                    }
+                }
+            }
+
             if (Game.flags.Claim) {
                 if (Game.flags.Claim.room != creep.room) {
                     creep.moveTo(Game.flags.Claim);
