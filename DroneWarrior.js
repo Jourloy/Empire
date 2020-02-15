@@ -47,7 +47,6 @@ let DroneWarrior = {
                         if (hostileStructures.length > 0) {
                             destroyStructures(creep);
                         } else {
-                            creep.say("!")
                             creep.moveTo(Game.flags.Attack);
                         }
                     }
