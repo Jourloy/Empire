@@ -10,14 +10,16 @@ function dismantleStructure(creep) {
 
     const dangerHostileStrInRoom = creep.room.find(FIND_STRUCTURES, {
         filter: (structure) => {
-            return (structure.structureType == STRUCTURE_TOWER);
+            return (structure.structureType == STRUCTURE_TOWER ||
+                    structure.structureType == STRUCTURE_SPAWN);
         }
     });
 
     if (dangerHostileStrInRoom.length > 0) {
         const dangerHostileStr = creep.pos.findClosestByPath(FIND_STRUCTURES, {
             filter: (structure) => {
-                return (structure.structureType == STRUCTURE_TOWER);
+                return (structure.structureType == STRUCTURE_TOWER ||
+                        structure.structureType == STRUCTURE_SPAWN);
             }
         });
 
@@ -46,7 +48,7 @@ function dismantleStructure(creep) {
             }
         });
         if (creep.dismantle(hostileStr) == ERR_NOT_IN_RANGE) creep.moveTo(hostileStr)
-    }
+    } else creep.moveTo(Game.flags.Attack);
 }
 
 let DroneHelperDismantler = {
@@ -55,7 +57,8 @@ let DroneHelperDismantler = {
         if (creep.spawning) {
             creep.memory.room = creep.room.name;
         } else {
-            if (Game.flags.Attack) {
+            if (Game.flags.Flag1) creep.moveTo(Game.flags.Flag1);
+            else if (Game.flags.Attack) {
                 if (Game.flags.Attack.room != creep.room) {
                     creep.moveTo(Game.flags.Attack);
                 } else {
