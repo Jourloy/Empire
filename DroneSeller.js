@@ -19,7 +19,7 @@ function sell(creep) {
     } else {
         for (y in RESOURCES_ALL) {
             if (creep.store[RESOURCES_ALL[y]] > 0) {
-                if (creep.transfer(creep.room.terminal, RESOURCES_ALL[y]) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
+                if (creep.transfer(creep.room.terminal, RESOURCES_ALL[y]) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.terminal, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
             }
         }
     }
