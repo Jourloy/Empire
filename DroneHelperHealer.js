@@ -8,7 +8,6 @@ function healCreeps(creep, state = false) {
         if (target) {
             if (creep.heal(target) == ERR_NOT_IN_RANGE) {
                 creep.rangedHeal(target)
-                //creep.moveTo(target);
             }
         } else {
             creep.heal(creep)
