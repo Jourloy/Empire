@@ -1,8 +1,8 @@
 function goGetResourceClear(creep) {
     if (Game.flags.Clear.room == undefined || Game.flags.Clear.room != undefined && Game.flags.Clear.room != creep.room) {
         if (creep.memory.step == 0) {
-            if (creep.room.name == "W49S29") creep.memory.step = 1;
-            creep.moveTo(new RoomPosition(25, 25, "W49S29"), { ignoreRoads: true, heuristicWeight: 1.2, range: 1, reusePath: 50 });
+            if (creep.room.name == "W47S28") creep.memory.step = 1;
+            creep.moveTo(new RoomPosition(25, 25, "W47S28"), { ignoreRoads: true, heuristicWeight: 1.2, range: 1, reusePath: 50 });
         }
         else creep.moveTo(Game.flags.Clear, { heuristicWeight: 1.2, range: 1, reusePath: 50 })
     } else {
@@ -27,6 +27,12 @@ function goGetResourceClear(creep) {
             if (tombstones.length > 0) {
                 tombstones.sort((a, b) => b.store[RESOURCE_ENERGY] - a.store[RESOURCE_ENERGY]);
                 if (creep.withdraw(tombstones[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(tombstones[0], { heuristicWeight: 1.2, range: 1, reusePath: 50 });
+            } else {
+                if (creep.room.storage) {
+                    for (i in RESOURCES_ALL) {
+                        if (creep.room.storage.store[RESOURCES_ALL[i]] > 0) if (creep.withdraw(creep.room.storage, RESOURCES_ALL[i]) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
+                    }
+                }
             }
         }
     }
@@ -75,21 +81,19 @@ function goGetResourceAttack(creep) {
 
 function doWork(creep) {
     if (creep.room.name == creep.memory.room) {
-        if (creep.room.storage && creep.room.storage.store[RESOURCE_ENERGY] < 500001) {
-            if (creep.transfer(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+        for (i in RESOURCES_ALL) {
+            if (creep.transfer(creep.room.storage, RESOURCES_ALL[i]) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 20 });
             } else {
-                creep.memory.transferedEnergy += creep.store[RESOURCE_ENERGY];
-            }
-        } else if (creep.room.terminal && creep.room.terminal.store[RESOURCE_ENERGY] < 100000) {
-            if (creep.transfer(creep.room.terminal, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(creep.room.terminal, { heuristicWeight: 1.2, range: 1, reusePath: 20 });
-            } else {
-                creep.memory.transferedEnergy += creep.store[RESOURCE_ENERGY]
+                creep.memory.transferedEnergy += creep.store[RESOURCES_ALL[i]];
             }
         }
     } else {
-        creep.moveTo(new RoomPosition(25, 25, creep.memory.room), { ignoreRoads: true, heuristicWeight: 1.2, range: 1, reusePath: 50 });
+        if (creep.memory.step == 1) {
+            if (creep.room.name == "W47S28") creep.memory.step = 0;
+            creep.moveTo(new RoomPosition(25, 25, "W47S28"), { ignoreRoads: true, heuristicWeight: 1.2, range: 1, reusePath: 50 });
+        }
+        else creep.moveTo(new RoomPosition(25, 25, creep.memory.room), { ignoreRoads: true, heuristicWeight: 1.2, range: 1, reusePath: 50 });
     }
 }
 
