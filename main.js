@@ -36,7 +36,8 @@ module.exports.loop = function () {
             if (spawns[i].spawning == null) spawns[i].memory.spawningCreep = null;
         }
         
-        spawn = spawns[Game.time%spawns.length];
+        if (Game.time%5 < 2) spawn = spawns[0];
+        else spawn = spawns[1] || spawns[0];
         if (room.terminal) require("Terminal").control(room);
 
         for (i in Memory.roles) {
