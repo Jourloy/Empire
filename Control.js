@@ -39,8 +39,8 @@ function amountCreeps() {
                     Memory.room[room.name + ".amount.DroneHelperWarrior"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperHealer"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperArcher"] = 0;
-                    Memory.room[room.name + ".amount.DroneHelperTransporter"] = 4;
-                    Memory.room[room.name + ".amount.DroneHelperDismantler"] = 3;
+                    Memory.room[room.name + ".amount.DroneHelperTransporter"] = 0;
+                    Memory.room[room.name + ".amount.DroneHelperDismantler"] = 0;
                 }
                 if (Game.flags.Clear) {
                     Memory.room[room.name + ".amount.DroneHelperBuilder"] = 0;
@@ -72,7 +72,7 @@ function amountCreeps() {
                     Memory.room[room.name + ".amount.DroneHelperWarrior"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperHealer"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperArcher"] = 0;
-                    Memory.room[room.name + ".amount.DroneHelperTransporter"] = 3;
+                    Memory.room[room.name + ".amount.DroneHelperTransporter"] = 0;
                 }
             } else {
                 if (!sourceInRoom[0].ticksToRegeneration && extractor.length > 0) Memory.room[room.name + ".amount.DroneMineralMiner"] = 1;
