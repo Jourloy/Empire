@@ -7,6 +7,14 @@ function getResource(creep) {
         for (y in RESOURCES_ALL) {
             if (creep.room.storage.store[RESOURCES_ALL[y]] > 10000 && RESOURCES_ALL[y] !=  RESOURCE_ENERGY) {
                 if (creep.withdraw(creep.room.storage, RESOURCES_ALL[y]) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
+            } else {
+                if (RESOURCES_ALL[y] != RESOURCE_ENERGY) {
+                    const container = creep.pos.findClosestByPath(FIND_STRUCTURES, { filter: s => s.structureType == STRUCTURE_CONTAINER && s.store[RESOURCES_ALL[y]] > 0});
+
+                    if (container) {
+                        if (creep.withdraw(container, RESOURCES_ALL[y]) == ERR_NOT_IN_RANGE) creep.moveTo(container, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
+                    }
+                }
             }
         }
     }
