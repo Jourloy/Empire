@@ -1,50 +1,15 @@
-function params() {
+function Tools() {
+    global.svgBody = function (color, count = 1, width = 16, height = 16) {
+        const cx = width / 2;
+        const cy = height / 2;
+        const r = cx;
 
-    global.help = function (com) {
-        let help = [];
-        if (!com) {
-            help.push("info()                              - Print information about all your rooms")
-            help.push("calculateTime(time, tickRate)       - Convert ticks to real time")
-            help.push("  * time                            - amount TICKS.")
-            help.push("  * tickRate                        - Tick rate of server. NOT NECESSARY. Default: 2.69")
-            help.push("Creeps(body, bodyString, creepRole) - Calculate cost and time of build creep")
-            help.push("  * body                            - List with creep's body")
-            help.push("  * bodyString                      - String with creep's body")
-            help.push("  * creepRole                       - Only for my code")
-            help.push("CreepBuilder(body, stringBody)      - Build creep");
-            help.push("  * body, stringBody                - help(\"CreepBuilder\") for learn about this parameter");
-            help.push("marketInfo()                        - Output information about basic resources at market");
-            help.push("myResources(hide)                   - Output information about all your resources");
-            help.push("  * hide                            - true or false. If true, than you will not see resources if you don't have they. NOT NECESSARY. Default: false");
+        body = [];
+        for (let i = 0; i < count; i += 1) {
+            body.push('<svg width="' + width + '" height="' + height + '"> <circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" stroke="black" stroke-width="1" fill="' + color + '"/></svg>');
         }
-
-        if (com == "CreepBuilder") {
-            help.push("CreepBuilder");
-            help.push("\nGet amount BODY PARTS:");
-            help.push("MOVE {move:N}");
-            help.push("CARRY {carry:N}");
-            help.push("WORK {work:N}");
-            help.push("ATTACK {attack:N}");
-            help.push("RANGED_ATTACK {rangedAttack:N}");
-            help.push("HEAL {heal:N}");
-            help.push("TOUGH {tough:N}");
-            help.push("CLAIM {claim:N}");
-            help.push("Default all parameters is 0. \nN - amount.");
-            help.push("\nSo, if you want create creep with 2 WORK and 2 MOVE, you need write in console: CreepBuilder({work:2, move:2})");
-            help.push("\nOr you can type:");
-            help.push("m = move");
-            help.push("c = carry");
-            help.push("w = work");
-            help.push("a = attack");
-            help.push("r = rangedAttack");
-            help.push("h = heal");
-            help.push("t = tough");
-            help.push("x = claim");
-            help.push("\nSo, if you want create creep with 2 WORK and 2 MOVE, you need write in console: CreepBuilder(null, \"2w2m\") or CreepBuilder(null, \"wwmm\") or CreepBuilder(null, \"2(mw)\")");
-        }
-
-        help = help.join("\n");
-        return help
+        body = body.join("");
+        return body;
     };
 
     global.pushNotification = function(room) {
@@ -61,152 +26,6 @@ function params() {
         notification = notification.replace(/\r?\n|\r/g, ' ');
         console.log(`<a target="_blank" href="https://screeps.com/a/#!/room/${Game.shard.name}/${room}">${room} is in trouble. Click on me to open this room!</a>`);
         return notification;
-    }
-
-    global.myResources = function(hide = false) {
-        let result = [];
-        result.push("<table border=\"1\">");
-        result.push('<caption> RESOURCE\n</caption>');
-        result.push("<tr>");
-        result.push("<th></th>");
-        result.push("<th> AMOUNT </th>");
-        result.push("</tr>");
-
-        for (i in RESOURCES_ALL) {
-
-            let resource = RESOURCES_ALL[i]
-
-            if (!hide) {
-                result.push("<tr>"); 
-                result.push("<td> " + resourceImg(resource) + " </td>");
-                result.push("<td> " + amountResources(resource) + " </td>");
-                result.push("</tr>");
-            } else {
-                if (amountResources(resource) > 0) {
-                    result.push("<tr>"); 
-                    result.push("<td> " + resourceImg(resource) + " </td>");
-                    result.push("<td> " + amountResources(resource) + " </td>");
-                    result.push("</tr>");
-                }
-            }
-        }
-
-        result = result.join("");
-        return result
-    }
-
-    global.amountResources = function (resource) {
-        let amount = 0
-        let allStr = []
-
-        for (i in Game.rooms) {
-            room = Game.rooms[i];
-            
-            storeStr = room.find(FIND_STRUCTURES, {
-                filter: (structure) => {
-                    return (structure.store);
-                }
-            });
-
-            allStr = allStr.concat(storeStr);
-        }
-
-        for (i in allStr) {
-            if (allStr[i].store[resource] > 0) amount += allStr[i].store[resource];
-        }
-
-        return amount
-    }
-
-    global.marketInfo = function() {
-
-        let amountSell
-        let amountBuy
-        let priceSell
-        let lastPriceSell
-        let priceBuy
-        let lastPriceBuy
-
-
-        result = [];
-        result.push("<table border=\"1\">");
-        result.push('<caption> MARKET\n</caption>');
-        result.push("<tr>");
-        result.push("<th></th>");
-        result.push("<th> MIN SELL PRICE </th>");
-        result.push("<th> AMOUNT ON SELL </th>");
-        result.push("<th> MAX SELL PRICE </th>");
-        result.push("<th> AMOUNT SELL ORDERS </th>");
-        result.push("<th></th>");
-        result.push("<th> MIN BUY PRICE </th>");
-        result.push("<th> AMOUNT ON BUY </th>");
-        result.push("<th> MAX BUY PRICE </th>");
-        result.push("<th> AMOUNT BUY ORDERS </th>");
-        result.push("</tr>");
-
-
-        const orders = Game.market.getAllOrders();
-
-        let test;
-
-        test = _.groupBy(orders,o=>o.type);
-
-        for (i in RESOURCES_ALL) {
-
-            resources = RESOURCES_ALL[i]
-
-            orderMinerals = orders.filter(order => order.resourceType == resources)
-
-            ordersSell = orderMinerals.filter(order => order.type == "sell");
-            ordersBuy = orderMinerals.filter(order => order.type == "buy");
-
-            ordersSell.sort((a,b) => a.price - b.price);
-            ordersBuy.sort((a,b) => a.price - b.price);
-
-            if (ordersSell[0] && ordersSell[0].price) {
-                priceSell = ordersSell[0].price;
-                lastPriceSell = ordersSell[ordersSell.length-1].price
-            } else {
-                priceSell = " - ";
-                lastPriceSell = " - ";
-            }
-
-            if (ordersBuy[0] && ordersBuy[0].price) {
-                priceBuy = ordersBuy[0].price;
-                lastPriceBuy = ordersBuy[ordersBuy.length-1].price
-            } else {
-                priceBuy = " - ";
-                lastPriceBuy = " - ";
-            }
-
-            if (ordersSell[0] && ordersSell[0].amount) {
-                amountSell = ordersSell[0].amount;
-                if (amountSell > 1000) amountSell = amountSell / 1000 + "K"
-            }
-            else amountSell = " - ";
-
-            if (ordersBuy[0] && ordersBuy[0].amount) {
-                amountBuy = ordersBuy[ordersBuy.length-1].amount;
-                if (amountBuy > 1000) amountBuy = amountBuy / 1000 + "K"
-
-            } else amountBuy = " - ";
-
-            result.push("<tr>"); 
-            result.push("<td> " + resourceImg(resources) + " </td>"); 
-            result.push("<td> " + priceSell + " </td>");
-            result.push("<td> " + amountSell + " </td>");
-            result.push("<td> " + lastPriceSell + " </td>");
-            result.push("<td> " + ordersSell.length + " </td>");
-            result.push("<td> " + resourceImg(resources) + " </td>"); 
-            result.push("<td> " + priceBuy + " </td>");
-            result.push("<td> " + amountBuy + " </td>");
-            result.push("<td> " + lastPriceBuy + " </td>");
-            result.push("<td> " + ordersBuy.length + " </td>"); 
-            result.push("</tr>");
-        }
-
-        result = result.join("");
-        return result
     }
 
     global.expandBodyArrayString = function(bodyString) {
@@ -229,8 +48,8 @@ function params() {
         while (m);
         
         return bodyString;
-    },
-    
+    };
+
     /*
      * Unpack a bodypart string into creep body part array
      *
@@ -307,14 +126,6 @@ function params() {
         }
         
         return bodyArray;
-    }
-
-    global.playerLink = function() {
-        let nickName = null;
-        for(var i in Game.spawns) {
-            nickName = Game.spawns[i].owner.username
-        }
-        return 'https://screeps.com/api/user/badge-svg?username=' + nickName;
     };
 
     global.progressBar = function(num = 0) {
@@ -323,131 +134,8 @@ function params() {
 
         let progressBar = '<svg width="' + (width+2) + '" height="' + (height+2) + '"> <rect x="1" y="1" fill="#F93842" width="' + (width/100*num) + '" height="' + height + '"/> <rect x="1" y="1" stroke="#777777" stroke-width="2" fill="transparent" width="' + width + '" height="' + height + '"/> </svg>';
         return progressBar;
-    }
-
-    global.resourceImg = function(resourceType) {
-        return '<a target="_blank" href="https://screeps.com/a/#!/market/all/' + Game.shard.name + '/' + resourceType + '"><img src ="https://s3.amazonaws.com/static.screeps.com/upload/mineral-icons/' + resourceType + '.png" /></a>';
     };
 
-    global.calculateTime = function (time, tickRate) {
-        if (tickRate) {
-            ticks = tickRate;
-        } else {
-            ticks = 2.69;
-        }
-        outTime = [];
-        outTime.push("Amount TICKS: " + time);
-        outTime.push("Amount seconds: " + Math.round(time * ticks));
-        if (time * ticks > 60) {
-            outTime.push("Amount minutes: " + Math.round(time * ticks / 60));
-            if (time * ticks / 60 > 60) {
-                outTime.push("Amount hours: " + Math.round(time * ticks / 60 / 60));
-                if (time * ticks / 60 / 60 > 24) {
-                    outTime.push("Amount days: " + Math.round(time * ticks / 60 / 60 / 24));
-                }
-            }
-        }
-        outTime = outTime.join("\n");
-        return outTime
-    }
-
-    global.svgBody = function (color, count = 1, width = 16, height = 16) {
-        const cx = width / 2;
-        const cy = height / 2;
-        const r = cx;
-
-        body = [];
-        for (let i = 0; i < count; i += 1) {
-            body.push('<svg width="' + width + '" height="' + height + '"> <circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" stroke="black" stroke-width="1" fill="' + color + '"/></svg>');
-        }
-        body = body.join("");
-        return body;
-    };
-
-    global.svgCreep = function (body, width = 48, height = 48) {
-
-        const cx = width / 2;
-        const cy = height / 2;
-        const r = cx;
-
-        let bodyCount = 0;
-        let moveCount = 0;
-        let carryCount = 0;
-        let workCount = 0;
-        let attackCount = 0;
-        let rangedAttackCount = 0;
-        let healCount = 0;
-        let toughCount = 0;
-        let claimCount = 0;
-
-        for (let i in body) {
-            if (body[i] == "move" || body[i] == "carry") {
-                if (body[i] == "move") {
-                    moveCount++;
-                } else {
-                    carryCount++;
-                }
-            } else if (body[i] == "work") {
-                workCount++;
-            } else if (body[i] == "attack") {
-                attackCount++
-            } else if (body[i] == "ranged_attack") {
-                rangedAttackCount++;
-            } else if (body[i] == "heal") {
-                healCount++;
-            } else if (body[i] == "tough") {
-                toughCount++;
-            } else if (body[i] == "claim") {
-                claimCount++;
-            }
-        }
-
-        bodySvg = [];
-        bodySvg.push('<svg viewBox="-9 -9 18 18">');
-        if (toughCount > 0) bodySvg.push('<circle cx="0" cy="0" r="9" fill="#5e5e5e"/>');
-        bodySvg.push('<circle cx="0" cy="0" r="8" fill="#202020"/>');
-
-        let percentMove = 25.1/50*moveCount;
-        let rotateMove = Math.ceil(90-(180/50*moveCount-180/50)-5);
-
-        let percentWork = 25.1/50*workCount;
-        let rotateWork = Math.ceil((90-(180/50*workCount-180/50)-5))-180;
-
-        if (workCount > 0 && attackCount > 0) attackCount += workCount;
-        let percentAttack = 25.1/50*attackCount;
-        let rotateAttack = Math.ceil((90-(180/50*attackCount-180/50)-5))-180;
-
-        if (attackCount > 0 && rangedAttackCount > 0) rangedAttackCount += attackCount;
-        if (rangedAttackCount > 0 && attackCount < 1 && workCount > 0) rangedAttackCount += workCount
-        let percentRangedAttack = 25.1/50*rangedAttackCount;
-        let rotateRangedAttack = Math.ceil((90-(180/50*rangedAttackCount-180/50)-5))-180;
-
-        if (rangedAttackCount > 0 && healCount > 0) healCount += rangedAttackCount;
-        if (healCount > 0 && rangedAttackCount < 1 && attackCount > 0) healCount += attackCount
-        else if (healCount > 0 && rangedAttackCount < 1 && workCount > 0) healCount += workCount
-        let percentHeal = 25.1/50*healCount;
-        let rotateHeal = Math.ceil((90-(180/50*healCount-180/50)-5))-180;
-
-        if (rangedAttackCount > 0 && claimCount > 0) claimCount += rangedAttackCount;
-        if (claimCount > 0 && rangedAttackCount < 1 && attackCount > 0) claimCount += attackCount
-        else if (claimCount > 0 && rangedAttackCount < 1 && workCount > 0) claimCount += workCount
-        else if (claimCount > 0 && rangedAttackCount < 1 && attackCount < 1 && workCount < 1 && healCount > 0) claimCount += workCount
-        let percentClaim = 25.1/50*claimCount;
-        let rotateClaim = Math.ceil((90-(180/50*claimCount-180/50)-5))-180;
-
-        if (moveCount > 0) bodySvg.push('<circle cx="0" cy="0" r="4" transform="rotate('+rotateMove+')" stroke-width="8" stroke-dasharray="'+percentMove+', 26" stroke="#A9B7C6" fill="none" />')
-        if (claimCount > 0) bodySvg.push('<circle cx="0" cy="0" r="4" transform="rotate('+rotateClaim+')" stroke-width="8" stroke-dasharray="'+percentClaim+', 26" stroke="#B99CFB" fill="none" />')
-        if (healCount > 0) bodySvg.push('<circle cx="0" cy="0" r="4" transform="rotate('+rotateHeal+')" stroke-width="8" stroke-dasharray="'+percentHeal+', 26" stroke="#65FD62" fill="none" />')
-        if (rangedAttackCount > 0) bodySvg.push('<circle cx="0" cy="0" r="4" transform="rotate('+rotateRangedAttack+')" stroke-width="8" stroke-dasharray="'+percentRangedAttack+', 26" stroke="#5D80B2" fill="none" />')
-        if (attackCount > 0) bodySvg.push('<circle cx="0" cy="0" r="4" transform="rotate('+rotateAttack+')" stroke-width="8" stroke-dasharray="'+percentAttack+', 26" stroke="#F93842" fill="none" />')
-        if (workCount > 0) bodySvg.push('<circle cx="0" cy="0" r="4" transform="rotate('+rotateWork+')" stroke-width="8" stroke-dasharray="'+percentWork+', 26" stroke="#FFE56D" fill="none" />')
-        //body.push('<svg viewBox="0 0 ' + width + ' ' + height + '"> <circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" stroke="black" stroke-width="1" fill="#202020"/>')
-        bodySvg.push('<image x="-5.7" y="-5.7" width="11.5" height="11.5" xlink:href="' + playerLink() + '"/> <circle cx="0" cy="0" r="5.8" stroke-width="0.6" stroke="black" fill="none"/>')
-        body.push('</svg>');
-        bodySvg = bodySvg.join("");
-        return bodySvg;
-    };
-    
     global.CreepBuilder = function (bodyBuild, bodyString) {
 
         let tough = 0;
@@ -542,6 +230,368 @@ function params() {
         return Creeps(body)
     }
 
+    global.svgCreep = function (body, width = 48, height = 48) {
+
+        const cx = width / 2;
+        const cy = height / 2;
+        const r = cx;
+
+        let bodyCount = 0;
+        let moveCount = 0;
+        let carryCount = 0;
+        let workCount = 0;
+        let attackCount = 0;
+        let rangedAttackCount = 0;
+        let healCount = 0;
+        let toughCount = 0;
+        let claimCount = 0;
+
+        for (let i in body) {
+            if (body[i] == "move" || body[i] == "carry") {
+                if (body[i] == "move") {
+                    moveCount++;
+                } else {
+                    carryCount++;
+                }
+            } else if (body[i] == "work") {
+                workCount++;
+            } else if (body[i] == "attack") {
+                attackCount++
+            } else if (body[i] == "ranged_attack") {
+                rangedAttackCount++;
+            } else if (body[i] == "heal") {
+                healCount++;
+            } else if (body[i] == "tough") {
+                toughCount++;
+            } else if (body[i] == "claim") {
+                claimCount++;
+            }
+        }
+
+        bodySvg = [];
+        bodySvg.push('<svg viewBox="-9 -9 18 18">');
+        if (toughCount > 0) bodySvg.push('<circle cx="0" cy="0" r="9" fill="#5e5e5e"/>');
+        bodySvg.push('<circle cx="0" cy="0" r="8" fill="#202020"/>');
+
+        let percentMove = 25.1/50*moveCount;
+        let rotateMove = Math.ceil(90-(180/50*moveCount-180/50)-5);
+
+        let percentWork = 25.1/50*workCount;
+        let rotateWork = Math.ceil((90-(180/50*workCount-180/50)-5))-180;
+
+        if (workCount > 0 && attackCount > 0) attackCount += workCount;
+        let percentAttack = 25.1/50*attackCount;
+        let rotateAttack = Math.ceil((90-(180/50*attackCount-180/50)-5))-180;
+
+        if (attackCount > 0 && rangedAttackCount > 0) rangedAttackCount += attackCount;
+        if (rangedAttackCount > 0 && attackCount < 1 && workCount > 0) rangedAttackCount += workCount
+        let percentRangedAttack = 25.1/50*rangedAttackCount;
+        let rotateRangedAttack = Math.ceil((90-(180/50*rangedAttackCount-180/50)-5))-180;
+
+        if (rangedAttackCount > 0 && healCount > 0) healCount += rangedAttackCount;
+        if (healCount > 0 && rangedAttackCount < 1 && attackCount > 0) healCount += attackCount
+        else if (healCount > 0 && rangedAttackCount < 1 && workCount > 0) healCount += workCount
+        let percentHeal = 25.1/50*healCount;
+        let rotateHeal = Math.ceil((90-(180/50*healCount-180/50)-5))-180;
+
+        if (rangedAttackCount > 0 && claimCount > 0) claimCount += rangedAttackCount;
+        if (claimCount > 0 && rangedAttackCount < 1 && attackCount > 0) claimCount += attackCount
+        else if (claimCount > 0 && rangedAttackCount < 1 && workCount > 0) claimCount += workCount
+        else if (claimCount > 0 && rangedAttackCount < 1 && attackCount < 1 && workCount < 1 && healCount > 0) claimCount += workCount
+        let percentClaim = 25.1/50*claimCount;
+        let rotateClaim = Math.ceil((90-(180/50*claimCount-180/50)-5))-180;
+
+        if (moveCount > 0) bodySvg.push('<circle cx="0" cy="0" r="4" transform="rotate('+rotateMove+')" stroke-width="8" stroke-dasharray="'+percentMove+', 26" stroke="#A9B7C6" fill="none" />')
+        if (claimCount > 0) bodySvg.push('<circle cx="0" cy="0" r="4" transform="rotate('+rotateClaim+')" stroke-width="8" stroke-dasharray="'+percentClaim+', 26" stroke="#B99CFB" fill="none" />')
+        if (healCount > 0) bodySvg.push('<circle cx="0" cy="0" r="4" transform="rotate('+rotateHeal+')" stroke-width="8" stroke-dasharray="'+percentHeal+', 26" stroke="#65FD62" fill="none" />')
+        if (rangedAttackCount > 0) bodySvg.push('<circle cx="0" cy="0" r="4" transform="rotate('+rotateRangedAttack+')" stroke-width="8" stroke-dasharray="'+percentRangedAttack+', 26" stroke="#5D80B2" fill="none" />')
+        if (attackCount > 0) bodySvg.push('<circle cx="0" cy="0" r="4" transform="rotate('+rotateAttack+')" stroke-width="8" stroke-dasharray="'+percentAttack+', 26" stroke="#F93842" fill="none" />')
+        if (workCount > 0) bodySvg.push('<circle cx="0" cy="0" r="4" transform="rotate('+rotateWork+')" stroke-width="8" stroke-dasharray="'+percentWork+', 26" stroke="#FFE56D" fill="none" />')
+        //body.push('<svg viewBox="0 0 ' + width + ' ' + height + '"> <circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" stroke="black" stroke-width="1" fill="#202020"/>')
+        bodySvg.push('<image x="-5.7" y="-5.7" width="11.5" height="11.5" xlink:href="' + PlayerLink() + '"/> <circle cx="0" cy="0" r="5.8" stroke-width="0.6" stroke="black" fill="none"/>')
+        bodySvg.push('</svg>');
+        bodySvg = bodySvg.join("");
+        return bodySvg;
+    };
+
+    global.AmountResource = function (info) {
+        let room = info.room || null
+        const resource = info.resource || null;
+
+        let amount = 0;
+        let storeStr = [];
+        let allStr = [];
+
+        if (resource) {
+            if (room != null) {
+
+                storeStr = Game.rooms[room].find(FIND_STRUCTURES, {
+                    filter: (structure) => {
+                        return (structure.store);
+                    }
+                });
+
+                if (storeStr.length > 0) {
+                    for (i in storeStr) {
+                        amount += storeStr[i].store[resource];
+                    }
+                }
+
+                return amount;
+
+            } else {
+
+                for (i in Game.rooms) {
+                    room = Game.rooms[i];
+                    storeStr = room.find(FIND_STRUCTURES, {
+                        filter: (structure) => {
+                            return (structure.store);
+                        }
+                    });
+        
+                    allStr = allStr.concat(storeStr);
+                }
+        
+                for (i in allStr) {
+                    if (allStr[i].store[resource] > 0) amount += allStr[i].store[resource];
+                }
+
+                return amount;
+            }
+        } else {
+            return 0;
+        }
+    };
+
+    global.ResourceImg = function(resource) {
+        return '<a target="_blank" href="https://screeps.com/a/#!/market/all/' + Game.shard.name + '/' + resource + '"><img src ="https://s3.amazonaws.com/static.screeps.com/upload/mineral-icons/' + resource + '.png" /></a>';
+    };
+
+    global.PlayerLink = function() {
+        let nickName = null;
+        for(var i in Game.spawns) {
+            nickName = Game.spawns[i].owner.username;
+            break;
+        }
+        return 'https://screeps.com/api/user/badge-svg?username=' + nickName;
+    };
+
+    global.Calc_time = function (info) {
+        const time = info.ticks || 0;
+        const tickRate = info.rate || 2.8;
+
+        outTime = [];
+        outTime.push("Amount TICKS: " + time);
+        outTime.push("Amount seconds: " + Math.round(time * tickRate));
+        if (time * tickRate > 60) {
+            outTime.push("Amount minutes: " + Math.round(time * tickRate / 60));
+            if (time * tickRate / 60 > 60) {
+                outTime.push("Amount hours: " + Math.round(time * tickRate / 60 / 60));
+                if (time * tickRate / 60 / 60 > 24) {
+                    outTime.push("Amount days: " + Math.round(time * tickRate / 60 / 60 / 24));
+                }
+            }
+        }
+        outTime = outTime.join("\n");
+        return outTime
+    }
+
+    global.SVG_body = function (info) {
+        const color = info.color || "black";
+        const count = info.count || 1;
+        const width = info.width || 16;
+        const height = info.height || 16;
+
+        const cx = width / 2;
+        const cy = height / 2;
+        const r = cx;
+
+        body = [];
+        for (let i = 0; i < count; i += 1) {
+            body.push('<svg width="' + width + '" height="' + height + '"> <circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" stroke="black" stroke-width="1" fill="' + color + '"/></svg>');
+        }
+        body = body.join("");
+        return body;
+    };
+}
+
+function Global_function() {
+    global.help = function (com) {
+        let help = [];
+        if (com == "CreepBuilder") {
+            help.push("CreepBuilder");
+            help.push("\nGet amount BODY PARTS:");
+            help.push("MOVE {move:N}");
+            help.push("CARRY {carry:N}");
+            help.push("WORK {work:N}");
+            help.push("ATTACK {attack:N}");
+            help.push("RANGED_ATTACK {rangedAttack:N}");
+            help.push("HEAL {heal:N}");
+            help.push("TOUGH {tough:N}");
+            help.push("CLAIM {claim:N}");
+            help.push("Default all parameters is 0. \nN - amount.");
+            help.push("\nSo, if you want create creep with 2 WORK and 2 MOVE, you need write in console: CreepBuilder({work:2, move:2})");
+            help.push("\nOr you can type:");
+            help.push("m = move");
+            help.push("c = carry");
+            help.push("w = work");
+            help.push("a = attack");
+            help.push("r = rangedAttack");
+            help.push("h = heal");
+            help.push("t = tough");
+            help.push("x = claim");
+            help.push("\nSo, if you want create creep with 2 WORK and 2 MOVE, you need write in console: CreepBuilder(null, \"2w2m\") or CreepBuilder(null, \"wwmm\") or CreepBuilder(null, \"2(mw)\")");
+            help = help.join("\n");
+            return help;
+        } else {
+            help.push("info()                              - Print information about all your rooms")
+            help.push("Calc_time(time, tickRate)           - Convert ticks to real time")
+            help.push("  * time                            - amount TICKS.")
+            help.push("  * tickRate                        - Tick rate of server. NOT NECESSARY. Default: 2.69")
+            help.push("Creeps(body, bodyString, {CreepInfo}) - Calculate cost and time of build creep")
+            help.push("  * body                            - List with creep's body")
+            help.push("  * bodyString                      - String with creep's body")
+            help.push("  * creepRole                       - Only for my code")
+            help.push("CreepBuilder({body, stringBody})     - Build creep");
+            help.push("  * body, stringBody                - help(\"CreepBuilder\") for learn about this parameter");
+            help.push("MarketInfo()                       - Output information about basic resources at market");
+            help.push("MyResources({})                  - Output information about all your resources");
+            help.push("  * hide                            - true or false. If true, than you will not see resources if you don't have they. NOT NECESSARY. Default: false. For example: MyRecources({hide: true})");
+            help = help.join("\n");
+            return help;
+        }
+    };
+
+    global.info = function () {
+
+        let info = [];
+        let myRooms = [];
+
+        for (let i in Game.rooms) {
+            let room = Game.rooms[i];
+            if (room.controller && room.controller.my) {
+                myRooms.push(room);
+            }
+        }
+
+        for (let i in myRooms) {
+            let spawn = myRooms[i].find(FIND_MY_SPAWNS)[0];
+            info.push("\n\n--------------------------")
+            info.push('\nRoom name: ' + spawn.room.name );
+            //
+            info.push("\n\n")
+            //
+            info.push("<table align=\"center\" border=\"1\">");
+            info.push('<caption>ENERGY FOR SPAWN\n' + progressBar(Math.round(spawn.room.energyAvailable/spawn.room.energyCapacityAvailable*100)) + '\n(' + (Math.round(spawn.room.energyAvailable/spawn.room.energyCapacityAvailable*100)) + '%)\n\n</caption>');
+            info.push("<tr>");
+            info.push("<th> AVAILABLE </th>");
+            info.push("<th> CAPACITY </th>");
+            info.push("</tr>");
+            info.push("<tr>");
+            info.push("<td> " + spawn.room.energyAvailable + "</td>");
+            info.push("<td> " + spawn.room.energyCapacityAvailable + "</td>");
+            info.push("</tr>");
+            info.push("</table>");
+            //
+            info.push("\n")
+            //
+            info.push("<table align=\"center\" border=\"1\">");
+            info.push('<caption>CONTROLLER\n' + progressBar(Math.round(spawn.room.controller.progress / spawn.room.controller.progressTotal * 100)) + '\n(' + (Math.round(spawn.room.controller.progress / spawn.room.controller.progressTotal * 100)) + '%)\n\n</caption>');
+            info.push("<tr>");
+            info.push("<th> LEVEL </th>");
+            info.push("<th> SAFE MODE AVAILABLE </th>");
+            info.push("</tr>");
+            info.push("<tr>");
+            info.push("<td> " + spawn.room.controller.level + "</td>");
+            info.push("<td> " + spawn.room.controller.safeModeAvailable + "</td>");
+            info.push("</tr>");
+            info.push("</table>");
+            //
+            info.push("\n")
+            //
+            if (spawn.room.storage) {
+                info.push("<table align=\"center\" border=\"1\">");
+                info.push('<caption>STORAGE\n' + progressBar(Math.round(spawn.room.storage.store.getUsedCapacity() / spawn.room.storage.store.getCapacity() * 100)) + '\n(' + (Math.round(spawn.room.storage.store.getUsedCapacity() / spawn.room.storage.store.getCapacity() * 100)) + '%)\n\n</caption>');
+                info.push("<tr>");
+                info.push("<th></th>");
+                info.push("<th> USED CAPACITY </th>");
+                info.push("<th> FREE CAPACITY </th>");
+                info.push("</tr>");
+
+                for (z in resources) {
+                    if (spawn.room.storage.store[resources[z]] > 0) {
+                        info.push("<tr>"); info.push("<td> " + ResourceImg(resources[z]) + "</td>"); 
+                        info.push("<td> " + spawn.room.storage.store[resources[z]]/1000 + "</td>"); i
+                        info.push("<td> " + spawn.room.storage.store.getFreeCapacity()/1000 + "</td>"); 
+                        info.push("</tr>");
+                    }
+                }
+                info.push("</table>");
+            }
+            //
+            info.push("\n")
+            //
+            if (spawn.room.terminal) {
+                info.push("<table align=\"center\" border=\"1\">");
+                info.push('<caption>TERMINAL\n' + progressBar(Math.round(spawn.room.storage.store.getUsedCapacity() / spawn.room.storage.store.getCapacity() * 100)) + '\n(' + (Math.round(spawn.room.storage.store.getUsedCapacity() / spawn.room.storage.store.getCapacity() * 100)) + '%)\n\n</caption>');
+                info.push("<tr>");
+                info.push("<th></th>");
+                info.push("<th> USED CAPACITY </th>");
+                info.push("<th> FREE CAPACITY </th>");
+                info.push("</tr>");
+
+                for (z in resources) {
+                    if (spawn.room.terminal.store[resources[z]] > 0) {
+                        info.push("<tr>"); info.push("<td> " + ResourceImg(resources[z]) + "</td>"); 
+                        info.push("<td> " + spawn.room.terminal.store[resources[z]]/1000 + "</td>"); i
+                        info.push("<td> " + spawn.room.terminal.store.getFreeCapacity()/1000 + "</td>"); 
+                        info.push("</tr>");
+                    }
+                }
+                info.push("</table>");
+            }
+        }
+
+        info = info.join("");
+
+        return info
+    }
+
+    global.MyResources = function(info) {
+        const hide = info.hide || false;
+        const room = info.room || null;
+
+        let table = [];
+
+        table.push("<table border=\"1\">");
+        table.push('<caption> RESOURCE\n</caption>');
+        table.push("<tr>");
+        table.push("<th></th>");
+        table.push("<th> AMOUNT </th>");
+        table.push("</tr>");
+
+        for (i in RESOURCES_ALL) {
+            const resource = RESOURCES_ALL[i]
+
+            if (!hide) {
+                table.push("<tr>"); 
+                table.push("<td> " + ResourceImg(resource) + " </td>");
+                table.push("<td> " + AmountResource({room: room, resource: resource}) + " </td>");
+                table.push("</tr>");
+            } else {
+                if (AmountResource({room: room, resource: resource}) > 0) {
+                    table.push("<tr>"); 
+                    table.push("<td> " + ResourceImg(resource) + " </td>");
+                    table.push("<td> " + AmountResource({room: room, resource: resource}) + " </td>");
+                    table.push("</tr>");
+                }
+            }
+        }
+
+        table = table.join("");
+        return table;
+    };
+
     global.Creeps = function (body = null, bodyString = null, creepInfo = null) {
         if (body || bodyString || creepInfo) {
             if (bodyString) {
@@ -549,12 +599,11 @@ function params() {
             }
             if (creepInfo) {
                 let room = Game.rooms[creepInfo.room];
-                let role = creepInfo.role || null;
+                let role = creepInfo.role;
                 let pattern = creepInfo.pattern || null;
                 let spawn = room.find(FIND_MY_SPAWNS)[0];
 
                 body = require("role.spawn").getBody(spawn, role, pattern);
-                console.log(body)
             }
 
             let bodyCount = 0;
@@ -898,107 +947,103 @@ function params() {
             return "Body undefined"
         }
     };
-    global.info = function () {
 
-        const resources = [RESOURCE_ENERGY, RESOURCE_POWER, RESOURCE_OPS, RESOURCE_HYDROGEN, RESOURCE_OXYGEN, RESOURCE_UTRIUM, RESOURCE_LEMERGIUM, RESOURCE_LEMERGIUM, RESOURCE_KEANIUM, RESOURCE_ZYNTHIUM, RESOURCE_CATALYST, RESOURCE_GHODIUM];
+    global.marketInfo = function() {
 
-        let info = [];
-        let myRooms = [];
+        let amountSell;
+        let amountBuy;
+        let priceSell;
+        let lastPriceSell;
+        let priceBuy;
+        let lastPriceBuy;
 
-        for (let i in Game.rooms) {
-            let room = Game.rooms[i];
-            if (room.controller && room.controller.my) {
-                myRooms.push(room);
+        result = [];
+        result.push("<table border=\"1\">");
+        result.push('<caption> MARKET\n</caption>');
+        result.push("<tr>");
+        result.push("<th></th>");
+        result.push("<th> MIN SELL PRICE </th>");
+        result.push("<th> AMOUNT ON SELL </th>");
+        result.push("<th> MAX SELL PRICE </th>");
+        result.push("<th> AMOUNT SELL ORDERS </th>");
+        result.push("<th></th>");
+        result.push("<th> MIN BUY PRICE </th>");
+        result.push("<th> AMOUNT ON BUY </th>");
+        result.push("<th> MAX BUY PRICE </th>");
+        result.push("<th> AMOUNT BUY ORDERS </th>");
+        result.push("</tr>");
+
+
+        const orders = Game.market.getAllOrders();
+
+        let test;
+
+        test = _.groupBy(orders,o=>o.type);
+
+        for (i in RESOURCES_ALL) {
+
+            let resources = RESOURCES_ALL[i]
+
+            let orderMinerals = orders.filter(order => order.resourceType == resources)
+
+            let ordersSell = orderMinerals.filter(order => order.type == "sell");
+            let ordersBuy = orderMinerals.filter(order => order.type == "buy");
+
+            ordersSell.sort((a,b) => a.price - b.price);
+            ordersBuy.sort((a,b) => a.price - b.price);
+
+            if (ordersSell[0] && ordersSell[0].price) {
+                priceSell = ordersSell[0].price;
+                lastPriceSell = ordersSell[ordersSell.length-1].price
+            } else {
+                priceSell = " - ";
+                lastPriceSell = " - ";
             }
-        }
-        for (let i in myRooms) {
-            let spawn = myRooms[i].find(FIND_MY_SPAWNS)[0];
-            info.push("\n\n--------------------------")
-            info.push('\nRoom name: ' + spawn.room.name );
-            //
-            info.push("\n\n")
-            //
-            info.push("<table align=\"center\" border=\"1\">");
-            info.push('<caption>ENERGY FOR SPAWN\n' + progressBar(Math.round(spawn.room.energyAvailable/spawn.room.energyCapacityAvailable*100)) + '\n(' + (Math.round(spawn.room.energyAvailable/spawn.room.energyCapacityAvailable*100)) + '%)\n\n</caption>');
-            info.push("<tr>");
-            info.push("<th> AVAILABLE </th>");
-            info.push("<th> CAPACITY </th>");
-            info.push("</tr>");
-            info.push("<tr>");
-            info.push("<td> " + spawn.room.energyAvailable + "</td>");
-            info.push("<td> " + spawn.room.energyCapacityAvailable + "</td>");
-            info.push("</tr>");
-            info.push("</table>");
-            //
-            info.push("\n")
-            //
-            info.push("<table align=\"center\" border=\"1\">");
-            info.push('<caption>CONTROLLER\n' + progressBar(Math.round(spawn.room.controller.progress / spawn.room.controller.progressTotal * 100)) + '\n(' + (Math.round(spawn.room.controller.progress / spawn.room.controller.progressTotal * 100)) + '%)\n\n</caption>');
-            info.push("<tr>");
-            info.push("<th> LEVEL </th>");
-            info.push("<th> SAFE MODE AVAILABLE </th>");
-            info.push("</tr>");
-            info.push("<tr>");
-            info.push("<td> " + spawn.room.controller.level + "</td>");
-            info.push("<td> " + spawn.room.controller.safeModeAvailable + "</td>");
-            info.push("</tr>");
-            info.push("</table>");
-            //
-            info.push("\n")
-            //
-            if (spawn.room.storage) {
-                info.push("<table align=\"center\" border=\"1\">");
-                info.push('<caption>STORAGE\n' + progressBar(Math.round(spawn.room.storage.store.getUsedCapacity() / spawn.room.storage.store.getCapacity() * 100)) + '\n(' + (Math.round(spawn.room.storage.store.getUsedCapacity() / spawn.room.storage.store.getCapacity() * 100)) + '%)\n\n</caption>');
-                info.push("<tr>");
-                info.push("<th></th>");
-                info.push("<th> USED CAPACITY </th>");
-                info.push("<th> FREE CAPACITY </th>");
-                info.push("</tr>");
 
-                for (z in resources) {
-                    if (spawn.room.storage.store[resources[z]] > 0) {
-                        info.push("<tr>"); info.push("<td> " + resourceImg(resources[z]) + "</td>"); 
-                        info.push("<td> " + spawn.room.storage.store[resources[z]]/1000 + "</td>"); i
-                        info.push("<td> " + spawn.room.storage.store.getFreeCapacity()/1000 + "</td>"); 
-                        info.push("</tr>");
-                    }
-                }
-                info.push("</table>");
+            if (ordersBuy[0] && ordersBuy[0].price) {
+                priceBuy = ordersBuy[0].price;
+                lastPriceBuy = ordersBuy[ordersBuy.length-1].price
+            } else {
+                priceBuy = " - ";
+                lastPriceBuy = " - ";
             }
-            //
-            info.push("\n")
-            //
-            if (spawn.room.terminal) {
-                info.push("<table align=\"center\" border=\"1\">");
-                info.push('<caption>TERMINAL\n' + progressBar(Math.round(spawn.room.storage.store.getUsedCapacity() / spawn.room.storage.store.getCapacity() * 100)) + '\n(' + (Math.round(spawn.room.storage.store.getUsedCapacity() / spawn.room.storage.store.getCapacity() * 100)) + '%)\n\n</caption>');
-                info.push("<tr>");
-                info.push("<th></th>");
-                info.push("<th> USED CAPACITY </th>");
-                info.push("<th> FREE CAPACITY </th>");
-                info.push("</tr>");
 
-                for (z in resources) {
-                    if (spawn.room.terminal.store[resources[z]] > 0) {
-                        info.push("<tr>"); info.push("<td> " + resourceImg(resources[z]) + "</td>"); 
-                        info.push("<td> " + spawn.room.terminal.store[resources[z]]/1000 + "</td>"); i
-                        info.push("<td> " + spawn.room.terminal.store.getFreeCapacity()/1000 + "</td>"); 
-                        info.push("</tr>");
-                    }
-                }
-                info.push("</table>");
+            if (ordersSell[0] && ordersSell[0].amount) {
+                amountSell = ordersSell[0].amount;
+                if (amountSell > 1000) amountSell = amountSell / 1000 + "K"
             }
+            else amountSell = " - ";
+
+            if (ordersBuy[0] && ordersBuy[0].amount) {
+                amountBuy = ordersBuy[ordersBuy.length-1].amount;
+                if (amountBuy > 1000) amountBuy = amountBuy / 1000 + "K"
+
+            } else amountBuy = " - ";
+
+            result.push("<tr>"); 
+            result.push("<td> " + ResourceImg(resources) + " </td>"); 
+            result.push("<td> " + priceSell + " </td>");
+            result.push("<td> " + amountSell + " </td>");
+            result.push("<td> " + lastPriceSell + " </td>");
+            result.push("<td> " + ordersSell.length + " </td>");
+            result.push("<td> " + ResourceImg(resources) + " </td>"); 
+            result.push("<td> " + priceBuy + " </td>");
+            result.push("<td> " + amountBuy + " </td>");
+            result.push("<td> " + lastPriceBuy + " </td>");
+            result.push("<td> " + ordersBuy.length + " </td>"); 
+            result.push("</tr>");
         }
 
-        info = info.join("");
-
-        return info
+        result = result.join("");
+        return result
     }
 }
 
 let ConsoleSetting = {
     setting(console) {
 
-        params();
+        Tools();
+        Global_function();
 
     }
 }
