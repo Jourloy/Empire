@@ -37,7 +37,10 @@ let roleSpawn = {
             pattern = [WORK]; 
             count = 20;
         }
-        if (role == 'DroneWarrior' || role == "DroneHelperWarrior") pattern = [ATTACK];
+        if (role == 'DroneWarrior' || role == "DroneHelperWarrior") {
+            pattern = [ATTACK];
+            count = 6;
+        }
         if (role == "DroneSeller") {
             pattern = [CARRY]; 
             count = 10;
@@ -77,7 +80,10 @@ let roleSpawn = {
             pattern = [WORK];
             count = 10;
         }
-        if (role == 'DroneWarrior' || role == "DroneHelperWarrior") pattern = [ATTACK];
+        if (role == 'DroneWarrior' || role == "DroneHelperWarrior") {
+            pattern = [ATTACK];
+            count = 6;
+        }
         if (role == "DroneSeller") {
             pattern = [CARRY]; 
             count = 10;
@@ -94,11 +100,7 @@ let roleSpawn = {
         if (role == "DroneHelperHealer") pattern = [HEAL];
         if (role == "DroneHelperArcher") pattern = [RANGED_ATTACK];
 
-        if (spawn.spawning == null) {
-            spawn.memory.spawningCreep = role;
-        }
-
-        spawn.spawnCreep(getBodyParts(spawn, pattern, count), newName, { memory: { role: role } });
+        if (spawn.spawning == null) spawn.spawnCreep(getBodyParts(spawn, pattern, count), newName, { memory: { role: role } });
     }
 };
 module.exports = roleSpawn;
