@@ -12,49 +12,47 @@ module.exports.loop = function () {
     //require("Nydus").run();
     require("role.tower").control();
 
-    let room = 0;
     let spawns;
     let spawn;
-    let rooms = []
 
     for (z in Game.rooms) {
         room = Game.rooms[z];
 
         if (room.controller && room.controller.my) {
-            rooms.push(room);
+            if (room.terminal) require("Terminal").control(room);
         }
     }
-    for (z in rooms) {
-        room = rooms[z]
+
+    if (Memory.order.length > 0) {
+        let room = Memory.order[0].Room;
         spawns = room.find(FIND_STRUCTURES, {
             filter: (structure) => {
                 return (structure.structureType == STRUCTURE_SPAWN);
             }
         });
+        if (spawns.length > 0) {
+            console.log(spawns[0].spawning)
+            if (spawns[0].spawning == null) {
+                spawn = spawns[0];
+                role = Memory.order[0].Role;
 
-        for (i in spawns) {
-            if (spawns[i].spawning == null) spawns[i].memory.spawningCreep = null;
-        }
-        
-        if (Game.time%5 < 2) spawn = spawns[0];
-        else spawn = spawns[1] || spawns[0];
-        if (room.terminal) require("Terminal").control(room);
+                require("role.spawn").run(spawn, role);
+            } else if (spawns[1].spawning == null) {
+                spawn = spawns[1];
+                role = Memory.order[0].Role;
 
-        for (i in Memory.roles) {
-            if (spawn != undefined && Memory.room[room.name + ".amount." + Memory.roles[i]] > Memory.room[room.name + ".amountIsLive." + Memory.roles[i]]) {
-                require("role.spawn").run(spawn, Memory.roles[i]);
+                require("role.spawn").run(spawn, role);
+            } else {
+                spawn = spawns[2];
+                role = Memory.order[0].Role;
+
+                require("role.spawn").run(spawn, role);
             }
-        }
-    }
+        } else {
+            spawn = spawns[0];
+            role = Memory.order[0].Role;
 
-    if (Game.time%51 == 20) {
-        console.log("==============");
-        for (z in rooms) {
-            console.log("-------------");
-            room = rooms[z]
-            for (i in Memory.roles) {
-                console.log("ROOM: " + room.name + " | ROLE: " + Memory.roles[i] + " | AMOUNT: " + Memory.room[room.name + ".amountIsLive." + Memory.roles[i]] + " / " + Memory.room[room.name + ".amount." + Memory.roles[i]])
-            }
+            require("role.spawn").run(spawn, role);
         }
     }
 };
