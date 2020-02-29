@@ -25,6 +25,18 @@ function amountCreeps() {
 
         if (room.controller && room.controller.my) {
 
+            for (i in Memory.roles) {
+                if (Memory.roles[i] == "DroneSeller") {
+                    if (room.storage && room.terminal) {
+                        if (room.storage.store[RESOURCE_ENERGY] > Memory.storageEnergyCapacity + 50000) Memory.room[room.name + ".amount.DroneSeller"] = 1;
+                        if (room.terminal.store[RESOURCE_ENERGY] < 10000 && room.storage.store[RESOURCE_ENERGY] > Memory.storageEnergyCapacity + 10000) Memory.room[room.name + ".amount.DroneSeller"] = 1;
+                        for (y in RESOURCES_ALL) {
+                            if (room.storage.store[RESOURCES_ALL[y]] > 12000) Memory.room[room.name + ".amount.DroneSeller"] = 1;
+                        }
+                    }
+                }
+            }
+
             if (room.name == "W49S28") {
                 if (!sourceInRoom[0].ticksToRegeneration && extractor.length > 0) Memory.room[room.name + ".amount.DroneMineralMiner"] = 1;
                 if (constructionSite.length > 0) Memory.room[room.name + ".amount.DroneBuilder"] = 1;
@@ -48,7 +60,7 @@ function amountCreeps() {
                     Memory.room[room.name + ".amount.DroneHelperWarrior"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperHealer"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperArcher"] = 0;
-                    Memory.room[room.name + ".amount.DroneHelperTransporter"] = 5;
+                    Memory.room[room.name + ".amount.DroneHelperTransporter"] = 0;
                 }
             } else if (room.name == "W49S29") {
                 if (!sourceInRoom[0].ticksToRegeneration && extractor.length > 0) Memory.room[room.name + ".amount.DroneMineralMiner"] = 1;
@@ -82,18 +94,6 @@ function amountCreeps() {
                 Memory.room[room.name + ".amount.DroneMiner2"] = 1;
                 Memory.room[room.name + ".amount.DroneUpgrader"] = 1;
             }
-
-            for (i in Memory.roles) {
-                if (Memory.roles[i] == "DroneSeller") {
-                    if (room.storage && room.terminal) {
-                        if (room.storage.store[RESOURCE_ENERGY] > Memory.storageEnergyCapacity + 50000) Memory.room[room.name + ".amount.DroneSeller"] = 1;
-                        if (room.terminal.store[RESOURCE_ENERGY] < 10000 && room.storage.store[RESOURCE_ENERGY] > Memory.storageEnergyCapacity + 10000) Memory.room[room.name + ".amount.DroneSeller"] = 1;
-                        for (y in RESOURCES_ALL) {
-                            if (room.storage.store[RESOURCES_ALL[y]] > 12000) Memory.room[room.name + ".amount.DroneSeller"] = 1;
-                        }
-                    }
-                }
-            }
         }
     }
 }
@@ -122,7 +122,6 @@ function amountCreepsIsLive() {
             for (i in spawns) {
                 if (spawns[i].spawning != null && spawns[i].spawning.remainingTime > spawns[i].spawning.needTime - 10) {
                     Memory.room[room.name + ".amountIsLive." + spawns[i].memory.spawningCreep]++;
-                    //console.log(Memory.room[room.name + ".amountIsLive." + spawns[i].memory.spawningCreep] + " | " + memory.spawningCreep)
                 }
             }
         }
@@ -139,10 +138,28 @@ function runCreep() {
         else console.log(`Invalid creep role ${creep.memory.role}`);
     }
 }
+
+function Calculate_creeps() {
+    Memory.order = [];
+
+    for (i in Memory.roles) {
+        for (z in Game.rooms) {
+            if (Game.rooms[z].controller && Game.rooms[z].controller.my) {
+                room = Game.rooms[z];
+                role = Memory.roles[i];
+                if ((!Memory.room[room.name + ".amountIsLive." + Memory.roles[i]] && Memory.room[room.name + ".amount." + Memory.roles[i]] > 0) || (Memory.room[room.name + ".amountIsLive." + Memory.roles[i]] < Memory.room[room.name + ".amount." + Memory.roles[i]])) {
+                    Memory.order.push({Role: role, Room: room});
+                }
+            }
+        }
+    }
+}
+
 const Control = {
     control() {
         amountCreeps();
         amountCreepsIsLive();
+        Calculate_creeps();
         runCreep();
     }
 }
