@@ -1,4 +1,6 @@
 function Tools() {
+    global.resources = RESOURCES_ALL;
+    
     global.svgBody = function (color, count = 1, width = 16, height = 16) {
         const cx = width / 2;
         const cy = height / 2;
@@ -375,44 +377,6 @@ function Tools() {
         }
         return 'https://screeps.com/api/user/badge-svg?username=' + nickName;
     };
-
-    global.Calc_time = function (info) {
-        const time = info.ticks || 0;
-        const tickRate = info.rate || 2.8;
-
-        outTime = [];
-        outTime.push("Amount TICKS: " + time);
-        outTime.push("Amount seconds: " + Math.round(time * tickRate));
-        if (time * tickRate > 60) {
-            outTime.push("Amount minutes: " + Math.round(time * tickRate / 60));
-            if (time * tickRate / 60 > 60) {
-                outTime.push("Amount hours: " + Math.round(time * tickRate / 60 / 60));
-                if (time * tickRate / 60 / 60 > 24) {
-                    outTime.push("Amount days: " + Math.round(time * tickRate / 60 / 60 / 24));
-                }
-            }
-        }
-        outTime = outTime.join("\n");
-        return outTime
-    }
-
-    global.SVG_body = function (info) {
-        const color = info.color || "black";
-        const count = info.count || 1;
-        const width = info.width || 16;
-        const height = info.height || 16;
-
-        const cx = width / 2;
-        const cy = height / 2;
-        const r = cx;
-
-        body = [];
-        for (let i = 0; i < count; i += 1) {
-            body.push('<svg width="' + width + '" height="' + height + '"> <circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" stroke="black" stroke-width="1" fill="' + color + '"/></svg>');
-        }
-        body = body.join("");
-        return body;
-    };
 }
 
 function Global_function() {
@@ -443,7 +407,25 @@ function Global_function() {
             help.push("\nSo, if you want create creep with 2 WORK and 2 MOVE, you need write in console: CreepBuilder(null, \"2w2m\") or CreepBuilder(null, \"wwmm\") or CreepBuilder(null, \"2(mw)\")");
             help = help.join("\n");
             return help;
+        } else if (com == "tools") {
+            help.push("resources - return all resources in game")
+            help.push("svgBody(color, count*) - return body of creep. * - optional.")
+            help.push("pushNotification - push notification :)")
+            help.push("progressBar(percent) - return progress bar")
+            help.push("CreepBuilder({body, stringBody})     - Build creep");
+            help.push("  * body, stringBody                - help(\"CreepBuilder\") for learn about this parameter");
+            help.push("svgCreep(body) - return appearance of your creep")
+            help.push("  * body                            - List with creep's body")
+            help.push("AmountResource(resource) - return amount resource in all your structures")
+            help.push("ResourceImg - return image of resource from market")
+            help.push("PlayerLink - return your link at badge");
+            help = help.join("\n");
+            return help;
         } else {
+            help.push("help(command)                       - Print information about coomands")
+            help.push("  * \"CreepBuilder\"                  - Print information about this command. [ help(\"CreepBuilder\") ]")
+            help.push("  * \"tools\"                         - Print information about tools. [ help(\"tools\") ]")
+            help.push("  * nothing                         - Print this information. [ help() ]")
             help.push("info()                              - Print information about all your rooms")
             help.push("Calc_time(time, tickRate)           - Convert ticks to real time")
             help.push("  * time                            - amount TICKS.")
@@ -452,15 +434,33 @@ function Global_function() {
             help.push("  * body                            - List with creep's body")
             help.push("  * bodyString                      - String with creep's body")
             help.push("  * creepRole                       - Only for my code")
-            help.push("CreepBuilder({body, stringBody})     - Build creep");
-            help.push("  * body, stringBody                - help(\"CreepBuilder\") for learn about this parameter");
-            help.push("MarketInfo()                       - Output information about basic resources at market");
-            help.push("MyResources({})                  - Output information about all your resources");
+            help.push("MarketInfo()                       - Print information about basic resources at market");
+            help.push("MyResources({})                  - Print information about all your resources");
             help.push("  * hide                            - true or false. If true, than you will not see resources if you don't have they. NOT NECESSARY. Default: false. For example: MyRecources({hide: true})");
             help = help.join("\n");
             return help;
         }
     };
+
+    global.Calc_time = function (info) {
+        const time = info.ticks || 0;
+        const tickRate = info.rate || 2.8;
+
+        outTime = [];
+        outTime.push("Amount TICKS: " + time);
+        outTime.push("Amount seconds: " + Math.round(time * tickRate));
+        if (time * tickRate > 60) {
+            outTime.push("Amount minutes: " + Math.round(time * tickRate / 60));
+            if (time * tickRate / 60 > 60) {
+                outTime.push("Amount hours: " + Math.round(time * tickRate / 60 / 60));
+                if (time * tickRate / 60 / 60 > 24) {
+                    outTime.push("Amount days: " + Math.round(time * tickRate / 60 / 60 / 24));
+                }
+            }
+        }
+        outTime = outTime.join("\n");
+        return outTime
+    }
 
     global.info = function () {
 
