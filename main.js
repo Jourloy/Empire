@@ -24,7 +24,7 @@ module.exports.loop = function () {
     }
 
     if (Memory.queue.length > 0) {
-        let room = Memory.queue[0].Room;
+        let room = Game.rooms[Memory.queue[0].Room];
         let spawns = room.find(FIND_STRUCTURES, {
             filter: (structure) => {
                 return (structure.structureType == STRUCTURE_SPAWN);
@@ -47,7 +47,7 @@ module.exports.loop = function () {
 
                 require("role.spawn").run(spawn, role);
             } else {
-                if (Game.time%11 == 10) console.log("[ERROR] In " + spawns[0].room.name + " all spawns are busy! In order " + Memory.queue.length + " creep(s)")
+                if (Game.time % 11 == 10) console.log("[ERROR] In " + spawns[0].room.name + " all spawns are busy! In order " + Memory.queue.length + " creep(s)")
             }
         } else if (spawns[0].spawning == null) {
             spawn = spawns[0];
@@ -55,7 +55,7 @@ module.exports.loop = function () {
 
             require("role.spawn").run(spawn, role);
         } else {
-            if (Game.time%11 == 10) console.log("[ERROR] In " + room.name + " all spawns are busy! In order " + Memory.queue.length + " creep(s)")
+            if (Game.time % 11 == 10) console.log("[ERROR] In " + room.name + " all spawns are busy! In order " + Memory.queue.length + " creep(s)")
         }
     }
 };
