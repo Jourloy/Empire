@@ -422,6 +422,10 @@ function Global_function() {
             help = help.join("\n");
             return help;
         } else {
+            help.push("help(command)                       - Print information about coomands")
+            help.push("  * \"CreepBuilder\"                  - Print information about this command. [ help(\"CreepBuilder\") ]")
+            help.push("  * \"tools\"                         - Print information about tools. [ help(\"tools\") ]")
+            help.push("  * nothing                         - Print this information. [ help() ]")
             help.push("info()                              - Print information about all your rooms")
             help.push("Calc_time(time, tickRate)           - Convert ticks to real time")
             help.push("  * time                            - amount TICKS.")
@@ -430,8 +434,10 @@ function Global_function() {
             help.push("  * body                            - List with creep's body")
             help.push("  * bodyString                      - String with creep's body")
             help.push("  * creepRole                       - Only for my code")
-            help.push("MarketInfo()                       - Output information about basic resources at market");
-            help.push("MyResources({})                  - Output information about all your resources");
+
+            help.push("MarketInfo()                       - Print information about basic resources at market");
+            help.push("MyResources({})                  - Print information about all your resources");
+
             help.push("  * hide                            - true or false. If true, than you will not see resources if you don't have they. NOT NECESSARY. Default: false. For example: MyRecources({hide: true})");
             help = help.join("\n");
             return help;
