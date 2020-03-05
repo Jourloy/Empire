@@ -23,36 +23,39 @@ module.exports.loop = function () {
         }
     }
 
-    if (Memory.order.length > 0) {
-        let room = Memory.order[0].Room;
-        spawns = room.find(FIND_STRUCTURES, {
+    if (Memory.queue.length > 0) {
+        let room = Memory.queue[0].Room;
+        let spawns = room.find(FIND_STRUCTURES, {
             filter: (structure) => {
                 return (structure.structureType == STRUCTURE_SPAWN);
             }
         });
-        if (spawns.length > 0) {
-            console.log(spawns[0].spawning)
-            if (spawns[0].spawning == null) {
+        if (spawns.length > 1) {
+            if (spawns[0] && spawns[0].spawning == null) {
                 spawn = spawns[0];
-                role = Memory.order[0].Role;
+                role = Memory.queue[0].Role;
 
                 require("role.spawn").run(spawn, role);
-            } else if (spawns[1].spawning == null) {
+            } else if (spawns[1] && spawns[1].spawning == null) {
                 spawn = spawns[1];
-                role = Memory.order[0].Role;
+                role = Memory.queue[0].Role;
+
+                require("role.spawn").run(spawn, role);
+            } else if (spawns[2] && spawns[2].spawning == null) {
+                spawn = spawns[2];
+                role = Memory.queue[0].Role;
 
                 require("role.spawn").run(spawn, role);
             } else {
-                spawn = spawns[2];
-                role = Memory.order[0].Role;
-
-                require("role.spawn").run(spawn, role);
+                if (Game.time%11 == 10) console.log("[ERROR] In " + spawns[0].room.name + " all spawns are busy! In order " + Memory.queue.length + " creep(s)")
             }
-        } else {
+        } else if (spawns[0].spawning == null) {
             spawn = spawns[0];
-            role = Memory.order[0].Role;
+            role = Memory.queue[0].Role;
 
             require("role.spawn").run(spawn, role);
+        } else {
+            if (Game.time%11 == 10) console.log("[ERROR] In " + room.name + " all spawns are busy! In order " + Memory.queue.length + " creep(s)")
         }
     }
 };
