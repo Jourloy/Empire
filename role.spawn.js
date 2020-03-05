@@ -82,7 +82,7 @@ let roleSpawn = {
         }
         if (role == 'DroneWarrior' || role == "DroneHelperWarrior") {
             pattern = [ATTACK];
-            count = 6;
+            //count = 10;
         }
         if (role == "DroneSeller") {
             pattern = [CARRY]; 
@@ -97,10 +97,18 @@ let roleSpawn = {
             pattern = [CARRY]; 
             count = 8;
         }
-        if (role == "DroneHelperHealer") pattern = [HEAL];
+        if (role == "DroneHelperHealer") {
+            pattern = [HEAL];
+            //count = 14;
+        }
         if (role == "DroneHelperArcher") pattern = [RANGED_ATTACK];
 
-        if (spawn.spawning == null) spawn.spawnCreep(getBodyParts(spawn, pattern, count), newName, { memory: { role: role } });
+        if (spawn.spawning == null) {
+            if (spawn.spawnCreep(getBodyParts(spawn, pattern, count), newName, { memory: { role: role } }) == 0) {
+                console.log("[INFO] Spawn start spawn creep [" + role + "] in " + spawn.room.name)
+                Memory.queue = Memory.queue.shift()
+            }
+        }
     }
 };
 module.exports = roleSpawn;
