@@ -73,8 +73,8 @@ function amountCreeps() {
                 if (Game.flags.Attack) {
                     Memory.room[room.name + ".amount.DroneHelperBuilder"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperUpgrader"] = 0;
-                    Memory.room[room.name + ".amount.DroneHelperWarrior"] = 0;
-                    Memory.room[room.name + ".amount.DroneHelperHealer"] = 0;
+                    Memory.room[room.name + ".amount.DroneHelperWarrior"] = 3;
+                    Memory.room[room.name + ".amount.DroneHelperHealer"] = 2;
                     Memory.room[room.name + ".amount.DroneHelperArcher"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperTransporter"] = 0;
                 }
@@ -118,7 +118,7 @@ function amountCreepsIsLive() {
                     return (structure.structureType == STRUCTURE_SPAWN);
                 }
             });
-    
+
             for (i in spawns) {
                 if (spawns[i].spawning != null && spawns[i].spawning.remainingTime > spawns[i].spawning.needTime - 10) {
                     Memory.room[room.name + ".amountIsLive." + spawns[i].memory.spawningCreep]++;
@@ -134,21 +134,20 @@ function runCreep() {
         let creep = Game.creeps[i];
         if (creep.memory.role == "DroneMiner1" || creep.memory.role == "DroneMiner2") droneTask = require("DroneMiner");
         else droneTask = require(creep.memory.role);
-        if(droneTask) droneTask.control(creep);
+        if (droneTask) droneTask.control(creep);
         else console.log(`Invalid creep role ${creep.memory.role}`);
     }
 }
 
 function Calculate_creeps() {
-    Memory.order = [];
-
+    Memory.queue = [];
     for (i in Memory.roles) {
         for (z in Game.rooms) {
             if (Game.rooms[z].controller && Game.rooms[z].controller.my) {
                 room = Game.rooms[z];
                 role = Memory.roles[i];
                 if ((!Memory.room[room.name + ".amountIsLive." + Memory.roles[i]] && Memory.room[room.name + ".amount." + Memory.roles[i]] > 0) || (Memory.room[room.name + ".amountIsLive." + Memory.roles[i]] < Memory.room[room.name + ".amount." + Memory.roles[i]])) {
-                    Memory.order.push({Role: role, Room: room});
+                    Memory.queue.push({ Role: role, Room: room });
                 }
             }
         }
