@@ -24,7 +24,18 @@ function healCreeps(creep, state = false) {
                 creep.moveTo(target);
             }
         } else {
-            if (Memory.room[creep.memory.room + ".amountIsLive." + "DroneHelperWarrior"] == 0) creep.moveTo(Game.flags.Attack);
+            if (Memory.room[creep.memory.room + ".amountIsLive." + "DroneHelperWarrior"] > 0) {
+                let tarCreep = creep.pos.findClosestByPath(FIND_MY_CREEPS, {
+                    filter: (crps) => {
+                        return (crps.memory.role == "DroneHelperWarrior");
+                    }
+                });
+                if (tarCreep) {
+                    creep.moveTo(tarCreep, {range: 1});
+                    healCreeps(creep)
+                }
+                else creep.moveTo(Game.flags.Attack);
+            }
             else creep.moveTo(Game.flags.Heal);
             creep.heal(creep)
         }
