@@ -73,8 +73,8 @@ function amountCreeps() {
                 if (Game.flags.Attack) {
                     Memory.room[room.name + ".amount.DroneHelperBuilder"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperUpgrader"] = 0;
-                    Memory.room[room.name + ".amount.DroneHelperWarrior"] = 3;
-                    Memory.room[room.name + ".amount.DroneHelperHealer"] = 2;
+                    Memory.room[room.name + ".amount.DroneHelperWarrior"] = 0;
+                    Memory.room[room.name + ".amount.DroneHelperHealer"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperArcher"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperTransporter"] = 0;
                 }
@@ -145,10 +145,11 @@ function Calculate_creeps() {
         for (i in Memory.roles) {
             for (z in Game.rooms) {
                 if (Game.rooms[z].controller && Game.rooms[z].controller.my) {
-                    room = Game.rooms[z].name;
-                    role = Memory.roles[i];
+                    let roomName = Game.rooms[z].name;
+                    let role = Memory.roles[i];
+                    let room = Game.rooms[z]
                     if ((!Memory.room[room.name + ".amountIsLive." + Memory.roles[i]] && Memory.room[room.name + ".amount." + Memory.roles[i]] > 0) || (Memory.room[room.name + ".amountIsLive." + Memory.roles[i]] < Memory.room[room.name + ".amount." + Memory.roles[i]])) {
-                        Memory.queue.push({Role: role, Room: room});
+                        Memory.queue.push({Role: role, Room: roomName});
                     }
                 }
             }
