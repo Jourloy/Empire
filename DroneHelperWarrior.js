@@ -21,7 +21,7 @@ function destroyStructures(creep) {
     else if (creep.room.controller && !creep.room.controller.my || !creep.room.controller) {
         const structuresContainer = creep.pos.findClosestByPath(FIND_STRUCTURES, {
             filter: (strc) => {
-                return strc.structureType == "container";
+                return strc.structureType == "container" || strc.structureType == "road";
             }
         });
         if (creep.attack(structuresContainer) == ERR_NOT_IN_RANGE) creep.moveTo(structuresContainer);
@@ -37,7 +37,7 @@ let DroneHelperWarrior = {
 
             
             if (Game.flags.Heal) {
-                if (creep.hits < ((creep.hitsMax/2)+200) && Game.flags.Heal) creep.memory.selfHeal = true;
+                if (creep.hits < (creep.hitsMax-(creep.hitsMax/4)) && Game.flags.Heal) creep.memory.selfHeal = true;
                 else if (creep.hits == creep.hitsMax) creep.memory.selfHeal = false;
 
                 if (creep.memory.selfHeal) {
@@ -97,7 +97,7 @@ let DroneHelperWarrior = {
                         });
                         const structuresContainer = creep.room.find(FIND_STRUCTURES, {
                             filter: (strc) => {
-                                return strc.structureType == "container";
+                                return strc.structureType == "container" || strc.structureType == "road";
                             }
                         });
                         if (hostileStructures.length > 0 || (structuresContainer.length > 0 && (creep.room.controller && !creep.room.controller.my) || !creep.room.controller)) {
