@@ -62,7 +62,6 @@ let roleSpawn = {
     },
 
     run(spawn, role) {
-        
         let names = ['Arne', 'Birger', 'Bjørn', 'Bo', 'Erik', 'Frode', 'Gorm', 'Halfdan', 'Harald', 'Knud', 'Kåre', 'Leif', 'Njal', 'Roar', 'Rune', 'Sten', 'Skarde', 'Sune', 'Svend', 'Troels', 'Toke', 'Torsten', 'Trygve', 'Ulf', 'Ødger', 'Åge', 'Astrid', 'Bodil', 'Frida', 'Gertrud', 'Gro', 'Estrid', 'Hilda', 'Gudrun', 'Gunhild', 'Helga', 'Inga', 'Liv', 'Randi', 'Signe', 'Sigrid', 'Revna', 'Sif', 'Tora', 'Tove', 'Thyra', 'Thurid', 'Yrsa', 'Ulfhild', 'Åse']
         let newName = names[Game.time%names.length] + " | " + Game.time%names.length;
         let pattern = null;
@@ -94,8 +93,8 @@ let roleSpawn = {
             count = 2;
         }
         if (role == "DroneClaimer") {
-            pattern = [CARRY]; 
-            count = 8;
+            pattern = [CLAIM]; 
+            count = 2;
         }
         if (role == "DroneHelperHealer") {
             pattern = [HEAL];
@@ -106,36 +105,17 @@ let roleSpawn = {
         if (spawn.spawning == null) {
             if (spawn.spawnCreep(getBodyParts(spawn, pattern, count), newName, { memory: { role: role } }) == 0) {
                 console.log("[INFO] Spawn start spawn creep [" + role + "] in " + spawn.room.name)
-                console.log("============================\n")
                 for (i in Memory.queue) {
-                    console.log(Memory.queue[i].Role)
-                }
-                for (i in Memory.queue) {
-                    if (Memory.queue[i].Role == role && Memory.queue[i].Room == spawn.room.name) { 
+                    if (Memory.queue[i] && Memory.queue[i].Role == role && Memory.queue[i].Room == spawn.room.name) { 
                         let CreepSpawn = Memory.queue.slice(i, i+1);
                         let newList = [];
                         for (i in Memory.queue) {
-                            console.log(Memory.queue[i] != CreepSpawn[i])
-                            if (Memory.queue[i] != CreepSpawn[i]) newList.push(Memory.queue[i])
-                        } 
-                        console.log("newList")
-                        for (i in newList) {
-                            console.log(Object.keys(newList[i]) + " | " + newList[i].Room)
-                        }
-                        console.log("queue")
-                        for (i in Memory.queue) {
-                            console.log(Object.keys(Memory.queue[i]) + " | " + Memory.queue[i].Room)
-                        }
-                        console.log("CreepSpawn")
-                        for (i in CreepSpawn) {
-                            console.log(Object.keys(CreepSpawn[i]) + " | " + CreepSpawn[i].Room)
+                            if (Memory.queue[i] != CreepSpawn[0]) newList.push(Memory.queue[i])
                         }
                         Memory.queue = newList;
                     }
                 }
-                console.log("----------------------------\n")
                 for (i in Memory.queue) {
-                    console.log(Memory.queue[i].Role)
                 }
             }
         }
