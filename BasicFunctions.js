@@ -117,7 +117,7 @@ function doUpgrade(creep) {
                 structure.structureType == STRUCTURE_SPAWN) && structure.energy < structure.energyCapacity;
         }
     });
-    if (spawnEnergy.length > 0 && !Memory.room[creep.room.name + ".amountIsLive." + "DroneRefiller"]) doRefill(creep)
+    if (spawnEnergy.length > 0 && (!Memory.room[creep.room.name + ".amountIsLive." + "DroneRefiller"] || !Memory.room[creep.room.name + ".amountIsLive." + "DroneMiner1"])) doRefill(creep)
     else if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.controller, { heuristicWeight: 1.2, range: 3, reusePath: 20 });
 }
 
