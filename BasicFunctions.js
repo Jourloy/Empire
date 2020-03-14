@@ -53,7 +53,7 @@ function doRepair(creep) {
         structures.sort((a,b) => a.hits - b.hits);
         if (creep.repair(structures[0]) == ERR_NOT_IN_RANGE) creep.moveTo(structures[0])
     } else {
-        doUpgrade();
+        doUpgrade(creep);
     }
 }
 
