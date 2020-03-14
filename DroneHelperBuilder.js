@@ -20,14 +20,14 @@ const DroneHelperBuilder = {
         if (creep.spawning) {
             creep.memory.room = creep.room.name;
         } else {
-            if (Game.flags.Claim && creep.room.name == Game.flags.Claim.room.name) {
+            if (Game.flags.Claim && Game.flags.Claim.room && creep.room.name == Game.flags.Claim.room.name) {
                 if (creep.store.getUsedCapacity() == 0) creep.memory.state = "getResource";
                 else if (creep.store.getUsedCapacity() == creep.store.getCapacity()) creep.memory.state = "doWork";
 
                 if (creep.memory.state == "getResource") getResource(creep);
                 if (creep.memory.state == "doWork") doWork(creep);
             } else {
-                creep.moveTo(new RoomPosition(25, 25, Game.flags.Claim.room.name), { ignoreRoads: true, heuristicWeight: 1.2, range: 1, reusePath: 50 });
+                creep.moveTo(Game.flags.Claim, { ignoreRoads: true, heuristicWeight: 1.2, range: 1, reusePath: 50 });
             }
         }
     }
