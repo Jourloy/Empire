@@ -1,10 +1,6 @@
 function goGetResourceClear(creep) {
     if (Game.flags.Clear.room == undefined || Game.flags.Clear.room != undefined && Game.flags.Clear.room != creep.room) {
-        if (creep.memory.step == 0) {
-            if (creep.room.name == "W47S28") creep.memory.step = 1;
-            creep.moveTo(new RoomPosition(25, 25, "W47S28"), { ignoreRoads: true, heuristicWeight: 1.2, range: 1, reusePath: 50 });
-        }
-        else creep.moveTo(Game.flags.Clear, { heuristicWeight: 1.2, range: 1, reusePath: 50 })
+        creep.moveTo(Game.flags.Clear, { heuristicWeight: 1.2, range: 1, reusePath: 50 })
     } else {
         const ruinsInRoom = creep.room.find(FIND_RUINS, {
             filter: (structure) => {
@@ -89,11 +85,7 @@ function doWork(creep) {
             }
         }
     } else {
-        if (creep.memory.step == 1) {
-            if (creep.room.name == "W47S28") creep.memory.step = 0;
-            creep.moveTo(new RoomPosition(25, 25, "W47S28"), { ignoreRoads: true, heuristicWeight: 1.2, range: 1, reusePath: 50 });
-        }
-        else creep.moveTo(new RoomPosition(25, 25, creep.memory.room), { ignoreRoads: true, heuristicWeight: 1.2, range: 1, reusePath: 50 });
+        creep.moveTo(new RoomPosition(25, 25, creep.memory.room), { ignoreRoads: true, heuristicWeight: 1.2, range: 1, reusePath: 50 });
     }
 }
 
