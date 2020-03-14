@@ -36,7 +36,7 @@ function healCreeps(creep, state = false) {
                 }
                 else creep.moveTo(Game.flags.Attack);
             }
-            else creep.moveTo(Game.flags.Heal);
+            else creep.moveTo(Game.flags.Attack);
             creep.heal(creep)
         }
     }
