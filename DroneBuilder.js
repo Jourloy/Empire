@@ -26,7 +26,7 @@ const DroneBuilder = {
             creep.memory.room = creep.room.name;
         } else {
             if (creep.room.name == creep.memory.room) {
-                if (Memory.room[creep.memory.room + ".amount.DroneBuilder"] == Memory.room[creep.memory.room + ".amountIsLive.DroneBuilder"]) {
+                if (Memory.room[creep.memory.room + ".amount.DroneBuilder"] >= Memory.room[creep.memory.room + ".amountIsLive.DroneBuilder"]) {
                     if (creep.ticksToLive <= Math.ceil(1500 - (600 / (creep.hitsMax / 50)) - 100 - 800)) creep.memory.renew = true;
                     else if (creep.ticksToLive > 1480) creep.memory.renew = false;
 
