@@ -12,14 +12,14 @@ function doMine(creep) {
 
     if (containerNear.length == 1 && creep.pos.isNearTo(source)) {
         if (!creep.pos.isEqualTo(containerNear[0].pos)) {
-            creep.moveTo(containerNear[0].pos, { ignoreCreeps: false, reusePath: 50 });
+            creep.moveTo(containerNear[0].pos, { ignoreCreeps: false, reusePath: 20 });
         } else if (containerNear[0].store[RESOURCE_ENERGY] < 1950) {
             creep.harvest(source);
         } else {
-            creep.moveTo(source, { ignoreCreeps: false, reusePath: 50 });
+            creep.moveTo(source, { ignoreCreeps: false, reusePath: 20 });
         }
     } else {
-        creep.moveTo(source, { ignoreCreeps: false, reusePath: 50 });
+        creep.moveTo(source, { ignoreCreeps: false, reusePath: 20 });
     }
 }
 
