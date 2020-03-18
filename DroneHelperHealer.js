@@ -49,6 +49,7 @@ let DroneHelperHealer = {
         if (creep.spawning) {
             creep.memory.room = creep.room.name;
         } else {
+
             if (creep.hits < ((creep.hitsMax/2)+50) && Game.flags.Heal) creep.memory.selfHeal = true;
             else if (creep.hits == creep.hitsMax) creep.memory.selfHeal = false;
             

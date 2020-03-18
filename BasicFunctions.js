@@ -50,7 +50,7 @@ function doRepair(creep) {
         }
     });
     if (structures.length > 0) {
-        structures.sort((a,b) => a.hits - b.hits);
+        structures.sort((a, b) => a.hits - b.hits);
         if (creep.repair(structures[0]) == ERR_NOT_IN_RANGE) creep.moveTo(structures[0])
     } else {
         doUpgrade(creep);
@@ -80,7 +80,7 @@ function doRefill(creep) {
                 creep.moveTo(towerWithoutEnergy[0], { heuristicWeight: 1.2, range: 1, reusePath: 20 });
             }
         } else {
-            const labs= creep.room.find(FIND_STRUCTURES, {
+            const labs = creep.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
                     return (structure.structureType == STRUCTURE_LAB) && structure.store[RESOURCE_ENERGY] < 2000;
                 }
