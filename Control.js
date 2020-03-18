@@ -1,5 +1,9 @@
 function clearMemory() {
     Memory.room = {};
+    Memory.friends = ["JOURLOY", "EgorCluch", "kotyara"]
+    Memory.roles = ["DroneBuilder", "DroneMiner1", "DroneMiner2", "DroneMineralMiner", "DroneRefiller", "DroneSeller", "DroneUpgrader", "DroneWarrior", "DroneRenamer", "DroneClaimer", "DroneHelperBuilder", "DroneHelperUpgrader", "DroneHelperWarrior", "DroneHelperHealer", "DroneHelperArcher", "DroneHelperTransporter", "DroneHelperDismantler"];
+    Memory.code = "VIKING";
+    Memory.storageEnergyCapacity = 300000;
 }
 
 function amountCreeps() {
@@ -8,9 +12,6 @@ function amountCreeps() {
             delete Memory.creeps[name];
         }
     }
-    Memory.roles = ["DroneBuilder", "DroneMiner1", "DroneMiner2", "DroneMineralMiner", "DroneRefiller", "DroneSeller", "DroneUpgrader", "DroneWarrior", "DroneRenamer", "DroneClaimer", "DroneHelperBuilder", "DroneHelperUpgrader", "DroneHelperWarrior", "DroneHelperHealer", "DroneHelperArcher", "DroneHelperTransporter", "DroneHelperDismantler"];
-    Memory.code = "VIKING";
-    Memory.storageEnergyCapacity = 300000;
 
     for (let z in Game.rooms) {
         let room = Game.rooms[z];
@@ -55,7 +56,7 @@ function amountCreeps() {
                     Memory.room[room.name + ".amount.DroneHelperWarrior"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperHealer"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperArcher"] = 0;
-                    Memory.room[room.name + ".amount.DroneHelperTransporter"] = 4;
+                    Memory.room[room.name + ".amount.DroneHelperTransporter"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperDismantler"] = 0;
                 }
                 if (Game.flags.Clear) {
@@ -69,15 +70,15 @@ function amountCreeps() {
                 if (Game.flags.Claim) {
                     Memory.room[room.name + ".amount.DroneClaimer"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperUpgrader"] = 0;
-                    Memory.room[room.name + ".amount.DroneHelperBuilder"] = 1;
+                    Memory.room[room.name + ".amount.DroneHelperBuilder"] = 0;
                 }
             } else if (room.name == "W49S29") {
                 if (!sourceInRoom[0].ticksToRegeneration && extractor.length > 0) Memory.room[room.name + ".amount.DroneMineralMiner"] = 1;
                 if (constructionSite.length > 0) Memory.room[room.name + ".amount.DroneBuilder"] = 1;
-                Memory.room[room.name + ".amount.DroneRefiller"] = 1;
+                Memory.room[room.name + ".amount.DroneRefiller"] = 2;
                 Memory.room[room.name + ".amount.DroneMiner1"] = 1;
                 Memory.room[room.name + ".amount.DroneMiner2"] = 1;
-                Memory.room[room.name + ".amount.DroneUpgrader"] = 2;
+                Memory.room[room.name + ".amount.DroneUpgrader"] = 1;
 
                 if (Game.flags.Attack) {
                     Memory.room[room.name + ".amount.DroneHelperBuilder"] = 0;
@@ -106,7 +107,7 @@ function amountCreeps() {
                 Memory.room[room.name + ".amount.DroneRefiller"] = 2;
                 Memory.room[room.name + ".amount.DroneMiner1"] = 1;
                 Memory.room[room.name + ".amount.DroneMiner2"] = 1;
-                Memory.room[room.name + ".amount.DroneUpgrader"] = 4;
+                Memory.room[room.name + ".amount.DroneUpgrader"] = 1;
 
                 if (Game.flags.Attack) {
                     Memory.room[room.name + ".amount.DroneHelperBuilder"] = 0;
@@ -141,7 +142,7 @@ function amountCreeps() {
                     Memory.room[room.name + ".amount.DroneHelperBuilder"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperUpgrader"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperWarrior"] = 0;
-                    Memory.room[room.name + ".amount.DroneHelperHealer"] = 0;
+                    Memory.room[room.name + ".amount.DroneHelperHealer"] = 2;
                     Memory.room[room.name + ".amount.DroneHelperArcher"] = 0;
                     Memory.room[room.name + ".amount.DroneHelperTransporter"] = 0;
                 }
@@ -213,7 +214,7 @@ function Calculate_creeps() {
                 if (Game.rooms[z].controller && Game.rooms[z].controller.my) {
                     let roomName = Game.rooms[z].name;
                     let role = Memory.roles[i];
-                    let room = Game.rooms[z]
+                    let room = Game.rooms[z];
                     if ((!Memory.room[room.name + ".amountIsLive." + Memory.roles[i]] && Memory.room[room.name + ".amount." + Memory.roles[i]] > 0) || (Memory.room[room.name + ".amountIsLive." + Memory.roles[i]] < Memory.room[room.name + ".amount." + Memory.roles[i]])) {
                         Memory.queue.push({Role: role, Room: roomName});
                     }
