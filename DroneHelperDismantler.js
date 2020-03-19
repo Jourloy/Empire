@@ -1,4 +1,13 @@
 function dismantleStructure(creep) {
+
+    const wall = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+        filter: (structure) => {
+            return (structure.structureType == STRUCTURE_WALL);
+        }
+    });
+
+    if (creep.dismantle(wall) == ERR_NOT_IN_RANGE) creep.moveTo(wall)
+
     const hostileStrInRoom = creep.room.find(FIND_STRUCTURES, {
         filter: (structure) => {
             return (structure.structureType == STRUCTURE_EXTENSION ||
