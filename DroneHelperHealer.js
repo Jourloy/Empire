@@ -1,4 +1,4 @@
-function healCreeps(creep, state = false) {
+function healCreeps(creep, state = false, WarriorRole = null) {
     if (!state) {
         const target = creep.pos.findClosestByPath(FIND_CREEPS, {
             filter: (crps) => {
@@ -24,17 +24,14 @@ function healCreeps(creep, state = false) {
                 creep.moveTo(target);
             }
         } else {
-            if (Memory.room[creep.memory.room + ".amountIsLive." + "DroneHelperWarrior"] > 0) {
-                let tarCreep = creep.pos.findClosestByPath(FIND_MY_CREEPS, {
-                    filter: (crps) => {
-                        return (crps.memory.role == "DroneHelperWarrior");
-                    }
-                });
-                if (tarCreep) {
-                    creep.moveTo(tarCreep, {range: 1});
-                    healCreeps(creep)
+            let tarCreep = creep.pos.findClosestByPath(FIND_MY_CREEPS, {
+                filter: (crps) => {
+                    return (crps.memory.role == WarriorRole);
                 }
-                else creep.moveTo(Game.flags.Attack);
+            });
+            if (tarCreep) {
+                creep.moveTo(tarCreep, {range: 1});
+                healCreeps(creep)
             }
             else creep.moveTo(Game.flags.Attack);
             creep.heal(creep)
@@ -50,6 +47,8 @@ let DroneHelperHealer = {
             creep.memory.room = creep.room.name;
         } else {
 
+            let WarriorRole = "DroneHelperWarrior";
+
             if (creep.hits < ((creep.hitsMax/2)+50) && Game.flags.Heal) creep.memory.selfHeal = true;
             else if (creep.hits == creep.hitsMax) creep.memory.selfHeal = false;
             
@@ -57,9 +56,9 @@ let DroneHelperHealer = {
                 creep.moveTo(Game.flags.Heal);
                 healCreeps(creep);
             } else if (Game.flags.Heal && !creep.memory.selfHeal) {
-                healCreeps(creep, true);
+                healCreeps(creep, true, WarriorRole);
             } else {
-                healCreeps(creep, true);
+                healCreeps(creep, true, WarriorRole);
             }
         }
     }
