@@ -1,16 +1,10 @@
-function getResource(creep) {
-    gR = require("BasicFunctions")
-    gR.run(creep, creep.memory.state);
-}
-
 function doWork(creep) {
     const constructionSite = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES);
 
     if (constructionSite) {
         if (creep.build(constructionSite) == ERR_NOT_IN_RANGE) creep.moveTo(constructionSite, { heuristicWeight: 1.2, range: 3, reusePath: 20 });
     } else {
-        gR = require("BasicFunctions")
-        gR.run(creep, "repair");
+        DoRepair(creep);
     }
 }
 
@@ -35,7 +29,7 @@ const DroneBuilder = {
                         if (creep.store.getUsedCapacity() == 0) creep.memory.state = "getResource";
                         else if (creep.store.getUsedCapacity() == creep.store.getCapacity()) creep.memory.state = "doWork";
 
-                        if (creep.memory.state == "getResource") getResource(creep);
+                        if (creep.memory.state == "getResource") GetResource(creep);
                         if (creep.memory.state == "doWork") doWork(creep);
                     }
                 } else {
