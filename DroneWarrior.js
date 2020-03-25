@@ -7,17 +7,12 @@ function killCreeps(creep) {
     if (hostileTarget) {
         if (creep.attack(hostileTarget) == ERR_NOT_IN_RANGE) creep.moveTo(hostileTarget);
     } else {
-        destroyStructures(creep)
-    }
-}
-
-function destroyStructures(creep) {
-    const hostileTarget = creep.pos.findClosestByPath(FIND_HOSTILE_STRUCTURES, {
-        filter: (strc) => {
-            return strc.owner.username != "kotyara" && strc.structureType != "controller";
+        const spawn = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, { filter: { structureType: STRUCTURE_SPAWN } });
+        if (spawn) {
+            if (creep.pos.isNearTo(spawn)) spawn.recycleCreep(creep);
+            else creep.moveTo(spawn, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
         }
-    });
-    if (creep.attack(hostileTarget) == ERR_NOT_IN_RANGE) creep.moveTo(hostileTarget);
+    }
 }
 
 let DroneWarrior = {
@@ -26,30 +21,18 @@ let DroneWarrior = {
         if (creep.spawning) {
             creep.memory.room = creep.room.name;
         } else {
-            if (Game.flags.attack) {
-                if (Game.flags.attack.room != creep.room) {
-                    creep.moveTo(Game.flags.attack);
-                } else {
-                    
-                    const hostileCreeps = creep.room.find(FIND_HOSTILE_CREEPS, {
-                        filter: (crps) => {
-                            return crps.owner.username != "kotyara";
-                        }
-                    });
-                    if (hostileCreeps.length > 0) {
-                        killCreeps(creep);
-                    } else {
-                        const hostileStructures = creep.room.find(FIND_HOSTILE_STRUCTURES, {
-                            filter: (strc) => {
-                                return strc.owner.username != "kotyara" && strc.structureType != "controller";
-                            }
-                        });
-                        if (hostileStructures.length > 0) {
-                            destroyStructures(creep);
-                        } else {
-                            creep.moveTo(Game.flags.Attack);
-                        }
-                    }
+            const hostileCreep = creep.room.find(FIND_HOSTILE_CREEPS, {
+                filter: (creep) => {
+                    return (creep.owner.username != "kotyara");
+                }
+            });
+            if (hostileCreep.length > 1) {
+                killCreeps(creep)
+            } else {
+                const spawn = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, { filter: { structureType: STRUCTURE_SPAWN } });
+                if (spawn) {
+                    if (creep.pos.isNearTo(spawn)) spawn.recycleCreep(creep);
+                    else creep.moveTo(spawn, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
                 }
             }
         }
