@@ -5,8 +5,9 @@
 */
 
 module.exports.loop = function () {
-    require("Control").control()
+    require("BasicFunctions").run()
     require("Console").setting();
+    require("Control").control()
     require("role.tower").control();
     require("RoomStats").info();
 
