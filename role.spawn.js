@@ -79,9 +79,13 @@ let roleSpawn = {
             pattern = [WORK];
             count = 10;
         }
-        if (role == 'DroneWarrior' || role == "DroneHelperWarrior") {
+        if (role == "DroneHelperWarrior") {
             pattern = [ATTACK];
             //count = 10;
+        }
+        if (role == "DroneWarrior") {
+            pattern = [ATTACK];
+            //count = 20;
         }
         if (role == "DroneSeller") {
             pattern = [CARRY]; 

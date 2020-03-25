@@ -7,7 +7,6 @@
 module.exports.loop = function () {
     require("Control").control()
     require("Console").setting();
-    //require("Nydus").run();
     require("role.tower").control();
     require("RoomStats").info();
 
