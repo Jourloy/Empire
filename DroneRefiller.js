@@ -1,5 +1,4 @@
-function getResource(creep) {
-
+function getResourceRefiller(creep) {
     const mineralDropped = creep.room.find(FIND_DROPPED_RESOURCES, {
         filter: (resource) => {
             return resource.amount > 0 && (resource.resourceType == 'H' || resource.resourceType == 'L');
@@ -111,14 +110,8 @@ function doWork(creep) {
             }
         }
     } else {
-        gR = require("BasicFunctions")
-        gR.run(creep, "refill");
+        DoRefill(creep);
     }
-}
-
-function goRenew(creep) {
-    gR = require("BasicFunctions")
-    gR.run(creep, "renew");
 }
 
 const DroneRefiller = {
@@ -131,12 +124,11 @@ const DroneRefiller = {
                 if (creep.ticksToLive <= Math.ceil(1500 - (600 / (creep.hitsMax / 50)) - 100 - 800) && creep.room.energyAvailable > creep.room.energyCapacityAvailable / 2) creep.memory.renew = true;
                 else if (creep.ticksToLive > 1480 || creep.room.energyAvailable < creep.room.energyCapacityAvailable / 2) creep.memory.renew = false;
 
-                if (creep.memory.renew) goRenew(creep);
+                if (creep.memory.renew) GoRenew(creep);
                 else {
                     if (creep.store.getUsedCapacity() == 0) creep.memory.state = "getResource";
                     if (creep.store.getUsedCapacity() == creep.store.getCapacity() || creep.store[RESOURCE_HYDROGEN] > 0 || creep.store[RESOURCE_LEMERGIUM] > 0) creep.memory.state = "doWork";
-
-                    if (creep.memory.state == "getResource") getResource(creep);
+                    if (creep.memory.state == "getResource") getResourceRefiller(creep);
                     if (creep.memory.state == "doWork") doWork(creep);
                 }
             } else {
