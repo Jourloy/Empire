@@ -1,4 +1,4 @@
-function getResource(creep) {
+function getResourceSeller(creep) {
     if (Memory.room[creep.room.name + ".amountIsLive.DroneRefiller"] == 0) {
         const mineralDropped = creep.room.find(FIND_DROPPED_RESOURCES, {
             filter: (resource) => {
@@ -130,11 +130,6 @@ function sell(creep) {
     }
 }
 
-function goRefilll(creep) {
-    gR = require("BasicFunctions")
-    gR.run(creep, "refill");
-}
-
 const DroneSeller = {
     /** @param {Creep} creep **/
     control(creep) {
@@ -145,9 +140,9 @@ const DroneSeller = {
                 if (creep.store.getUsedCapacity() == 0) creep.memory.state = "getResource";
                 else if (creep.store.getUsedCapacity() == creep.store.getCapacity()) creep.memory.state = "doWork";
 
-                if (creep.memory.state == "getResource") getResource(creep);
+                if (creep.memory.state == "getResource") getResourceSeller(creep);   
                 if (Memory.room[creep.room.name + ".amountIsLive.DroneRefiller"] == 0) {
-                    if (creep.memory.state == "doWork") goRefilll(creep);
+                    if (creep.memory.state == "doWork") GoRefill(creep);
                 } else {
                     if (creep.memory.state == "doWork") sell(creep);
                 }
