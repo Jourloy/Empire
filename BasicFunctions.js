@@ -1,3 +1,13 @@
+function findHostileCreeps(info) {
+    room = Game.rooms[info]
+    const hostileCreep = room.find(FIND_HOSTILE_CREEPS, {
+        filter: (creep) => {
+            return (creep.owner.username != "kotyara");
+        }
+    });
+    return hostileCreep;
+};
+
 function getResource(creep) {
     if (creep.room.storage) {
         if (creep.withdraw(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 20 });
@@ -136,6 +146,7 @@ const BasicFunctions = {
         if (aim == "refill") doRefill(creep);
         if (aim == "repair") doRepair(creep);
         if (aim == "renew") doRenew(creep);
+        if (aim == "findHostileCreep") return findHostileCreeps(creep)
     }
 }
 module.exports = BasicFunctions;
