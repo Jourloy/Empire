@@ -1,17 +1,69 @@
 function Tools() {
     global.resources = RESOURCES_ALL;
+
+    global.ConvertBodyArray = function(info) {
+        
+        body = [];
+        
+        let tough = 0;
+        let attack = 0;
+        let rangedAttack = 0;
+        let move = 0;
+        let carry = 0;
+        let work = 0;
+        let heal = 0;
+        let claim = 0;
+
+        if (info != null) {
+            tough = info.tough || 0;
+            attack = info.attack || 0;
+            rangedAttack = info.rangedAttack || 0;
+            move = info.move || 0;
+            carry = info.carry || 0;
+            work = info.work || 0;
+            heal = info.heal || 0;
+            claim = info.claim || 0;
+        }
+
+        for (i = 0;i < tough; i++) {
+            body.push(TOUGH)
+        }
+        for (i = 0;i < attack; i++) {
+            body.push(ATTACK)
+        }
+        for (i = 0;i < rangedAttack; i++) {
+            body.push(RANGED_ATTACK)
+        }
+        for (i = 0;i < move; i++) {
+            body.push(MOVE)
+        }
+        for (i = 0;i < carry; i++) {
+            body.push(CARRY)
+        }
+        for (i = 0;i < work; i++) {
+            body.push(WORK)
+        }
+        for (i = 0;i < heal; i++) {
+            body.push(HEAL)
+        }
+        for (i = 0;i < claim; i++) {
+            body.push(CLAIM)
+        }
+
+        return body;
+    }
     
     global.svgBody = function (color, count = 1, width = 16, height = 16) {
         const cx = width / 2;
         const cy = height / 2;
         const r = cx;
 
-        body = [];
+        bodySvg = [];
         for (let i = 0; i < count; i += 1) {
-            body.push('<svg width="' + width + '" height="' + height + '"> <circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" stroke="black" stroke-width="1" fill="' + color + '"/></svg>');
+            bodySvg.push('<svg width="' + width + '" height="' + height + '"> <circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" stroke="black" stroke-width="1" fill="' + color + '"/></svg>');
         }
-        body = body.join("");
-        return body;
+        bodySvg = bodySvg.join("");
+        return bodySvg;
     };
 
     global.pushNotification = function(room) {
@@ -382,29 +434,48 @@ function Tools() {
 function Global_function() {
     global.help = function (com) {
         let help = [];
-        if (com == "CreepBuilder") {
-            help.push("CreepBuilder");
-            help.push("\nGet amount BODY PARTS:");
-            help.push("MOVE {move:N}");
-            help.push("CARRY {carry:N}");
-            help.push("WORK {work:N}");
-            help.push("ATTACK {attack:N}");
-            help.push("RANGED_ATTACK {rangedAttack:N}");
-            help.push("HEAL {heal:N}");
-            help.push("TOUGH {tough:N}");
-            help.push("CLAIM {claim:N}");
-            help.push("Default all parameters is 0. \nN - amount.");
-            help.push("\nSo, if you want create creep with 2 WORK and 2 MOVE, you need write in console: CreepBuilder({work:2, move:2})");
-            help.push("\nOr you can type:");
-            help.push("m = move");
-            help.push("c = carry");
-            help.push("w = work");
-            help.push("a = attack");
-            help.push("r = rangedAttack");
-            help.push("h = heal");
-            help.push("t = tough");
-            help.push("x = claim");
-            help.push("\nSo, if you want create creep with 2 WORK and 2 MOVE, you need write in console: CreepBuilder(null, \"2w2m\") or CreepBuilder(null, \"wwmm\") or CreepBuilder(null, \"2(mw)\")");
+        if (com == "Creeps") {
+            help.push("If you want create creep, you can use 3 methods:");
+            help.push("");
+            help.push("=========================");
+            help.push("");
+            help.push("1. Creeps({bodyArray:[]})");
+            help.push("In [] you must write creep's body. For example:");
+            help.push("Creeps({bodyArray:[MOVE,MOVE,MOVE,MOVE,MOVE,CLAIM]})");
+            help.push("");
+            help.push("=========================");
+            help.push("");
+            help.push("2. Creeps({body:{}})");
+            help.push("In {} you must write creep's body. For example:");
+            help.push("Creeps({bodyString:{move:10, claim:2}})");
+            help.push("-------------------------");
+            help.push("BODY PARTS:");
+            help.push("-------------------------");
+            help.push("MOVE - move");
+            help.push("WORK - work");
+            help.push("CARRY - carry");
+            help.push("ATTACK - attack");
+            help.push("RANGED_ATTACK - rangedAttack");
+            help.push("HEAL - heal");
+            help.push("CLAIM - claim");
+            help.push("TOUGH - tough");
+            help.push("");
+            help.push("=========================");
+            help.push("");
+            help.push("3. Creeps({bodyString:\"\"})");
+            help.push("In \"\" you must write creep's body. For example:");
+            help.push("Creeps({bodyString:\"15m3c\"})");
+            help.push("-------------------------");
+            help.push("BODY PARTS:");
+            help.push("-------------------------");
+            help.push("MOVE - M");
+            help.push("WORK - W");
+            help.push("CARRY - C");
+            help.push("ATTACK - A");
+            help.push("RANGED_ATTACK - R");
+            help.push("HEAL - H");
+            help.push("CLAIM - X or K");
+            help.push("TOUGH - T");
             help = help.join("\n");
             return help;
         } else if (com == "tools") {
@@ -413,7 +484,6 @@ function Global_function() {
             help.push("pushNotification - push notification :)")
             help.push("progressBar(percent) - return progress bar")
             help.push("CreepBuilder({body, stringBody})     - Build creep");
-            help.push("  * body, stringBody                - help(\"CreepBuilder\") for learn about this parameter");
             help.push("svgCreep(body) - return appearance of your creep")
             help.push("  * body                            - List with creep's body")
             help.push("AmountResource(resource) - return amount resource in all your structures")
@@ -423,22 +493,20 @@ function Global_function() {
             return help;
         } else {
             help.push("help(command)                       - Print information about coomands")
-            help.push("  * \"CreepBuilder\"                  - Print information about this command. [ help(\"CreepBuilder\") ]")
+            help.push("  * \"Creeps\"                        - Print information about this command. [ help(\"Creeps\") ]")
             help.push("  * \"tools\"                         - Print information about tools. [ help(\"tools\") ]")
             help.push("  * nothing                         - Print this information. [ help() ]")
             help.push("info()                              - Print information about all your rooms")
             help.push("Calc_time(time, tickRate)           - Convert ticks to real time")
             help.push("  * time                            - amount TICKS.")
             help.push("  * tickRate                        - Tick rate of server. NOT NECESSARY. Default: 2.69")
-            help.push("Creeps(body, bodyString, {CreepInfo}) - Calculate cost and time of build creep")
-            help.push("  * body                            - List with creep's body")
-            help.push("  * bodyString                      - String with creep's body")
-            help.push("  * creepRole                       - Only for my code")
+            help.push("Creeps({info}) - Calculate cost and time of build creep")
+            help.push("  * body                            - [ help(\"Creeps\") ] for more information")
 
-            help.push("MarketInfo()                       - Print information about basic resources at market");
-            help.push("MyResources({})                  - Print information about all your resources");
-
-            help.push("  * hide                            - true or false. If true, than you will not see resources if you don't have they. NOT NECESSARY. Default: false. For example: MyRecources({hide: true})");
+            help.push("MarketInfo()                        - Print information about basic resources at market");
+            help.push("MyResources({})                     - Print information about all your resources");
+            help.push("  * hide                            - true or false. NOT NECESSARY. If true, than you will not see resources if you don't have they. NOT NECESSARY. Default: false. For example: MyRecources({hide: true})")
+            help.push("  * room                            - name of room. NOT NECESSARY. If you want see all resource in one your room, then write: MyRecources({room:\"NAME_OF_ROOM\"})");
             help = help.join("\n");
             return help;
         }
@@ -535,7 +603,7 @@ function Global_function() {
             //
             if (spawn.room.terminal) {
                 info.push("<table align=\"center\" border=\"1\">");
-                info.push('<caption>TERMINAL\n' + progressBar(Math.round(spawn.room.storage.store.getUsedCapacity() / spawn.room.storage.store.getCapacity() * 100)) + '\n(' + (Math.round(spawn.room.storage.store.getUsedCapacity() / spawn.room.storage.store.getCapacity() * 100)) + '%)\n\n</caption>');
+                info.push('<caption>TERMINAL\n' + progressBar(Math.round(spawn.room.terminal.store.getUsedCapacity() / spawn.room.terminal.store.getCapacity() * 100)) + '\n(' + (Math.round(spawn.room.terminal.store.getUsedCapacity() / spawn.room.terminal.store.getCapacity() * 100)) + '%)\n\n</caption>');
                 info.push("<tr>");
                 info.push("<th></th>");
                 info.push("<th> USED CAPACITY </th>");
@@ -594,18 +662,15 @@ function Global_function() {
         return table;
     };
 
-    global.Creeps = function (body = null, bodyString = null, creepInfo = null) {
-        if (body || bodyString || creepInfo) {
-            if (bodyString) {
-                body = createCreepBodyArray(bodyString);
-            }
-            if (creepInfo) {
-                let room = Game.rooms[creepInfo.room];
-                let role = creepInfo.role;
-                let pattern = creepInfo.pattern || null;
-                let spawn = room.find(FIND_MY_SPAWNS)[0];
+    global.Creeps = function (info = null) {
 
-                body = require("role.spawn").getBody(spawn, role, pattern);
+        if (info) {
+            if (info.bodyString) {
+                body = createCreepBodyArray(info.bodyString);
+            } else if (info.bodyArray) {
+                body = info.bodyArray
+            } else if (info.body) {
+                body = ConvertBodyArray(info.body)
             }
 
             let bodyCount = 0;
@@ -946,7 +1011,7 @@ function Global_function() {
             result = result.join("");
             return result
         } else {
-            return "Body undefined"
+            return `Info about creep is undefined`
         }
     };
 
