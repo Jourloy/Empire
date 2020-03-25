@@ -10,8 +10,7 @@ var roleTower = {
         for (var i in towers){
             let tower = towers[i];
 
-            gR = require("BasicFunctions");
-            let hostileCreeps = gR.run(tower.room.name, "findHostileCreep");
+            let hostileCreeps = FindHostileCreeps(tower.room.name);
 
             let hitsOnCurrentLevel = 100000
             if (tower.room.controller.level == 4) hitsOnCurrentLevel = 2000000
