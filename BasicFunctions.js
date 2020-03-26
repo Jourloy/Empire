@@ -8,6 +8,10 @@ function functions() {
         });
         return hostileCreep;
     };
+
+    global.FindRemouteTarget = function(creep) {
+        if (creep.memory.room == "W49S28") return Game.flags.Remoute1;
+    }
     
     global.GetResource = function(creep) {
         if (creep.room.storage) {
