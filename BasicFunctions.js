@@ -11,6 +11,7 @@ function functions() {
 
     global.FindRemouteTarget = function(creep) {
         if (creep.memory.room == "W49S28") return Game.flags.Remoute1;
+        if (creep.memory.room == "W49S29") return Game.flags.Remoute2;
     }
     
     global.GetResource = function(creep) {
