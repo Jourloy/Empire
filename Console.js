@@ -1,5 +1,5 @@
 /*
-* functions "expandBodyArrayString" and "createCreepBodyArray" was given by Orlet on Screeps Slack. Thank you very much :)
+* functions "expandBodyArrayString" and "createCreepBodyArray" were given by Orlet on Screeps Slack. Thank you very much :)
 */
 
 function Tools() {
