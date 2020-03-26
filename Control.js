@@ -63,6 +63,7 @@ function amountCreeps() {
                     Memory.room[room.name + ".amount.DroneRemouteMiner"] = 1;
                     Memory.room[room.name + ".amount.DroneRemouteTransporter"] = 1;
                     Memory.room[room.name + ".amount.DroneRemouteReserver"] = 1;
+                    Memory.room[room.name + ".amount.DroneRemouteRepairer"] = 1;
                 }
                 if (Game.flags.Attack) {
                     Memory.room[room.name + ".amount.DroneHelperBuilder"] = 0;
