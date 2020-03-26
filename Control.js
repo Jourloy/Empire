@@ -1,7 +1,7 @@
 function clearMemory() {
     Memory.room = {};
     Memory.friends = ["JOURLOY", "EgorKluch", "kotyara", "Kartinka", "SystemPardox"]
-    Memory.roles = ["DroneBuilder", "DroneMiner1", "DroneMiner2", "DroneMineralMiner", "DroneRefiller", "DroneSeller", "DroneUpgrader", "DroneWarrior", "DroneRenamer", "DroneClaimer", "DroneHelperBuilder", "DroneHelperUpgrader", "DroneHelperWarrior", "DroneHelperHealer", "DroneHelperArcher", "DroneHelperTransporter", "DroneHelperDismantler", "DroneRemouteMiner", "DroneRemouteRepairer", "DroneRemouteTransporter", "DroneRemouteReserver"];
+    Memory.roles = ["DroneBuilder", "DroneMiner1", "DroneMiner2", "DroneMineralMiner", "DroneRefiller", "DroneSeller", "DroneUpgrader", "DroneWarrior", "DroneRenamer", "DroneClaimer", "DroneHelperBuilder", "DroneHelperUpgrader", "DroneHelperWarrior", "DroneHelperHealer", "DroneHelperArcher", "DroneHelperTransporter", "DroneHelperDismantler", "DroneRemouteMiner", "DroneRemouteRepairer", "DroneRemouteTransporter", "DroneRemouteReserver", "DroneRemouteWarrior"];
     Memory.code = "VIKING";
     Memory.storageEnergyCapacity = 300000;
 }
