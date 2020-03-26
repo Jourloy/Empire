@@ -67,7 +67,7 @@ let roleSpawn = {
         let pattern = null;
         let count = 50;
 
-        if (role == "DroneBuilder" || role == "DroneUpgrader" || role == "DroneHelperBuilder" || role == "DroneHelperUpgrader") {
+        if (role == "DroneBuilder" || role == "DroneUpgrader" || role == "DroneHelperBuilder" || role == "DroneHelperUpgrader" || role == "DroneRemouteRepairer") {
             pattern = [WORK, CARRY];
             count = 20
         }
