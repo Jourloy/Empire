@@ -17,7 +17,7 @@ const DroneRemouteReserver = {
 
                 if (FindHostileCreeps(creep.room.name).length > 0) {
                     let room = creep.memory.room;
-                    Memory.room[room.name + ".amount.DroneRemouteWarrior"] = FindHostileCreeps(creep).length + 1;
+                    Memory.room[room.name + ".amount.DroneRemouteWarrior"] = FindHostileCreeps(creep.room.name).length + 1;
                 }
             }
         }
