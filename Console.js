@@ -1,3 +1,7 @@
+/*
+* functions "expandBodyArrayString" and "createCreepBodyArray" was given by Orlet on Screeps Slack. Thank you very much :)
+*/
+
 function Tools() {
     global.resources = RESOURCES_ALL;
 
@@ -82,9 +86,6 @@ function Tools() {
         return notification;
     }
 
-    /*
-    * functions "expandBodyArrayString" and "createCreepBodyArray" was given by Orlet on Screeps Slack. Thank you very much :)
-    */
     global.expandBodyArrayString = function(bodyString) {
         var preg = /(\d+)\(([0-9a-zA-Z]+)\)/;
         var match; 
