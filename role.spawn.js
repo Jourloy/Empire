@@ -91,6 +91,10 @@ let roleSpawn = {
             pattern = [ATTACK];
             count = 20;
         }
+        if (role == "DroneRemouteHealer") {
+            pattern = [HEAL];
+            count = 10;
+        }
         if (role == "DroneSeller") {
             pattern = [CARRY]; 
             count = 10;
