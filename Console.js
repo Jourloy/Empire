@@ -499,7 +499,7 @@ function Global_function() {
             help.push("info()                              - Print information about all your rooms")
             help.push("Calc_time({info})                   - Convert ticks to real time")
             help.push("  * time                            - amount TICKS. For example: Calc_time({time:5000})")
-            help.push("  * rate                        - Tick rate of server. NOT NECESSARY. Default: 2.9. For example: Calc_time({time:5000, rate:3.6})")
+            help.push("  * rate                            - Tick rate of server. NOT NECESSARY. Default: 2.9. For example: Calc_time({time:5000, rate:3.6})")
             help.push("Creeps({info}) - Calculate cost and time of build creep")
             help.push("  * body                            - [ help(\"Creeps\") ] for more information")
 
