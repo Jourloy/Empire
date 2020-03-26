@@ -1,4 +1,4 @@
-const DroneRemoteReserver = {
+const DroneRemouteReserver = {
     /** @param {Creep} creep **/
     control(creep) {
         if (creep.spawning) {
@@ -14,8 +14,13 @@ const DroneRemoteReserver = {
                 if (!creep.room.controller.sign || (creep.room.controller.sign && creep.room.controller.sign.text != Memory.code)) {
                     if (creep.signController(creep.room.controller, Memory.code) == ERR_NOT_IN_RANGE) {}
                 }
+
+                if (FindHostileCreeps(creep.room.name).length > 0) {
+                    let room = creep.memory.room;
+                    Memory.room[room.name + ".amount.DroneRemouteWarrior"] = FindHostileCreeps(creep).length + 1;
+                }
             }
         }
     }
 }
-module.exports = DroneRemoteReserver;
+module.exports = DroneRemouteReserver;
