@@ -28,7 +28,7 @@ function getResourceRefiller(creep) {
 
 function doWork(creep) {
     if (creep.room.name != creep.memory.room) {
-        creep.moveTo(new RoomPosition(25, 25, creep.memory.room), { ignoreRoads: true, heuristicWeight: 1.2, range: 1, reusePath: 50 });
+        creep.moveTo(new RoomPosition(25, 25, creep.memory.room), { heuristicWeight: 1.2, range: 1, reusePath: 50 });
     } else {
         if (creep.room.storage && creep.room.storage.store[RESOURCE_ENERGY] < 900001) {
             if (creep.transfer(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
