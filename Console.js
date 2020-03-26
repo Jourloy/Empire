@@ -82,6 +82,9 @@ function Tools() {
         return notification;
     }
 
+    /*
+    * functions "expandBodyArrayString" and "createCreepBodyArray" was given by Orlet on Screeps Slack. Thank you very much :)
+    */
     global.expandBodyArrayString = function(bodyString) {
         var preg = /(\d+)\(([0-9a-zA-Z]+)\)/;
         var match; 
@@ -214,26 +217,15 @@ function Tools() {
 
         if (bodyString != null) {
             body = createCreepBodyArray(bodyString);
-            for (let i in body) {
-                if (body[i] == "move" || body[i] == "carry") {
-                    if (body[i] == "move") {
-                        move++;
-                    } else {
-                        carry++;
-                    }
-                } else if (body[i] == "work") {
-                    work++;
-                } else if (body[i] == "attack") {
-                    attack++
-                } else if (body[i] == "ranged_attack") {
-                    rangedAttack++;
-                } else if (body[i] == "heal") {
-                    heal++;
-                } else if (body[i] == "tough") {
-                    tough++;
-                } else if (body[i] == "claim") {
-                    claim++;
-                }
+            switch(body) {
+                case MOVE: move++; break;
+                case CARRY: carry++; break;
+                case WORK: work++; break;
+                case ATTACK: attack++; break;
+                case RANGED_ATTACK: rangedAttack++; break;
+                case HEAL: heal++; break;
+                case TOUGH: tough++; break;
+                case CLAIM: claim++; break;
             }
         }
 
@@ -300,26 +292,15 @@ function Tools() {
         let toughCount = 0;
         let claimCount = 0;
 
-        for (let i in body) {
-            if (body[i] == "move" || body[i] == "carry") {
-                if (body[i] == "move") {
-                    moveCount++;
-                } else {
-                    carryCount++;
-                }
-            } else if (body[i] == "work") {
-                workCount++;
-            } else if (body[i] == "attack") {
-                attackCount++
-            } else if (body[i] == "ranged_attack") {
-                rangedAttackCount++;
-            } else if (body[i] == "heal") {
-                healCount++;
-            } else if (body[i] == "tough") {
-                toughCount++;
-            } else if (body[i] == "claim") {
-                claimCount++;
-            }
+        switch(body) {
+            case MOVE: moveCount++; break;
+            case CARRY: carryCount++; break;
+            case WORK: workCount++; break;
+            case ATTACK: attackCount++; break;
+            case RANGED_ATTACK: rangedAttackCount++; break;
+            case HEAL: healCount++; break;
+            case TOUGH: toughCount++; break;
+            case CLAIM: claimCount++; break;
         }
 
         bodySvg = [];
@@ -697,41 +678,84 @@ function Global_function() {
             let price = 0;
             let time = body.length * 3;
 
-            for (let i in body) {
-                bodyCount++;
-                hits += 100;
-                if (body[i] == "move" || body[i] == "carry") {
+            switch(body) {
+                case MOVE: 
+                    moveCount++; 
                     price = price + 50;
-                    if (body[i] == "move") {
-                        moveCount++;
-                    } else {
-                        carryCount++;
-                        capacity = capacity + 50;
-                    }
-                } else if (body[i] == "work") {
+                    break;
+                case CARRY: 
+                    carryCount++; 
+                    price = price + 50;
+                    capacity = capacity + 50;
+                    break;
+                case WORK: 
                     price = price + 100;
                     workCount++;
                     harvEnergy = harvEnergy + 2;
                     harvMineral = harvMineral + 1;
                     build = build + 5;
                     upgrade++;
-                } else if (body[i] == "attack") {
+                    break;
+                case ATTACK: 
                     price = price + 80;
                     attackCount++
                     damageAttack += 30;
-                } else if (body[i] == "ranged_attack") {
+                    break;
+                case RANGED_ATTACK: 
                     price = price + 150;
                     rangedAttackCount++;
                     damageRangedAttack += 10;
-                } else if (body[i] == "heal") {
+                    break;
+                case HEAL: 
                     price = price + 250;
                     healCount++;
                     healShort += 12;
                     healDistance += 4;
-                } else if (body[i] == "tough") {
+                    break;
+                case TOUGH: 
                     price = price + 10;
                     toughCount++;
-                } else if (body[i] == "claim") {
+                    break;
+                case CLAIM: 
+                    price = price + 600;
+                    claimCount++;
+                    break;
+            }
+            for (let i in body) {
+                bodyCount++;
+                hits += 100;
+                if (body[i] == MOVE || body[i] == CARRY) {
+                    price = price + 50;
+                    if (body[i] == MOVE) {
+                        moveCount++;
+                    } else {
+                        carryCount++;
+                        capacity = capacity + 50;
+                    }
+                } else if (body[i] == WORK) {
+                    price = price + 100;
+                    workCount++;
+                    harvEnergy = harvEnergy + 2;
+                    harvMineral = harvMineral + 1;
+                    build = build + 5;
+                    upgrade++;
+                } else if (body[i] == ATTACK) {
+                    price = price + 80;
+                    attackCount++
+                    damageAttack += 30;
+                } else if (body[i] == RANGED_ATTACK) {
+                    price = price + 150;
+                    rangedAttackCount++;
+                    damageRangedAttack += 10;
+                } else if (body[i] == HEAL) {
+                    price = price + 250;
+                    healCount++;
+                    healShort += 12;
+                    healDistance += 4;
+                } else if (body[i] == TOUGH) {
+                    price = price + 10;
+                    toughCount++;
+                } else if (body[i] == CLAIM) {
                     price = price + 600;
                     claimCount++;
                 }
@@ -794,14 +818,14 @@ function Global_function() {
             result.push("<td>");
             for (var i = 0; i < bodyCount; i++) {
                 if (i == 10 || i == 20 || i == 30 || i == 40 || i == 50) result.push(" \n")
-                if (body[i] == "move") result.push(svgBody('#A9B7C6'))
-                if (body[i] == "carry") result.push(svgBody('#777777'))
-                if (body[i] == "work") result.push(svgBody('#FFE56D'))
-                if (body[i] == "attack") result.push(svgBody('#F93842'))
-                if (body[i] == "ranged_attack") result.push(svgBody('#5D80B2'))
-                if (body[i] == "heal") result.push(svgBody('#65FD62'))
-                if (body[i] == "tough") result.push(svgBody('#FFFFFF'))
-                if (body[i] == "claim") result.push(svgBody('#B99CFB'))
+                if (body[i] == MOVE) result.push(svgBody('#A9B7C6'))
+                if (body[i] == CARRY) result.push(svgBody('#777777'))
+                if (body[i] == WORK) result.push(svgBody('#FFE56D'))
+                if (body[i] == ATTACK) result.push(svgBody('#F93842'))
+                if (body[i] == RANGED_ATTACK) result.push(svgBody('#5D80B2'))
+                if (body[i] == HEAL) result.push(svgBody('#65FD62'))
+                if (body[i] == TOUGH) result.push(svgBody('#FFFFFF'))
+                if (body[i] == CLAIM) result.push(svgBody('#B99CFB'))
             }
             result.push("</td>");
             result.push("<td>  \n " + svgCreep(body) + " \n\n</td>");
