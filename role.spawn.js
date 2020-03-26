@@ -71,11 +71,11 @@ let roleSpawn = {
             pattern = [WORK, CARRY];
             count = 20
         }
-        if (role == "DroneRefiller" || role == "DroneHelperTransporter") {
+        if (role == "DroneRefiller" || role == "DroneHelperTransporter" || role == "DroneRemouteTransporter") {
             pattern = [CARRY]; 
             count = 30;
         }
-        if (role == "DroneMiner1" || role == "DroneMiner2") {
+        if (role == "DroneMiner1" || role == "DroneMiner2" || role == "DroneRemouteMiner") {
             pattern = [WORK];
             count = 10;
         }
@@ -99,6 +99,10 @@ let roleSpawn = {
         if (role == "DroneClaimer") {
             pattern = [CLAIM]; 
             count = 2;
+        }
+        if (role == "DroneRemouteReserver") {
+            pattern = [CLAIM]; 
+            count = 4;
         }
         if (role == "DroneHelperHealer") {
             pattern = [HEAL];
