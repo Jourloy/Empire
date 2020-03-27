@@ -12,6 +12,7 @@ function functions() {
     global.FindRemouteTarget = function(creep) {
         if (creep.memory.room == "W49S28") return Game.flags.Remoute1;
         if (creep.memory.room == "W49S29") return Game.flags.Remoute2;
+        if (creep.memory.room == "W48S27") return Game.flags.Remoute3;
     }
     
     global.GetResource = function(creep) {
@@ -134,7 +135,7 @@ function functions() {
             }
         });
         if (spawnEnergy.length > 0 && (!Memory.room[creep.room.name + ".amountIsLive." + "DroneRefiller"] || !Memory.room[creep.room.name + ".amountIsLive." + "DroneMiner1"])) doRefill(creep)
-        else if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.controller, { heuristicWeight: 1.2, range: 3, reusePath: 20 });
+        else if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.controller, { heuristicWeight: 1.2 });
     }
     
     global.GoRenew = function(creep) {
