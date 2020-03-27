@@ -28,6 +28,12 @@ function goGetResourceClear(creep) {
                     for (i in RESOURCES_ALL) {
                         if (creep.room.storage.store[RESOURCES_ALL[i]] > 0) if (creep.withdraw(creep.room.storage, RESOURCES_ALL[i]) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
                     }
+                } else {
+                    if (creep.room.terminal) {
+                        for (i in RESOURCES_ALL) {
+                            if (creep.room.terminal.store[RESOURCES_ALL[i]] > 0) if (creep.withdraw(creep.room.terminal, RESOURCES_ALL[i]) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.terminal, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
+                        }
+                    }
                 }
             }
         }
