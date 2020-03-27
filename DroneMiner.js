@@ -19,7 +19,9 @@ function doMine(creep) {
             creep.moveTo(source, { ignoreCreeps: false, reusePath: 20 });
         }
     } else {
-        creep.moveTo(source, { ignoreCreeps: false, reusePath: 20 });
+        if (containerNear.length == 2 && creep.pos.isNearTo(source)) {
+            creep.moveTo(containerNear[1], { ignoreCreeps: false, reusePath: 20 });
+        } else creep.moveTo(source, { ignoreCreeps: false, reusePath: 20 });
     }
 }
 
@@ -29,7 +31,6 @@ const DroneMiner = {
         if (creep.spawning) {
             creep.memory.room = creep.room.name;
         } else {
-            //test();
             if (creep.room.name == creep.memory.room) {
                 if (creep.ticksToLive <= Math.ceil(1500-(600/(creep.hitsMax/50))-100-800)) creep.memory.renew = true;
                 else if (creep.ticksToLive > 1480) creep.memory.renew = false;
