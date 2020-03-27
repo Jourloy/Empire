@@ -4,7 +4,8 @@ function doWork(creep) {
     if (constructionSite) {
         if (creep.build(constructionSite) == ERR_NOT_IN_RANGE) creep.moveTo(constructionSite, { heuristicWeight: 1.2, range: 3, reusePath: 20 });
     } else {
-        DoRepair(creep);
+
+        if (!Game.flags.RebuildSpawn && !Game.flags.RebuildSpawn.room == creep.room) DoRepair(creep);
     }
 }
 
