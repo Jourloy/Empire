@@ -1,7 +1,7 @@
 function getResourceRepairer(creep) {
     if (creep.room.name == creep.memory.room) {
         if (creep.room.storage) {
-            if (creep.withdraw(creep.room.terminal, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.terminal, { heuristicWeight: 1.2, range: 1, reusePath: 20 });
+            if (creep.withdraw(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 20 });
         }
     } else {
         const containerInRoom = creep.room.find(FIND_STRUCTURES, {
