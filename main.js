@@ -16,7 +16,6 @@ module.exports.loop = function () {
     let role;
     let spawns;
 
-
     for (z in Game.rooms) {
         room = Game.rooms[z];
 

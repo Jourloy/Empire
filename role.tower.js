@@ -13,11 +13,9 @@ var roleTower = {
             let hostileCreeps = FindHostileCreeps(tower.room.name);
 
             let hitsOnCurrentLevel = 100000
-            if (tower.room.controller.level == 4) hitsOnCurrentLevel = 2000000
-            if (tower.room.controller.level == 5) hitsOnCurrentLevel = 4000000
-            if (tower.room.controller.level == 6) hitsOnCurrentLevel = 6000000
-            if (tower.room.controller.level == 7) hitsOnCurrentLevel = 7000000
-            if (tower.room.controller.level == 4) hitsOnCurrentLevel = 8000000
+            if (tower.room.controller.level == 4) hitsOnCurrentLevel = 250000
+            if (tower.room.controller.level == 5) hitsOnCurrentLevel = 500000
+            if (tower.room.controller.level >= 6) hitsOnCurrentLevel = 1000000
 
             if (tower.room.storage.store[RESOURCE_ENERGY] > 250000) {
                 let structures = tower.room.find(FIND_STRUCTURES, {
