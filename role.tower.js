@@ -31,6 +31,12 @@ var roleTower = {
                     }
                 });
                 if (hostileCreeps.length == 0) {
+                    let friendsCreeps = tower.room.find(FIND_MY_CREEPS, {
+                        filter: (creep) => {
+                            return creep.hits < creep.hitsMax;
+                        }
+                    });
+                    if (friendsCreeps.length > 0) tower.heal(friendsCreeps[0]);
                     if (tower.store[RESOURCE_ENERGY] > 699) {
                         if (maxStructures.length > 0) {
                             maxStructures.sort((a,b) => a.hits - b.hits);
@@ -46,7 +52,7 @@ var roleTower = {
                             if (tower.store[RESOURCE_ENERGY] > 299) {
                                 tower.attack(hostileCreeps[0]);
                             } else if (tower.store[RESOURCE_ENERGY] > 0) {
-                                var friendsCreeps = tower.room.find(FIND_MY_CREEPS, {
+                                let friendsCreeps = tower.room.find(FIND_MY_CREEPS, {
                                     filter: (creep) => {
                                         return creep.hits < creep.hitsMax;
                                     }
