@@ -1,8 +1,3 @@
-function getResource(creep) {
-    gR = require("BasicFunctions")
-    gR.run(creep, creep.memory.state);
-}
-
 function doWork(creep) {
     const constructionSite = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES);
 
@@ -24,7 +19,7 @@ const DroneHelperBuilder = {
                 if (creep.store.getUsedCapacity() == 0) creep.memory.state = "getResource";
                 else if (creep.store.getUsedCapacity() == creep.store.getCapacity()) creep.memory.state = "doWork";
 
-                if (creep.memory.state == "getResource") getResource(creep);
+                if (creep.memory.state == "getResource") GetResource(creep);
                 if (creep.memory.state == "doWork") doWork(creep);
             } else {
                 creep.moveTo(Game.flags.Claim, { ignoreRoads: true, heuristicWeight: 1.2, range: 1, reusePath: 50 });
