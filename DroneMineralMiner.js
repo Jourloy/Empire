@@ -21,11 +21,17 @@ function doMine(creep) {
                 else creep.moveTo(spawn, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
             }
         } else {
+
             if (containerNear.length == 1 && creep.pos.isNearTo(source[0])) {
                 if (!creep.pos.isEqualTo(containerNear[0].pos)) {
                     creep.moveTo(containerNear[0].pos, { ignoreCreeps: false, reusePath: 50 });
-                } else if (containerNear[0].store[RESOURCE_ENERGY] < 1950) {
-                    creep.harvest(source[0]);
+                } else {
+                    for (i in RESOURCES_ALL) {
+                        if (containerNear[0].store[RESOURCES_ALL[i]] < 1950) creep.memory.harvest = true;
+                    }
+                    if (creep.memory.harvest == true) {
+                        creep.harvest(source)
+                    }
                 }
             } else {
                 creep.moveTo(source[0], { ignoreCreeps: false, reusePath: 10 });
@@ -48,7 +54,7 @@ const DroneMiner = {
             if (creep.ticksToLive <= Math.ceil(1500-(600/(creep.hitsMax/50))-100-800)) creep.memory.renew = true;
             else if (creep.ticksToLive > 1480) creep.memory.renew = false;
 
-            if (creep.memory.renew) goRenew(creep);
+            if (creep.memory.renew) GoRenew(creep);
             else {
                 if (creep.room.name == creep.memory.room) {
                     doMine(creep);
