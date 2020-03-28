@@ -89,7 +89,7 @@ let roleSpawn = {
         }
         if (role == "DroneRemouteWarrior") {
             pattern = [ATTACK];
-            count = 20;
+            count = 10;
         }
         if (role == "DroneRemouteHealer") {
             pattern = [HEAL];
