@@ -72,7 +72,7 @@ module.exports.loop = function () {
                             }
                         });
 
-                        if (spawns[0].room == room && spawns.length > 1) {
+                        if (spawns[0] && spawns[0].room == room && spawns.length > 1) {
                             if (spawns[0] && spawns[0].spawning == null) {
                                 spawn = spawns[0];
 
@@ -86,7 +86,7 @@ module.exports.loop = function () {
 
                                 require("role.spawn").run(spawn, role);
                             }
-                        } else if (spawns[0].room == room && spawns[0] && spawns[0].spawning == null) {
+                        } else if (spawns[0] && spawns[0].room == room && spawns[0] && spawns[0].spawning == null) {
                             spawn = spawns[0];
                             require("role.spawn").run(spawn, role);
                         }
