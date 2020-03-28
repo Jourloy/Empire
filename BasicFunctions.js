@@ -1,4 +1,25 @@
 function functions() {
+
+    /*
+     *  ------------------------------------------------------------------------------
+     * | This code was given by Kotyara on Screeps Slack. Thank you very much :)      |
+     *  ------------------------------------------------------------------------------
+     */
+    for(let name in Game.flags){
+        let flag = Game.flags[name]
+        if(flag.color == COLOR_BROWN){
+            let room = flag.pos.roomName
+            new RoomVisual(room).rect(flag.pos.x - 5.5,flag.pos.y - 5.5,11,11,{opacity:0.035});
+            new RoomVisual(room).line(flag.pos.x,flag.pos.y - 5.5, flag.pos.x,flag.pos.y + 5.5,{opacity:0.1});
+            new RoomVisual(room).line(flag.pos.x - 5.5,flag.pos.y, flag.pos.x + 5.5,flag.pos.y,{opacity:0.1});
+            new RoomVisual(room).line(flag.pos.x + 4,flag.pos.y - 4, flag.pos.x - 4,flag.pos.y + 4,{opacity:0.1});
+            new RoomVisual(room).line(flag.pos.x - 4,flag.pos.y - 4, flag.pos.x + 4,flag.pos.y + 4,{opacity:0.1});
+            new RoomVisual(room).line(flag.pos.x + 4,flag.pos.y - 2, flag.pos.x + 2,flag.pos.y - 4,{opacity:0.1});
+            new RoomVisual(room).line(flag.pos.x + 4,flag.pos.y + 2, flag.pos.x + 2,flag.pos.y + 4,{opacity:0.1});
+            new RoomVisual(room).line(flag.pos.x - 4,flag.pos.y - 2, flag.pos.x - 2,flag.pos.y - 4,{opacity:0.1});
+        }
+	}
+    
     global.FindHostileCreeps = function(info) {
         room = Game.rooms[info]
         const hostileCreep = room.find(FIND_HOSTILE_CREEPS, {
