@@ -155,7 +155,7 @@ function functions() {
                     structure.structureType == STRUCTURE_SPAWN) && structure.energy < structure.energyCapacity;
             }
         });
-        if (spawnEnergy.length > 0 && (!Memory.room[creep.room.name + ".amountIsLive." + "DroneRefiller"] || !Memory.room[creep.room.name + ".amountIsLive." + "DroneMiner1"])) doRefill(creep)
+        if (spawnEnergy.length > 0 && (!Memory.room[creep.room.name + ".amountIsLive." + "DroneRefiller"] || !Memory.room[creep.room.name + ".amountIsLive." + "DroneMiner1"])) DoRefill(creep)
         else if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.controller, { heuristicWeight: 1.2 });
     }
     
