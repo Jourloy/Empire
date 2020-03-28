@@ -84,7 +84,8 @@ function functions() {
                     structure.structureType == STRUCTURE_ROAD ||
                     structure.structureType == STRUCTURE_STORAGE ||
                     structure.structureType == STRUCTURE_RAMPART ||
-                    structure.structureType == STRUCTURE_SPAWN) && structure.hits < structure.hitsMax;
+                    structure.structureType == STRUCTURE_SPAWN ||
+                    structure.structureType == STRUCTURE_CONTAINER) && structure.hits < structure.hitsMax;
             }
         });
         if (structures.length > 0) {
