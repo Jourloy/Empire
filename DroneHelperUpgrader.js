@@ -1,14 +1,3 @@
-function getResource(creep) {
-    gR = require("BasicFunctions")
-    gR.run(creep, creep.memory.state);
-}
-
-function doWork(creep) {
-    gR = require("BasicFunctions")
-    gR.run(creep, "upgrade");
-}
-
-
 const DroneUpgrader = {
     /** @param {Creep} creep **/
     control(creep) {
@@ -19,8 +8,8 @@ const DroneUpgrader = {
                 if (creep.store.getUsedCapacity() == 0) creep.memory.state = "getResource";
                 else if (creep.store.getUsedCapacity() == creep.store.getCapacity()) creep.memory.state = "doWork";
 
-                if (creep.memory.state == "getResource") getResource(creep);
-                if (creep.memory.state == "doWork") doWork(creep);
+                if (creep.memory.state == "getResource") GetResource(creep);
+                if (creep.memory.state == "doWork") DoUpgrade(creep);
             } else {
                 creep.moveTo(Game.flags.Claim, { ignoreRoads: true, heuristicWeight: 1.2, range: 1, reusePath: 50 });
             }
