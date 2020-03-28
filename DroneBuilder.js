@@ -9,11 +9,6 @@ function doWork(creep) {
     }
 }
 
-function goRenew(creep) {
-    gR = require("BasicFunctions")
-    gR.run(creep, "renew");
-}
-
 const DroneBuilder = {
     /** @param {Creep} creep **/
     control(creep) {
@@ -25,7 +20,7 @@ const DroneBuilder = {
                     if (creep.ticksToLive <= Math.ceil(1500 - (600 / (creep.hitsMax / 50)) - 100 - 800)) creep.memory.renew = true;
                     else if (creep.ticksToLive > 1480) creep.memory.renew = false;
 
-                    if (creep.memory.renew) goRenew(creep);
+                    if (creep.memory.renew) GoRenew(creep);
                     else {
                         if (creep.store.getUsedCapacity() == 0) creep.memory.state = "getResource";
                         else if (creep.store.getUsedCapacity() == creep.store.getCapacity()) creep.memory.state = "doWork";
