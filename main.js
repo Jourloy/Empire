@@ -1,10 +1,11 @@
 /*
-@ Author: Jourloy
-@ Repository: https://github.com/Jourloy/VIKING
-@ How to use: Will be soon
-*/
+ * @ Author: Jourloy
+ * @ Repository: https://github.com/Jourloy/VIKING
+ * @ How to use: Will be soon
+ */
 
 module.exports.loop = function () {
+
     require("BasicFunctions").run()
     require("Console").setting();
     require("Control").control()
