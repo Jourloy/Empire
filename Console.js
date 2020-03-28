@@ -1,7 +1,3 @@
-/*
-* functions "expandBodyArrayString" and "createCreepBodyArray" were given by Orlet on Screeps Slack. Thank you very much :)
-*/
-
 function Tools() {
     global.resources = RESOURCES_ALL;
 
@@ -86,6 +82,11 @@ function Tools() {
         return notification;
     }
 
+    /*
+     *  ------------------------------------------------------------------------------
+     * | This function was given by Orlet on Screeps Slack. Thank you very much :)    |
+     *  ------------------------------------------------------------------------------
+     */
     global.expandBodyArrayString = function(bodyString) {
         var preg = /(\d+)\(([0-9a-zA-Z]+)\)/;
         var match; 
@@ -109,6 +110,10 @@ function Tools() {
     };
 
     /*
+     *  ------------------------------------------------------------------------------
+     * | This function was given by Orlet on Screeps Slack. Thank you very much :)    |
+     *  ------------------------------------------------------------------------------
+     * 
      * Unpack a bodypart string into creep body part array
      *
      *  MOVE - "M"
