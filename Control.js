@@ -62,14 +62,14 @@ function amountCreeps() {
         }
 
         if (room.name == "W49S28") {
-            Memory.room[room.name + ".amount.DroneUpgrader"] = 4;
+            Memory.room[room.name + ".amount.DroneUpgrader"] = 2;
             if (Game.flags.Remoute1) {
                 Memory.room[room.name + ".amount.DroneRemouteMiner"] = 1;
                 Memory.room[room.name + ".amount.DroneRemouteTransporter"] = 2;
                 Memory.room[room.name + ".amount.DroneRemouteReserver"] = 1;
                 Memory.room[room.name + ".amount.DroneRemouteRepairer"] = 1;
                 Memory.room[room.name + ".amount.DroneRemouteWarrior"] = 0;
-                if (FindHostileCreeps(Game.flags.Remoute1.room && Game.flags.Remoute1.room.name).length > 0) {
+                if (Game.flags.Remoute1.room && FindHostileCreeps(Game.flags.Remoute1.room.name).length > 0) {
                     Memory.room[room.name + ".amount.DroneRemouteWarrior"] = 1;
                     Memory.room[room.name + ".amount.DroneRemouteHealer"] = 0;
                 }
@@ -92,14 +92,14 @@ function amountCreeps() {
                 Memory.room[room.name + ".amount.DroneHelperBuilder"] = 0;
             }
         } else if (room.name == "W49S29") {
-            Memory.room[room.name + ".amount.DroneUpgrader"] = 1;
+            Memory.room[room.name + ".amount.DroneUpgrader"] = 2;
             if (Game.flags.Remoute2) {
                 Memory.room[room.name + ".amount.DroneRemouteMiner"] = 1;
                 Memory.room[room.name + ".amount.DroneRemouteTransporter"] = 2;
                 Memory.room[room.name + ".amount.DroneRemouteReserver"] = 1;
                 Memory.room[room.name + ".amount.DroneRemouteRepairer"] = 0;
                 Memory.room[room.name + ".amount.DroneRemouteWarrior"] = 0;
-                if (FindHostileCreeps(Game.flags.Remoute2.room && Game.flags.Remoute2.room.name).length > 0) {
+                if (Game.flags.Remoute2.room && FindHostileCreeps(Game.flags.Remoute2.room.name).length > 0) {
                     Memory.room[room.name + ".amount.DroneRemouteWarrior"] = 1;
                     Memory.room[room.name + ".amount.DroneRemouteHealer"] = 0;
                 }
@@ -118,11 +118,10 @@ function amountCreeps() {
             if (Game.flags.Claim) {
                 Memory.room[room.name + ".amount.DroneClaimer"] = 0;
                 Memory.room[room.name + ".amount.DroneHelperUpgrader"] = 0;
-                Memory.room[room.name + ".amount.DroneHelperBuilder"] = 2;
+                Memory.room[room.name + ".amount.DroneHelperBuilder"] = 1;
             }
         } else if (room.name == "W48S27") {
-            Memory.room[room.name + ".amount.DroneUpgrader"] = 3;
-            Memory.room[room.name + ".amount.DroneRefiller"] = 2;
+            Memory.room[room.name + ".amount.DroneUpgrader"] = 1;
 
             if (Game.flags.Remoute3) {
                 Memory.room[room.name + ".amount.DroneRemouteMiner"] = 1;
@@ -130,7 +129,7 @@ function amountCreeps() {
                 Memory.room[room.name + ".amount.DroneRemouteReserver"] = 1;
                 Memory.room[room.name + ".amount.DroneRemouteRepairer"] = 0;
                 Memory.room[room.name + ".amount.DroneRemouteWarrior"] = 0;
-                if (FindHostileCreeps(Game.flags.Remoute3.room && Game.flags.Remoute3.room.name).length > 0) {
+                if (Game.flags.Remoute3.room && FindHostileCreeps(Game.flags.Remoute3.room.name).length > 0) {
                     Memory.room[room.name + ".amount.DroneRemouteWarrior"] = 1;
                     Memory.room[room.name + ".amount.DroneRemouteHealer"] = 0;
                 }
@@ -152,8 +151,8 @@ function amountCreeps() {
                 Memory.room[room.name + ".amount.DroneHelperBuilder"] = 0;
             }
         } else if (room.name == "W47S29") {
-            Memory.room[room.name + ".amount.DroneUpgrader"] = 3;
-            Memory.room[room.name + ".amount.DroneBuilder"] = 1;
+            Memory.room[room.name + ".amount.DroneUpgrader"] = 1;
+            Memory.room[room.name + ".amount.DroneBuilder"] = 2;
             if (Game.flags.Attack) {
                 Memory.room[room.name + ".amount.DroneHelperBuilder"] = 0;
                 Memory.room[room.name + ".amount.DroneHelperUpgrader"] = 0;
