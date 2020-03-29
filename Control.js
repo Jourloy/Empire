@@ -40,10 +40,14 @@ function amountCreeps() {
             Memory.room[room.name + ".amount.DroneSeller"] = 0;
             if (room.storage && room.terminal) {
                 if (room.terminal.store.getUsedCapacity() <= room.terminal.store.getCapacity()/2) {
-                    for (i in RESOURCES_ALL) {
-                        if (!Memory.bannedResource.includes(RESOURCES_ALL[i])) {
-                            if (room.storage && room.storage.store[RESOURCES_ALL[i]] > 12000) Memory.room[room.name + ".amount.DroneSeller"] = 1;
-                            else if (room.storage.store[RESOURCE_ENERGY] >= Memory.storageEnergyCapacity && room.terminal.store[RESOURCE_ENERGY] < 5000) Memory.room[room.name + ".amount.DroneSeller"] = 1;
+                    if (room.storage.store[RESOURCE_ENERGY] > Memory.storageEnergyCapacity && room.terminal.store.getUsedCapacity() < room.terminal.store.getCapacity()) {
+                        Memory.room[room.name + ".amount.DroneSeller"] = 1
+                    } else {
+                        for (i in RESOURCES_ALL) {
+                            if (!Memory.bannedResource.includes(RESOURCES_ALL[i])) {
+                                if (room.storage && room.storage.store[RESOURCES_ALL[i]] > 12000) Memory.room[room.name + ".amount.DroneSeller"] = 1;
+                                else if (room.storage.store[RESOURCE_ENERGY] >= Memory.storageEnergyCapacity && room.terminal.store[RESOURCE_ENERGY] < 5000) Memory.room[room.name + ".amount.DroneSeller"] = 1;
+                            }
                         }
                     }
                 }
@@ -62,7 +66,6 @@ function amountCreeps() {
         }
 
         if (room.name == "W49S28") {
-            Memory.room[room.name + ".amount.DroneUpgrader"] = 2;
             if (Game.flags.Remoute1) {
                 Memory.room[room.name + ".amount.DroneRemouteMiner"] = 1;
                 Memory.room[room.name + ".amount.DroneRemouteTransporter"] = 2;
