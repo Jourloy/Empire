@@ -5,12 +5,11 @@
  */
 
 module.exports.loop = function () {
-
+    require("RoomStats").info();
     require("BasicFunctions").run()
     require("Console").setting();
     require("Control").control()
     require("role.tower").control();
-    require("RoomStats").info();
 
     let spawn;
     let room;
