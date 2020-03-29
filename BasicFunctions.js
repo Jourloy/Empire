@@ -18,7 +18,15 @@ function functions() {
             new RoomVisual(room).line(flag.pos.x + 4,flag.pos.y + 2, flag.pos.x + 2,flag.pos.y + 4,{opacity:0.1});
             new RoomVisual(room).line(flag.pos.x - 4,flag.pos.y - 2, flag.pos.x - 2,flag.pos.y - 4,{opacity:0.1});
         }
-	}
+    }
+    
+    global.GetInformationAboutRoom = function(creep) {
+        for (i in Memory.information) {
+            if (creep.room.name == Memory.information[i].RoomName) {
+                return Memory.information[i]
+            }
+        }
+    }
     
     global.FindHostileCreeps = function(info) {
         room = Game.rooms[info]
