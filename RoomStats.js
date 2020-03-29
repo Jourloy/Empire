@@ -29,6 +29,7 @@ const RoomStats = {
             Memory.information = [];
             let information = []
             let Info;
+            let informationAboutRooms;
             console.log(`[LOG] Collecting data about rooms`)
             for (i in Game.rooms) {
                 if (Game.rooms[i].controller && Game.rooms[i].controller.my) {
@@ -38,6 +39,16 @@ const RoomStats = {
                         RoomLevel:RoomLevel(room),
                         EnergyState:StateRoomEnergy(room),
                         AmountEnergy:AmountRoomEnergy(room),
+                        AmountEnergySources:AmountEnergySources(room),
+                        RoomMineral:RoomMineral(room)
+                    }
+                    information.push(Info);
+                } else if (Game.rooms[i].controller && Game.rooms[i].reservation && Game.rooms[i].reservation.username == "JOURLOY") {
+                    let room = Game.rooms[i]
+                    Info = {
+                        RoomName:room.name,
+                        RoomReservation:true,
+                        TiksToEnd:Game.rooms[i].reservation.tiksToEnd,
                         AmountEnergySources:AmountEnergySources(room),
                         RoomMineral:RoomMineral(room)
                     }
