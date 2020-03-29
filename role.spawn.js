@@ -25,42 +25,6 @@ function getBodyParts(spawn, pattern, count, optional) {
 }
 
 let roleSpawn = {
-    getBody(spawn, role, pattern) {
-        let count = 50;
-
-        if (role == "DroneBuilder" || role == "DroneUpgrader" || role == "DroneHelperBuilder" || role == "DroneHelperUpgrader") pattern = [WORK, CARRY];
-        if (role == "DroneRefiller" || role == "DroneHelperTransporter") {
-            pattern = [CARRY]; 
-            count = 30;
-        }
-        if (role == "DroneMiner1" || role == "DroneMiner2") {
-            pattern = [WORK]; 
-            count = 20;
-        }
-        if (role == 'DroneWarrior' || role == "DroneHelperWarrior") {
-            pattern = [ATTACK];
-            count = 6;
-        }
-        if (role == "DroneSeller") {
-            pattern = [CARRY]; 
-            count = 10;
-        }
-        if (role == "DroneMineralMiner" || role == "DroneHelperDismantler") pattern = [WORK];
-        if (role == "DroneRenamer") {
-            pattern = [CARRY]; 
-            count = 2;
-        }
-        if (role == "DroneClaimer") {
-            pattern = [CARRY]; 
-            count = 8;
-        }
-        if (role == "DroneHelperHealer") pattern = [HEAL];
-        if (role == "DroneHelperArcher") pattern = [RANGED_ATTACK];
-
-        let body = getBodyParts(spawn, pattern, count)
-        return body
-    },
-
     run(spawn, role) {
         let names = ['Arne', 'Birger', 'Bjørn', 'Bo', 'Erik', 'Frode', 'Gorm', 'Halfdan', 'Harald', 'Knud', 'Kåre', 'Leif', 'Njal', 'Roar', 'Rune', 'Sten', 'Skarde', 'Sune', 'Svend', 'Troels', 'Toke', 'Torsten', 'Trygve', 'Ulf', 'Ødger', 'Åge', 'Astrid', 'Bodil', 'Frida', 'Gertrud', 'Gro', 'Estrid', 'Hilda', 'Gudrun', 'Gunhild', 'Helga', 'Inga', 'Liv', 'Randi', 'Signe', 'Sigrid', 'Revna', 'Sif', 'Tora', 'Tove', 'Thyra', 'Thurid', 'Yrsa', 'Ulfhild', 'Åse']
         let newName = names[Game.time%names.length] + " | " + Game.time%names.length + " | " + Game.time%1001;
@@ -83,11 +47,9 @@ let roleSpawn = {
         }
         if (role == "DroneHelperWarrior") {
             pattern = [ATTACK];
-            //count = 10;
         }
         if (role == "DroneWarrior") {
             pattern = [ATTACK];
-            //count = 20;
         }
         if (role == "DroneRemouteWarrior") {
             pattern = [ATTACK];
@@ -116,7 +78,6 @@ let roleSpawn = {
         }
         if (role == "DroneHelperHealer") {
             pattern = [HEAL];
-            //count = 14;
         }
         if (role == "DroneHelperArcher") pattern = [RANGED_ATTACK];
 
