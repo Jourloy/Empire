@@ -77,7 +77,7 @@ function amountCreeps() {
             if (Game.flags.Attack) {
                 Memory.room[room.name + ".amount.DroneHelperBuilder"] = 0;
                 Memory.room[room.name + ".amount.DroneHelperUpgrader"] = 0;
-                Memory.room[room.name + ".amount.DroneHelperWarrior"] = 0;
+                Memory.room[room.name + ".amount.DroneHelperWarrior"] = 1;
                 Memory.room[room.name + ".amount.DroneHelperHealer"] = 0;
                 Memory.room[room.name + ".amount.DroneHelperArcher"] = 0;
                 Memory.room[room.name + ".amount.DroneHelperTransporter"] = 0;
@@ -122,10 +122,11 @@ function amountCreeps() {
             }
         } else if (room.name == "W48S27") {
             Memory.room[room.name + ".amount.DroneUpgrader"] = 1;
-
+            Memory.room[room.name + ".amount.DroneBuilder"] = 1;
+            Memory.room[room.name + ".amount.DroneRefiller"] = 2;
             if (Game.flags.Remoute3) {
                 Memory.room[room.name + ".amount.DroneRemouteMiner"] = 1;
-                Memory.room[room.name + ".amount.DroneRemouteTransporter"] = 4;
+                Memory.room[room.name + ".amount.DroneRemouteTransporter"] = 3;
                 Memory.room[room.name + ".amount.DroneRemouteReserver"] = 1;
                 Memory.room[room.name + ".amount.DroneRemouteRepairer"] = 0;
                 Memory.room[room.name + ".amount.DroneRemouteWarrior"] = 0;
