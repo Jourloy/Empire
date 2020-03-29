@@ -1,11 +1,5 @@
 function doMine(creep) {
     const extractor = creep.room.find(FIND_STRUCTURES, { filter: s => s.structureType == STRUCTURE_EXTRACTOR });
-
-    if (creep.store.getUsedCapacity([RESOURCE_HYDROGEN]) > 0) {
-        if (creep.pos.isNearTo(creep.room.storage.pos)) {
-            creep.transfer(creep.room.storage, RESOURCE_HYDROGEN)
-        }
-    }
     
     if (extractor.length > 0 && extractor[0].cooldown && extractor[0].cooldown > 0) {
 
@@ -26,23 +20,16 @@ function doMine(creep) {
                 if (!creep.pos.isEqualTo(containerNear[0].pos)) {
                     creep.moveTo(containerNear[0].pos, { ignoreCreeps: false, reusePath: 50 });
                 } else {
-                    for (i in RESOURCES_ALL) {
-                        if (containerNear[0].store[RESOURCES_ALL[i]] < 1950) creep.memory.harvest = true;
-                    }
-                    if (creep.memory.harvest == true) {
-                        creep.harvest(source)
-                    }
+                    if (containerNear[0].store.getUsedCapacity() < 1950) creep.memory.harvest = true;
+                    if (containerNear[0].store.getUsedCapacity() >= 1950) creep.memory.harvest = false;
+
+                    if (creep.memory.harvest) creep.harvest(source[0])
                 }
             } else {
                 creep.moveTo(source[0], { ignoreCreeps: false, reusePath: 10 });
             }
         }
     }
-}
-
-function goRenew(creep) {
-    gR = require("BasicFunctions")
-    gR.run(creep, "renew");
 }
 
 const DroneMiner = {
