@@ -1,4 +1,7 @@
 function killCreeps(creep) {
+    const speak = ['ODIN,', "MY", "FATHER!", "I", "BEG", "YOU!", "BLAST", "ME!"]
+    creep.say(speak[Game.time%speak.length], true);
+
     const hostileTarget = creep.pos.findClosestByPath(FIND_HOSTILE_CREEPS, {
         filter: (crps) => {
             return crps.owner.username != "kotyara";
