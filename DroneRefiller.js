@@ -1,89 +1,87 @@
-function getMinerals(creep) {
-    for (i in RESOURCES_ALL) {
-        const mineralDropped = creep.room.find(FIND_DROPPED_RESOURCES, {
-            filter: (resource) => {
-                return resource.amount > 0 && (resource.resourceType == RESOURCES_ALL[i]);
-            }
-        });
-    
-        if (mineralDropped.length > 0) {
-            if (creep.pickup(mineralDropped[0]) == ERR_NOT_IN_RANGE) creep.moveTo(mineralDropped[0], { heuristicWeight: 1.2, range: 1, reusePath: 20 });
-        } else {
-            const mineralTombstones = creep.room.find(FIND_TOMBSTONES, {
-                filter: (structure) => {
-                    return (structure.store[RESOURCES_ALL[i]] > 0);
-                }
-            });
-            if (mineralTombstones.length > 0) {
-                if (creep.withdraw(mineralTombstones[0], RESOURCES_ALL[i]) == ERR_NOT_IN_RANGE) creep.moveTo(mineralTombstones[0], { heuristicWeight: 1.2, range: 1, reusePath: 20 });
-            } else {
-                const mineralContainer = creep.room.find(FIND_STRUCTURES, {
-                    filter: (structure) => {
-                        return (structure.structureType == STRUCTURE_CONTAINER) && (structure.store[RESOURCES_ALL[i]] > 1000);
-                    }
-                });
-                if (mineralContainer.length > 0) {
-                    if (creep.withdraw(mineralContainer[0], RESOURCES_ALL[i]) == ERR_NOT_IN_RANGE) creep.moveTo(mineralContainer[0], { heuristicWeight: 1.2, range: 1, reusePath: 20 });
-                }
-            }
-        }
-    }
-}
-
 function getResourceRefiller(creep) {
-    getMinerals(creep);
-    if (creep.room.energyAvailable < creep.room.energyCapacityAvailable / 2 && creep.room.storage && creep.room.storage.store[RESOURCE_ENERGY] >= (Memory.storageEnergyCapacity - 10000)) {
-        if (creep.withdraw(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 20 });
+    let information = GetInformationAboutRoom(creep);
+    let resourceMineral = information.RoomMineral;
+
+    const mineralDropped = creep.room.find(FIND_DROPPED_RESOURCES, {
+        filter: (resource) => {
+            return resource.amount > 0 && (resource.resourceType == resourceMineral);
+        }
+    });
+
+    if (mineralDropped.length > 0) {
+        if (creep.pickup(mineralDropped[0]) == ERR_NOT_IN_RANGE) creep.moveTo(mineralDropped[0], { heuristicWeight: 1.2, range: 1, reusePath: 20 });
     } else {
-        const droppedEnergy = creep.room.find(FIND_DROPPED_RESOURCES, {
-            filter: (resource) => {
-                return resource.amount > 0 && resource.resourceType == 'energy';
+        const mineralTombstones = creep.room.find(FIND_TOMBSTONES, {
+            filter: (structure) => {
+                return (structure.store[resourceMineral] > 0);
             }
         });
-        if (droppedEnergy.length > 0) {
-            if (creep.pickup(droppedEnergy[0]) == ERR_NOT_IN_RANGE) creep.moveTo(droppedEnergy[0], { heuristicWeight: 1.2, range: 1, reusePath: 20 });
+        if (mineralTombstones.length > 0) {
+            if (creep.withdraw(mineralTombstones[0], resourceMineral) == ERR_NOT_IN_RANGE) creep.moveTo(mineralTombstones[0], { heuristicWeight: 1.2, range: 1, reusePath: 20 });
         } else {
-            const tombstones = creep.room.find(FIND_TOMBSTONES, {
+            const mineralContainer = creep.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
-                    return structure.store[RESOURCE_ENERGY] > 0;
+                    return (structure.structureType == STRUCTURE_CONTAINER) && (structure.store[resourceMineral] > 1000);
                 }
             });
-            if (tombstones.length > 0) {
-                tombstones.sort((a, b) => b.store[RESOURCE_ENERGY] - a.store[RESOURCE_ENERGY]);
-                if (creep.withdraw(tombstones[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(tombstones[0], { heuristicWeight: 1.2, range: 1, reusePath: 20 });
+            if (mineralContainer.length > 0) {
+                if (creep.withdraw(mineralContainer[0], resourceMineral) == ERR_NOT_IN_RANGE) creep.moveTo(mineralContainer[0], { heuristicWeight: 1.2, range: 1, reusePath: 20 });
             } else {
-                const ruinsInRoom = creep.room.find(FIND_RUINS, {
-                    filter: (structure) => {
-                        return structure.store[RESOURCE_ENERGY] > 0;
-                    }
-                });
-                if (ruinsInRoom.length > 0) {
-                    const ruins = creep.pos.findClosestByPath(FIND_RUINS, {
-                        filter: (structure) => {
-                            return structure.store[RESOURCE_ENERGY] > 0;
+                if (creep.room.energyAvailable < creep.room.energyCapacityAvailable / 2 && creep.room.storage && creep.room.storage.store[RESOURCE_ENERGY] >= (Memory.storageEnergyCapacity - 10000)) {
+                    if (creep.withdraw(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 20 });
+                } else {
+                    const droppedEnergy = creep.room.find(FIND_DROPPED_RESOURCES, {
+                        filter: (resource) => {
+                            return resource.amount > 0 && resource.resourceType == 'energy';
                         }
                     });
-                    if (creep.withdraw(ruins, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(ruins, { heuristicWeight: 1.2, range: 1, reusePath: 20 });
-                } else {
-                    if (creep.room.storage && creep.room.storage.store[RESOURCE_ENERGY] < Memory.storageEnergyCapacity / 3 && creep.room.terminal && creep.room.terminal.store[RESOURCE_ENERGY] > 5000) {
-                        if (creep.withdraw(creep.room.terminal, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.terminal, { heuristicWeight: 1.2, range: 1, reusePath: 20 });
+                    if (droppedEnergy.length > 0) {
+                        if (creep.pickup(droppedEnergy[0]) == ERR_NOT_IN_RANGE) creep.moveTo(droppedEnergy[0], { heuristicWeight: 1.2, range: 1, reusePath: 20 });
                     } else {
-                        const containerInRoom = creep.room.find(FIND_STRUCTURES, {
+                        const tombstones = creep.room.find(FIND_TOMBSTONES, {
                             filter: (structure) => {
-                                return (structure.structureType == STRUCTURE_CONTAINER) && structure.store[RESOURCE_ENERGY] > 20;
+                                return structure.store[RESOURCE_ENERGY] > 0;
                             }
                         });
-                        if (containerInRoom.length == 1) {
-                            if (creep.withdraw(containerInRoom[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(containerInRoom[0], { heuristicWeight: 1.2, range: 1, reusePath: 20 });
-                        } else if (containerInRoom.length >= 2) {
-                            containerInRoom.sort((a, b) => b.store[RESOURCE_ENERGY] - a.store[RESOURCE_ENERGY]);
-                            if (creep.withdraw(containerInRoom[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(containerInRoom[0], { heuristicWeight: 1.2, range: 1, reusePath: 20 });
+                        if (tombstones.length > 0) {
+                            tombstones.sort((a, b) => b.store[RESOURCE_ENERGY] - a.store[RESOURCE_ENERGY]);
+                            if (creep.withdraw(tombstones[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(tombstones[0], { heuristicWeight: 1.2, range: 1, reusePath: 20 });
                         } else {
-                            if (creep.room.terminal && creep.room.terminal.store[RESOURCE_ENERGY] > 100000) {
-                                if (creep.withdraw(creep.room.terminal, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.terminal, { heuristicWeight: 1.2, range: 1, reusePath: 20 });
+                            const ruinsInRoom = creep.room.find(FIND_RUINS, {
+                                filter: (structure) => {
+                                    return structure.store[RESOURCE_ENERGY] > 0;
+                                }
+                            });
+                            if (ruinsInRoom.length > 0) {
+                                const ruins = creep.pos.findClosestByPath(FIND_RUINS, {
+                                    filter: (structure) => {
+                                        return structure.store[RESOURCE_ENERGY] > 0;
+                                    }
+                                });
+                                if (creep.withdraw(ruins, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(ruins, { heuristicWeight: 1.2, range: 1, reusePath: 20 });
                             } else {
-                                if (creep.room.storage && (creep.room.storage.store[RESOURCE_ENERGY] > 20)) {
-                                    if (creep.withdraw(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 20 });
+                                if (creep.room.storage && creep.room.storage.store[RESOURCE_ENERGY] < Memory.storageEnergyCapacity / 3 && creep.room.terminal && creep.room.terminal.store[RESOURCE_ENERGY] > 5000) {
+                                    if (creep.withdraw(creep.room.terminal, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.terminal, { heuristicWeight: 1.2, range: 1, reusePath: 20 });
+                                } else {
+                                    const containerInRoom = creep.room.find(FIND_STRUCTURES, {
+                                        filter: (structure) => {
+                                            return (structure.structureType == STRUCTURE_CONTAINER) && structure.store[RESOURCE_ENERGY] > 20;
+                                        }
+                                    });
+                                    if (containerInRoom.length == 1) {
+                                        if (creep.withdraw(containerInRoom[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(containerInRoom[0], { heuristicWeight: 1.2, range: 1, reusePath: 20 });
+                                    } else if (containerInRoom.length >= 2) {
+                                        containerInRoom.sort((a, b) => b.store[RESOURCE_ENERGY] - a.store[RESOURCE_ENERGY]);
+                                        if (creep.withdraw(containerInRoom[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(containerInRoom[0], { heuristicWeight: 1.2, range: 1, reusePath: 20 });
+                                    } else {
+                                        if (creep.room.terminal && creep.room.terminal.store[RESOURCE_ENERGY] > 100000) {
+                                            if (creep.withdraw(creep.room.terminal, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.terminal, { heuristicWeight: 1.2, range: 1, reusePath: 20 });
+                                        } else {
+                                            if (creep.room.storage && (creep.room.storage.store[RESOURCE_ENERGY] > 20)) {
+                                                if (creep.withdraw(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 20 });
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
