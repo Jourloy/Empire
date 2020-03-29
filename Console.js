@@ -2,9 +2,9 @@ function Tools() {
     global.resources = RESOURCES_ALL;
 
     global.ConvertBodyArray = function(info) {
-        
+
         body = [];
-        
+
         let tough = 0;
         let attack = 0;
         let rangedAttack = 0;
@@ -52,7 +52,7 @@ function Tools() {
 
         return body;
     }
-    
+
     global.svgBody = function (color, count = 1, width = 16, height = 16) {
         const cx = width / 2;
         const cy = height / 2;
@@ -69,9 +69,9 @@ function Tools() {
     global.pushNotification = function(room) {
         let notification = [];
         notification = `<script>
-        if (!pushNotifications) { 
-            var pushNotifications = {}; 
-        } 
+        if (!pushNotifications) {
+            var pushNotifications = {};
+        }
         if (!pushNotifications['${room}']) {
             pushNotifications['${room}'] = true;
             alert('${room} is in trouble. Look into the console for the link.');
@@ -89,7 +89,7 @@ function Tools() {
      */
     global.expandBodyArrayString = function(bodyString) {
         var preg = /(\d+)\(([0-9a-zA-Z]+)\)/;
-        var match; 
+        var match;
         do
         {
             m = preg.exec(bodyString);
@@ -97,15 +97,15 @@ function Tools() {
             {
                 let times = parseInt(m[1]);
                 let replace = "";
-                
+
                 for (let i = 0; i < times; i++)
                     replace += m[2];
-                
+
                 bodyString = bodyString.replace(m[0], replace);
             }
         }
         while (m);
-        
+
         return bodyString;
     };
 
@@ -113,7 +113,7 @@ function Tools() {
      *  ------------------------------------------------------------------------------
      * | This function was given by Orlet on Screeps Slack. Thank you very much :)    |
      *  ------------------------------------------------------------------------------
-     * 
+     *
      * Unpack a bodypart string into creep body part array
      *
      *  MOVE - "M"
@@ -135,11 +135,11 @@ function Tools() {
     global.createCreepBodyArray = function(bodyString) {
         // pre-convert to lowercase
         bodyString = bodyString.toLowerCase();
-        
+
         // it's a group expando string? (f.ex.: "5(WCM)")
         if (bodyString.indexOf('(') !== -1)
             bodyString = this.expandBodyArrayString(bodyString);
-        
+
         // body object LUT
         var bodyObject =
         {
@@ -153,11 +153,11 @@ function Tools() {
             k: CLAIM,
             t: TOUGH
         }
-        
+
         // parse and expand the string into array of body bits
         var bodyArray = new Array();
         var partCounter = 0;
-        
+
         for (let i = 0; i < bodyString.length; i++)
         {
             if (isNaN(bodyString[i]))
@@ -165,20 +165,20 @@ function Tools() {
                 // it's a letter
                 if (partCounter === 0)
                     partCounter = 1;
-                
+
                 let part = bodyObject[bodyString[i]];
-            
+
                 // error?
                 if (part === undefined)
                 {
                     partCounter = 0;
                     continue;
                 }
-                
+
                 // expand!
                 for (let j = 0; j < partCounter; j++)
                     bodyArray.push(part);
-                
+
                 partCounter = 0;
             }
             else
@@ -187,7 +187,7 @@ function Tools() {
                 partCounter = partCounter*10 + parseInt(bodyString[i]);
             }
         }
-        
+
         return bodyArray;
     };
 
@@ -389,10 +389,10 @@ function Tools() {
                             return (structure.store);
                         }
                     });
-        
+
                     allStr = allStr.concat(storeStr);
                 }
-        
+
                 for (i in allStr) {
                     if (allStr[i].store[resource] > 0) amount += allStr[i].store[resource];
                 }
@@ -577,9 +577,9 @@ function Global_function() {
 
                 for (z in resources) {
                     if (spawn.room.storage.store[resources[z]] > 0) {
-                        info.push("<tr>"); info.push("<td> " + ResourceImg(resources[z]) + "</td>"); 
+                        info.push("<tr>"); info.push("<td> " + ResourceImg(resources[z]) + "</td>");
                         info.push("<td> " + spawn.room.storage.store[resources[z]]/1000 + "</td>"); i
-                        info.push("<td> " + spawn.room.storage.store.getFreeCapacity()/1000 + "</td>"); 
+                        info.push("<td> " + spawn.room.storage.store.getFreeCapacity()/1000 + "</td>");
                         info.push("</tr>");
                     }
                 }
@@ -599,9 +599,9 @@ function Global_function() {
 
                 for (z in resources) {
                     if (spawn.room.terminal.store[resources[z]] > 0) {
-                        info.push("<tr>"); info.push("<td> " + ResourceImg(resources[z]) + "</td>"); 
+                        info.push("<tr>"); info.push("<td> " + ResourceImg(resources[z]) + "</td>");
                         info.push("<td> " + spawn.room.terminal.store[resources[z]]/1000 + "</td>"); i
-                        info.push("<td> " + spawn.room.terminal.store.getFreeCapacity()/1000 + "</td>"); 
+                        info.push("<td> " + spawn.room.terminal.store.getFreeCapacity()/1000 + "</td>");
                         info.push("</tr>");
                     }
                 }
@@ -631,13 +631,13 @@ function Global_function() {
             const resource = RESOURCES_ALL[i]
 
             if (!hide) {
-                table.push("<tr>"); 
+                table.push("<tr>");
                 table.push("<td> " + ResourceImg(resource) + " </td>");
                 table.push("<td> " + AmountResource({room: room, resource: resource}) + " </td>");
                 table.push("</tr>");
             } else {
                 if (AmountResource({room: room, resource: resource}) > 0) {
-                    table.push("<tr>"); 
+                    table.push("<tr>");
                     table.push("<td> " + ResourceImg(resource) + " </td>");
                     table.push("<td> " + AmountResource({room: room, resource: resource}) + " </td>");
                     table.push("</tr>");
@@ -685,16 +685,16 @@ function Global_function() {
             let time = body.length * 3;
 
             switch(body) {
-                case MOVE: 
-                    moveCount++; 
+                case MOVE:
+                    moveCount++;
                     price = price + 50;
                     break;
-                case CARRY: 
-                    carryCount++; 
+                case CARRY:
+                    carryCount++;
                     price = price + 50;
                     capacity = capacity + 50;
                     break;
-                case WORK: 
+                case WORK:
                     price = price + 100;
                     workCount++;
                     harvEnergy = harvEnergy + 2;
@@ -702,27 +702,27 @@ function Global_function() {
                     build = build + 5;
                     upgrade++;
                     break;
-                case ATTACK: 
+                case ATTACK:
                     price = price + 80;
                     attackCount++
                     damageAttack += 30;
                     break;
-                case RANGED_ATTACK: 
+                case RANGED_ATTACK:
                     price = price + 150;
                     rangedAttackCount++;
                     damageRangedAttack += 10;
                     break;
-                case HEAL: 
+                case HEAL:
                     price = price + 250;
                     healCount++;
                     healShort += 12;
                     healDistance += 4;
                     break;
-                case TOUGH: 
+                case TOUGH:
                     price = price + 10;
                     toughCount++;
                     break;
-                case CLAIM: 
+                case CLAIM:
                     price = price + 600;
                     claimCount++;
                     break;
@@ -803,7 +803,7 @@ function Global_function() {
                     moveSwampCarry = Math.ceil((badBodyPartsWithoutCarry * 10) / (moveCount * 2));
                 }
             }
-           
+
             if (movePlain < 1) movePlain = 1;
             if (moveRoad < 1) moveRoad = 1;
             if (moveSwamp < 1) moveSwamp = 1
@@ -1117,17 +1117,17 @@ function Global_function() {
 
             } else amountBuy = " - ";
 
-            result.push("<tr>"); 
-            result.push("<td> " + ResourceImg(resources) + " </td>"); 
+            result.push("<tr>");
+            result.push("<td> " + ResourceImg(resources) + " </td>");
             result.push("<td> " + priceSell + " </td>");
             result.push("<td> " + amountSell + " </td>");
             result.push("<td> " + lastPriceSell + " </td>");
             result.push("<td> " + ordersSell.length + " </td>");
-            result.push("<td> " + ResourceImg(resources) + " </td>"); 
+            result.push("<td> " + ResourceImg(resources) + " </td>");
             result.push("<td> " + priceBuy + " </td>");
             result.push("<td> " + amountBuy + " </td>");
             result.push("<td> " + lastPriceBuy + " </td>");
-            result.push("<td> " + ordersBuy.length + " </td>"); 
+            result.push("<td> " + ordersBuy.length + " </td>");
             result.push("</tr>");
         }
 

@@ -50,7 +50,7 @@ let DroneHelperHealer = {
 
             if (creep.hits < ((creep.hitsMax/2)+50) && Game.flags.Heal) creep.memory.selfHeal = true;
             else if (creep.hits == creep.hitsMax) creep.memory.selfHeal = false;
-            
+
             if (Game.flags.Heal && creep.memory.selfHeal) {
                 creep.moveTo(Game.flags.Heal);
                 healMySelf(creep);
