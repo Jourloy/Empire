@@ -17,7 +17,7 @@ var roleTower = {
             if (tower.room.controller.level == 5) hitsOnCurrentLevel = 500000
             if (tower.room.controller.level >= 6) hitsOnCurrentLevel = 1000000
 
-            if (tower.room.storage.store[RESOURCE_ENERGY] > 250000) {
+            if (tower.room.storage && tower.room.storage.store[RESOURCE_ENERGY] > 250000 || !tower.room.storage) {
                 let structures = tower.room.find(FIND_STRUCTURES, {
                     filter: (structure) => {
                         return (structure.structureType == STRUCTURE_WALL ||
