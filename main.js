@@ -26,7 +26,7 @@ module.exports.loop = function () {
     }
 
     if (Memory.queue.length > 1) {
-        if (Game.time % 11 == 10) {
+        if (Game.time % 21 == 20) {
             let result = [];
             let rooms = [];
             let room;
