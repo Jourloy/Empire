@@ -37,7 +37,7 @@ var roleTower = {
                         }
                     });
                     if (friendsCreeps.length > 0) tower.heal(friendsCreeps[0]);
-                    if (tower.store[RESOURCE_ENERGY] > 699) {
+                    if (tower.store[RESOURCE_ENERGY] > 600) {
                         if (maxStructures.length > 0) {
                             maxStructures.sort((a,b) => a.hits - b.hits);
                             tower.repair(maxStructures[0]);
