@@ -35,11 +35,11 @@ let roleSpawn = {
             pattern = [WORK, CARRY];
         }
         if (role == "DroneHelperTransporter" || role == "DroneRemouteTransporter") {
-            pattern = [CARRY]; 
+            pattern = [CARRY];
             count = 30;
         }
         if (role == "DroneRefiller") {
-            pattern = [CARRY]; 
+            pattern = [CARRY];
         }
         if (role == "DroneMiner1" || role == "DroneMiner2" || role == "DroneRemouteMiner") {
             pattern = [WORK];
@@ -60,20 +60,20 @@ let roleSpawn = {
             count = 10;
         }
         if (role == "DroneSeller") {
-            pattern = [CARRY]; 
+            pattern = [CARRY];
             count = 10;
         }
         if (role == "DroneMineralMiner" || role == "DroneHelperDismantler") pattern = [WORK];
         if (role == "DroneRenamer") {
-            pattern = [CARRY]; 
+            pattern = [CARRY];
             count = 2;
         }
         if (role == "DroneClaimer") {
-            pattern = [CLAIM]; 
+            pattern = [CLAIM];
             count = 2;
         }
         if (role == "DroneRemouteReserver") {
-            pattern = [CLAIM]; 
+            pattern = [CLAIM];
             count = 4;
         }
         if (role == "DroneHelperHealer") {
@@ -85,7 +85,7 @@ let roleSpawn = {
             if (spawn.spawnCreep(getBodyParts(spawn, pattern, count), newName, { memory: { role: role } }) == 0) {
                 console.log("[INFO] Spawn start spawn creep [" + role + "] in " + spawn.room.name)
                 for (i in Memory.queue) {
-                    if (Memory.queue[i] && Memory.queue[i].Role == role && Memory.queue[i].Room == spawn.room.name) { 
+                    if (Memory.queue[i] && Memory.queue[i].Role == role && Memory.queue[i].Room == spawn.room.name) {
                         let CreepSpawn = Memory.queue.slice(i, i+1);
                         let newList = [];
                         for (i in Memory.queue) {
