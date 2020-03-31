@@ -156,6 +156,7 @@ function amountCreeps() {
         } else if (room.name == "W47S29") {
             Memory.room[room.name + ".amount.DroneUpgrader"] = 2;
             Memory.room[room.name + ".amount.DroneBuilder"] = 2;
+            Memory.room[room.name + ".amount.DroneRefiller"] = 2;
             if (Game.flags.Attack) {
                 Memory.room[room.name + ".amount.DroneHelperBuilder"] = 0;
                 Memory.room[room.name + ".amount.DroneHelperUpgrader"] = 0;

@@ -19,7 +19,7 @@ function functions() {
             new RoomVisual(room).line(flag.pos.x - 4,flag.pos.y - 2, flag.pos.x - 2,flag.pos.y - 4,{opacity:0.1});
         }
     }
-    
+
     global.GetInformationAboutRoom = function(creep) {
         for (i in Memory.information) {
             if (creep.room.name == Memory.information[i].RoomName) {
@@ -27,7 +27,7 @@ function functions() {
             }
         }
     }
-    
+
     global.FindHostileCreeps = function(info) {
         room = Game.rooms[info]
         const hostileCreep = room.find(FIND_HOSTILE_CREEPS, {
@@ -43,7 +43,7 @@ function functions() {
         if (creep.memory.room == "W49S29") return Game.flags.Remoute2;
         if (creep.memory.room == "W48S27") return Game.flags.Remoute3;
     }
-    
+
     global.GetResource = function(creep) {
         if (creep.room.storage) {
             if (creep.withdraw(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.storage, { heuristicWeight: 1.2, range: 1, reusePath: 20 });
@@ -83,7 +83,7 @@ function functions() {
             }
         }
     }
-    
+
     global.DoRepair = function(creep) {
         const structures = creep.room.find(FIND_STRUCTURES, {
             filter: (structure) => {
@@ -103,7 +103,7 @@ function functions() {
             DoUpgrade(creep);
         }
     }
-    
+
     global.DoRefill = function(creep) {
         const spawnEnergy = creep.pos.findClosestByPath(FIND_STRUCTURES, {
             filter: (structure) => {
@@ -138,7 +138,7 @@ function functions() {
                             return (structure.structureType == STRUCTURE_LAB) && structure.store[RESOURCE_ENERGY] < 2000;
                         }
                     });
-    
+
                     if (creep.transfer(labsInRoom, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(labsInRoom, { heuristicWeight: 1.2, range: 1, reusePath: 20 });
                     }
@@ -156,7 +156,7 @@ function functions() {
             }
         }
     }
-    
+
     global.DoUpgrade = function(creep) {
         const spawnEnergy = creep.room.find(FIND_STRUCTURES, {
             filter: (structure) => {
@@ -167,10 +167,10 @@ function functions() {
         if (spawnEnergy.length > 0 && (!Memory.room[creep.room.name + ".amountIsLive." + "DroneRefiller"] || !Memory.room[creep.room.name + ".amountIsLive." + "DroneMiner1"])) DoRefill(creep)
         else if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.controller, { heuristicWeight: 1.2 });
     }
-    
+
     global.GoRenew = function(creep) {
         const spawn = creep.pos.findClosestByPath(FIND_MY_SPAWNS);
-    
+
         if (spawn) {
             if (spawn.renewCreep(creep) == ERR_NOT_IN_RANGE) creep.moveTo(spawn)
         }
