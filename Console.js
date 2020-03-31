@@ -223,15 +223,26 @@ function Tools() {
 
         if (bodyString != null) {
             body = createCreepBodyArray(bodyString);
-            switch(body) {
-                case MOVE: move++; break;
-                case CARRY: carry++; break;
-                case WORK: work++; break;
-                case ATTACK: attack++; break;
-                case RANGED_ATTACK: rangedAttack++; break;
-                case HEAL: heal++; break;
-                case TOUGH: tough++; break;
-                case CLAIM: claim++; break;
+            for (let i in body) {
+                if (body[i] == MOVE || body[i] == CARRY) {
+                    if (body[i] == MOVE) {
+                        moveCount++;
+                    } else {
+                        carryCount++;
+                    }
+                } else if (body[i] == WORK) {
+                    workCount++;
+                } else if (body[i] == ATTACK) {
+                    attackCount++
+                } else if (body[i] == RANGED_ATTACK) {
+                    rangedAttackCount++;
+                } else if (body[i] == HEAL) {
+                    healCount++;
+                } else if (body[i] == TOUGH) {
+                    toughCount++;
+                } else if (body[i] == CLAIM) {
+                    claimCount++;
+                }
             }
         }
 
@@ -297,16 +308,27 @@ function Tools() {
         let healCount = 0;
         let toughCount = 0;
         let claimCount = 0;
-
-        switch(body) {
-            case MOVE: moveCount++; break;
-            case CARRY: carryCount++; break;
-            case WORK: workCount++; break;
-            case ATTACK: attackCount++; break;
-            case RANGED_ATTACK: rangedAttackCount++; break;
-            case HEAL: healCount++; break;
-            case TOUGH: toughCount++; break;
-            case CLAIM: claimCount++; break;
+        for (let i in body) {
+            bodyCount++;
+            if (body[i] == MOVE || body[i] == CARRY) {
+                if (body[i] == MOVE) {
+                    moveCount++;
+                } else {
+                    carryCount++;
+                }
+            } else if (body[i] == WORK) {
+                workCount++;
+            } else if (body[i] == ATTACK) {
+                attackCount++
+            } else if (body[i] == RANGED_ATTACK) {
+                rangedAttackCount++;
+            } else if (body[i] == HEAL) {
+                healCount++;
+            } else if (body[i] == TOUGH) {
+                toughCount++;
+            } else if (body[i] == CLAIM) {
+                claimCount++;
+            }
         }
 
         bodySvg = [];
@@ -434,7 +456,7 @@ function Global_function() {
             help.push("");
             help.push("2. Creeps({body:{}})");
             help.push("In {} you must write creep's body. For example:");
-            help.push("Creeps({bodyString:{move:10, claim:2}})");
+            help.push("Creeps({body:{move:10, claim:2}})");
             help.push("-------------------------");
             help.push("BODY PARTS:");
             help.push("-------------------------");
@@ -684,49 +706,6 @@ function Global_function() {
             let price = 0;
             let time = body.length * 3;
 
-            switch(body) {
-                case MOVE:
-                    moveCount++;
-                    price = price + 50;
-                    break;
-                case CARRY:
-                    carryCount++;
-                    price = price + 50;
-                    capacity = capacity + 50;
-                    break;
-                case WORK:
-                    price = price + 100;
-                    workCount++;
-                    harvEnergy = harvEnergy + 2;
-                    harvMineral = harvMineral + 1;
-                    build = build + 5;
-                    upgrade++;
-                    break;
-                case ATTACK:
-                    price = price + 80;
-                    attackCount++
-                    damageAttack += 30;
-                    break;
-                case RANGED_ATTACK:
-                    price = price + 150;
-                    rangedAttackCount++;
-                    damageRangedAttack += 10;
-                    break;
-                case HEAL:
-                    price = price + 250;
-                    healCount++;
-                    healShort += 12;
-                    healDistance += 4;
-                    break;
-                case TOUGH:
-                    price = price + 10;
-                    toughCount++;
-                    break;
-                case CLAIM:
-                    price = price + 600;
-                    claimCount++;
-                    break;
-            }
             for (let i in body) {
                 bodyCount++;
                 hits += 100;
