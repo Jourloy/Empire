@@ -45,7 +45,6 @@ function CheckTerminal(room) {
 
 const RoomStats = {
     info() {
-        if (Game.time % 6 == 5) {
             Memory.information = [];
             let information = []
             let Info;
@@ -77,11 +76,19 @@ const RoomStats = {
                         HostileCreeps:CheckHostileCreeps(room)
                     }
                     information.push(Info);
+                } else if (Game.rooms[i].controller) {
+                    let room = Game.rooms[i]
+                    Info = {
+                        RoomName:room.name,
+                        RoomMineral:RoomMineral(room),
+                        HostileCreeps:CheckHostileCreeps(room)
+                    }
+                    information.push(Info);
                 }
             }
 
             Memory.information = information;
         }
-    }
+    
 }
 module.exports = RoomStats;
