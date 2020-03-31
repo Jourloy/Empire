@@ -13,8 +13,8 @@ const DroneRemouteReserver = {
                 } else {
                     const controller = creep.room.controller;
                     if (creep.reserveController(controller) == ERR_NOT_IN_RANGE) creep.moveTo(controller)
-                    if (!creep.room.controller.sign || (creep.room.controller.sign && creep.room.controller.sign.text != Memory.code)) {
-                        if (creep.signController(creep.room.controller, Memory.code) == ERR_NOT_IN_RANGE) {}
+                    if (!creep.room.controller.sign || (creep.room.controller.sign && creep.room.controller.sign.text != "Reserved by VIKING")) {
+                        if (creep.signController(creep.room.controller, "Reserved by VIKING") == ERR_NOT_IN_RANGE) {}
                     }
                 }
             }
