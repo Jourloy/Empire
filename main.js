@@ -30,7 +30,7 @@ module.exports.loop = function () {
             let rooms = [];
             let room;
             let len;
-
+            
             result.push("[INFO] Queue length: " + Memory.queue.length);
             for (i in Game.rooms) {
                 rooms.push({ Room: Game.rooms[i].name, Len: 0 })
