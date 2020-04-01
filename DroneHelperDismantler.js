@@ -1,13 +1,5 @@
 function dismantleStructure(creep) {
 
-    const wall = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-        filter: (structure) => {
-            return (structure.structureType == STRUCTURE_WALL);
-        }
-    });
-
-    if (creep.dismantle(wall) == ERR_NOT_IN_RANGE) creep.moveTo(wall)
-
     const hostileStrInRoom = creep.room.find(FIND_STRUCTURES, {
         filter: (structure) => {
             return (structure.structureType == STRUCTURE_EXTENSION ||
@@ -32,8 +24,10 @@ function dismantleStructure(creep) {
             }
         });
 
-        if (dangerHostileStr) {
-            if (creep.dismantle(dangerHostileStr) == ERR_NOT_IN_RANGE) creep.moveTo(dangerHostileStr)
+        if (dangerHostileStrInRoom) {
+            if (creep.dismantle(dangerHostileStr) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(dangerHostileStr);
+            }
         } else {
             const hostileStr = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                 filter: (structure) => {
@@ -57,7 +51,18 @@ function dismantleStructure(creep) {
             }
         });
         if (creep.dismantle(hostileStr) == ERR_NOT_IN_RANGE) creep.moveTo(hostileStr)
-    } else creep.moveTo(Game.flags.Attack);
+    } else {
+        const walls = creep.room.find(FIND_STRUCTURES, {
+            filter: (structure) => {
+                return structure.structureType == STRUCTURE_WALL;
+            }
+        });
+        if (walls.length > 0) {
+            if (creep.dismantle(walls) == ERR_NOT_IN_RANGE) creep.moveTo(walls)
+        } else {
+            creep.moveTo(Game.flags.Attack);
+        }
+    }
 }
 
 let DroneHelperDismantler = {
