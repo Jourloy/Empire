@@ -79,6 +79,10 @@ let roleSpawn = {
         if (role == "DroneHelperHealer") {
             pattern = [HEAL];
         }
+        if (role == "DroneHelperControl") {
+            pattern = [CLAIM];
+            count = 4;
+        }
         if (role == "DroneHelperArcher") pattern = [RANGED_ATTACK];
 
         if (spawn.spawning == null) {
