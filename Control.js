@@ -2,7 +2,7 @@ function clearMemory() {
     Memory.room = {};
     Memory.friends = ["JOURLOY", "kotyara", "Kartinka", "SystemParadox"]
     Memory.roles = ["DroneRefiller", "DroneBuilder", "DroneMiner1", "DroneMiner2", "DroneMineralMiner", "DroneSeller", "DroneUpgrader", "DroneWarrior", "DroneRenamer", "DroneClaimer", "DroneHelperBuilder", "DroneHelperUpgrader", "DroneHelperWarrior", "DroneHelperHealer", "DroneHelperArcher", "DroneHelperTransporter", "DroneHelperDismantler", "DroneRemouteMiner", "DroneRemouteRepairer", "DroneRemouteTransporter", "DroneRemouteReserver", "DroneRemouteWarrior", "DroneRemouteHealer"];
-    Memory.code = "VIKINGS";
+    Memory.code = '╔══════════════════╗”\n“║................VIKINGS...............║”\n“╚══════════════════╝';
     Memory.storageEnergyCapacity = 250000;
 
     Memory.bannedResource = [RESOURCE_ENERGY]
@@ -37,7 +37,7 @@ function amountCreeps() {
 
         if (room.controller && room.controller.my) {
 
-            //if (!room.controller.sign || (room.controller.sign && room.controller.sign != Memory.code)) Memory.room[room.name + ".amount.DroneRenamer"] = 1;
+            if (room.controller.sign != Memory.code) Memory.room[room.name + ".amount.DroneRenamer"] = 1;
 
             Memory.room[room.name + ".amount.DroneSeller"] = 0;
             if (room.storage && room.terminal) {
@@ -160,7 +160,7 @@ function amountCreeps() {
             }
         } else if (room.name == "W47S29") {
             Memory.room[room.name + ".amount.DroneUpgrader"] = 1;
-            Memory.room[room.name + ".amount.DroneBuilder"] = 2;
+            Memory.room[room.name + ".amount.DroneBuilder"] = 1;
             Memory.room[room.name + ".amount.DroneRefiller"] = 2;
             if (Game.flags.Remoute4) {
                 Memory.room[room.name + ".amount.DroneRemouteMiner"] = 1;
