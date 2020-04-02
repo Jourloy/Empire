@@ -1,3 +1,5 @@
+const SIGN = '╔══════════════════╗”\n“║.....Reserved by VIKINGS.....║”\n“╚══════════════════╝'
+
 const DroneRemouteReserver = {
     control(creep) {
         if (creep.spawning) {
@@ -13,8 +15,8 @@ const DroneRemouteReserver = {
                 } else {
                     const controller = creep.room.controller;
                     if (creep.reserveController(controller) == ERR_NOT_IN_RANGE) creep.moveTo(controller)
-                    if (!creep.room.controller.sign || (creep.room.controller.sign && creep.room.controller.sign.text != "Reserved by VIKINGS")) {
-                        if (creep.signController(creep.room.controller, "Reserved by VIKINGS") == ERR_NOT_IN_RANGE) {}
+                    if (!creep.room.controller.sign || (creep.room.controller.sign && creep.room.controller.sign.text != SIGN)) {
+                        if (creep.signController(creep.room.controller, SIGN) == ERR_NOT_IN_RANGE) {}
                     }
                 }
             }
