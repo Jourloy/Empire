@@ -42,6 +42,7 @@ function functions() {
         if (creep.memory.room == "W49S28") return Game.flags.Remoute1;
         if (creep.memory.room == "W49S29") return Game.flags.Remoute2;
         if (creep.memory.room == "W48S27") return Game.flags.Remoute3;
+        if (creep.memory.room == "W47S29") return Game.flags.Remoute4;
     }
 
     global.GetResource = function(creep) {
