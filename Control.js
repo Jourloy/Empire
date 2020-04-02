@@ -1,8 +1,8 @@
 function clearMemory() {
     Memory.room = {};
-    Memory.friends = ["JOURLOY", "kotyara", "SystemParadox"]
+    Memory.friends = ["JOURLOY", "kotyara", "Kartinka", "SystemParadox"]
     Memory.roles = ["DroneRefiller", "DroneBuilder", "DroneMiner1", "DroneMiner2", "DroneMineralMiner", "DroneSeller", "DroneUpgrader", "DroneWarrior", "DroneRenamer", "DroneClaimer", "DroneHelperBuilder", "DroneHelperUpgrader", "DroneHelperWarrior", "DroneHelperHealer", "DroneHelperArcher", "DroneHelperTransporter", "DroneHelperDismantler", "DroneRemouteMiner", "DroneRemouteRepairer", "DroneRemouteTransporter", "DroneRemouteReserver", "DroneRemouteWarrior", "DroneRemouteHealer"];
-    Memory.code = "VIKING";
+    Memory.code = "VIKINGS";
     Memory.storageEnergyCapacity = 250000;
 
     Memory.bannedResource = [RESOURCE_ENERGY]
@@ -36,6 +36,8 @@ function amountCreeps() {
         });
 
         if (room.controller && room.controller.my) {
+
+            //if (!room.controller.sign || (room.controller.sign && room.controller.sign != Memory.code)) Memory.room[room.name + ".amount.DroneRenamer"] = 1;
 
             Memory.room[room.name + ".amount.DroneSeller"] = 0;
             if (room.storage && room.terminal) {
@@ -83,7 +85,8 @@ function amountCreeps() {
                 Memory.room[room.name + ".amount.DroneHelperHealer"] = 0;
                 Memory.room[room.name + ".amount.DroneHelperArcher"] = 0;
                 Memory.room[room.name + ".amount.DroneHelperTransporter"] = 0;
-                Memory.room[room.name + ".amount.DroneHelperDismantler"] = 1;
+                Memory.room[room.name + ".amount.DroneHelperDismantler"] = 0;
+                Memory.room[room.name + ".amount.DroneHelperControl"] = 0;
             }
             if (Game.flags.Clear) {
                 Memory.room[room.name + ".amount.DroneHelperTransporter"] = 2;
@@ -141,10 +144,10 @@ function amountCreeps() {
             if (Game.flags.Attack) {
                 Memory.room[room.name + ".amount.DroneHelperBuilder"] = 0;
                 Memory.room[room.name + ".amount.DroneHelperUpgrader"] = 0;
-                Memory.room[room.name + ".amount.DroneHelperWarrior"] = 0;
+                Memory.room[room.name + ".amount.DroneHelperWarrior"] = 1;
                 Memory.room[room.name + ".amount.DroneHelperHealer"] = 0;
                 Memory.room[room.name + ".amount.DroneHelperArcher"] = 0;
-                Memory.room[room.name + ".amount.DroneHelperTransporter"] = 2;
+                Memory.room[room.name + ".amount.DroneHelperTransporter"] = 0;
                 Memory.room[room.name + ".amount.DroneHelperDismantler"] = 0;
             }
             if (Game.flags.Clear) {
@@ -159,6 +162,17 @@ function amountCreeps() {
             Memory.room[room.name + ".amount.DroneUpgrader"] = 1;
             Memory.room[room.name + ".amount.DroneBuilder"] = 2;
             Memory.room[room.name + ".amount.DroneRefiller"] = 2;
+            if (Game.flags.Remoute4) {
+                Memory.room[room.name + ".amount.DroneRemouteMiner"] = 1;
+                Memory.room[room.name + ".amount.DroneRemouteTransporter"] = 2;
+                Memory.room[room.name + ".amount.DroneRemouteReserver"] = 1;
+                Memory.room[room.name + ".amount.DroneRemouteRepairer"] = 0;
+                Memory.room[room.name + ".amount.DroneRemouteWarrior"] = 0;
+                if (Game.flags.Remoute4.room && FindHostileCreeps(Game.flags.Remoute4.room.name).length > 0) {
+                    Memory.room[room.name + ".amount.DroneRemouteWarrior"] = 1;
+                    Memory.room[room.name + ".amount.DroneRemouteHealer"] = 0;
+                }
+            }
             if (Game.flags.Attack) {
                 Memory.room[room.name + ".amount.DroneHelperBuilder"] = 0;
                 Memory.room[room.name + ".amount.DroneHelperUpgrader"] = 0;
@@ -246,6 +260,7 @@ function Calculate_creeps() {
 const Control = {
     control() {
         clearMemory();
+        //remouteRooms();
         amountCreeps();
         amountCreepsIsLive();
         Calculate_creeps();
