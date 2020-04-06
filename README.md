@@ -1,2 +1,1 @@
-# VIKING
-AI for Screeps
+# Screeps-code
