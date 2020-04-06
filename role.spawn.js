@@ -1,3 +1,10 @@
+/*
+ *  ------------------------------------------------------------------------------
+ * | This code was given by Sergey on Screeps Slack. Thank you very much :)       |
+ *  ------------------------------------------------------------------------------
+ * | Code corrected |
+ *  ----------------
+ */
 function getBodyParts(spawn, pattern, count, optional) {
 
     if (!spawn) return 'Need parameter [Spawn]';
@@ -7,6 +14,7 @@ function getBodyParts(spawn, pattern, count, optional) {
     let body = [];
     let prepareBody = [];
     let amountEnergy = spawn.room.energyCapacityAvailable;
+    //if (spawn.room.name == "W49S29") amountEnergy = 300;
     let bodyCost = 0;
 
     for (let i = 0; i < count/2; i++) {
@@ -81,7 +89,7 @@ let roleSpawn = {
         }
         if (role == "DroneHelperControl") {
             pattern = [CLAIM];
-            count = 4;
+            count = 8;
         }
         if (role == "DroneHelperArcher") pattern = [RANGED_ATTACK];
 
