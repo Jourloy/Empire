@@ -1,3 +1,5 @@
+const SIGN  = '╔══════════════════╗”\n“║.....Attacked by VIKINGS......║”\n“╚══════════════════╝'
+
 let DroneHelperDismantler = {
     /** @param {Creep} creep **/
     control(creep) {
@@ -8,7 +10,8 @@ let DroneHelperDismantler = {
                 if (Game.flags.Attack.room != creep.room) {
                     creep.moveTo(Game.flags.Attack);
                 } else {
-                    dismantleStructure(creep);
+                    if (creep.attackController(creep.room.controller) == ERR_NOT_IN_RANGE) creep.moveTo(creep.room.controller)
+                    if (creep.signController(creep.room.controller, SIGN) == ERR_NOT_IN_RANGE) {}
                 }
             }
 
