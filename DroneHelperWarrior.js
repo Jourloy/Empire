@@ -1,9 +1,7 @@
 function killCreeps(creep) {
-
-
     const hostileTarget = creep.pos.findClosestByPath(FIND_HOSTILE_CREEPS, {
         filter: (crps) => {
-            return crps.owner.username != "kotyara";
+            return (!Memory.friends.includes(crps.owner.username));
         }
     });
     if (hostileTarget) {
@@ -16,10 +14,13 @@ function killCreeps(creep) {
 function destroyStructures(creep) {
     const hostileTargetStr = creep.pos.findClosestByPath(FIND_HOSTILE_STRUCTURES, {
         filter: (strc) => {
-            return strc.owner.username != "kotyara" && strc.owner.username != "JOURLOY" && strc.structureType != "rampart" && strc.structureType != "controller" && strc.structureType != "storage";
+            return !Memory.friends.includes(strc.owner.username) && strc.structureType != "rampart" && strc.structureType != "controller" && strc.structureType != "storage";
         }
     });
     if (creep.attack(hostileTargetStr) == ERR_NOT_IN_RANGE) creep.moveTo(hostileTargetStr);
+    else {
+        creep.moveTo(Game.flags.Attack)
+    }
 }
 
 function attackRoom(creep) {
