@@ -95,11 +95,6 @@ function doWork(creep) {
     }
 }
 
-function goRenew(creep) {
-    gR = require("BasicFunctions")
-    gR.run(creep, "renew");
-}
-
 const DroneHelperTransporter = {
     /** @param {Creep} creep **/
     control(creep) {
@@ -122,7 +117,7 @@ const DroneHelperTransporter = {
                     if (creep.ticksToLive <= Math.ceil(1500 - (600 / (creep.hitsMax / 50)) - 100 - 800) && creep.room.energyAvailable > creep.room.energyCapacityAvailable / 2) creep.memory.renew = true;
                     else if (creep.ticksToLive > 1480 || creep.room.energyAvailable < creep.room.energyCapacityAvailable / 2) creep.memory.renew = false;
 
-                    if (creep.memory.renew) goRenew(creep);
+                    if (creep.memory.renew) GoRenew(creep);
                     else {
                         doWork(creep);
                     }
