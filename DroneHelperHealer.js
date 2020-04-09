@@ -1,7 +1,7 @@
 function healMySelf(creep) {
     const target = creep.pos.findClosestByPath(FIND_CREEPS, {
         filter: (crps) => {
-            return (crps.owner.username == "kotyara" || crps.owner.username == "JOURLOY") && crps.hits < crps.hitsMax;
+            return Memory.friends.includes(crps.owner.username) && crps.hits < crps.hitsMax;
         }
     });
     if (target) {
@@ -16,7 +16,7 @@ function healMySelf(creep) {
 function healCreep(creep, WarriorRole) {
     const target = creep.pos.findClosestByPath(FIND_CREEPS, {
         filter: (crps) => {
-            return (crps.owner.username == "kotyara" || crps.owner.username == "JOURLOY") && crps.hits < crps.hitsMax;
+            return Memory.friends.includes(crps.owner.username) && crps.hits < crps.hitsMax;
         }
     });
     if (target) {
