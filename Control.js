@@ -59,6 +59,7 @@ function amountCreeps() {
         }
 
         if (room.name == "W49S28") {
+            Memory.room[room.name + ".amount.DroneUpgrader"] = 2;
             if (Game.flags.Remoute1) {
                 Memory.room[room.name + ".amount.DroneRemouteMiner"] = 1;
                 Memory.room[room.name + ".amount.DroneRemouteTransporter"] = 2;
@@ -78,7 +79,7 @@ function amountCreeps() {
                 Memory.room[room.name + ".amount.DroneHelperArcher"] = 0;
                 Memory.room[room.name + ".amount.DroneHelperTransporter"] = 0;
                 Memory.room[room.name + ".amount.DroneHelperDismantler"] = 0;
-                Memory.room[room.name + ".amount.DroneHelperControl"] = 1;
+                Memory.room[room.name + ".amount.DroneHelperControl"] = 0;
             }
             if (Game.flags.Clear) {
                 Memory.room[room.name + ".amount.DroneHelperTransporter"] = 0;
@@ -89,6 +90,7 @@ function amountCreeps() {
                 Memory.room[room.name + ".amount.DroneHelperBuilder"] = 0;
             }
         } else if (room.name == "W49S29") {
+            Memory.room[room.name + ".amount.DroneRefiller"] = 2;
             Memory.room[room.name + ".amount.DroneBuilder"] = 1;
             if (Game.flags.Remoute2) {
                 Memory.room[room.name + ".amount.DroneRemouteMiner"] = 1;
@@ -141,7 +143,7 @@ function amountCreeps() {
                 Memory.room[room.name + ".amount.DroneHelperArcher"] = 0;
                 Memory.room[room.name + ".amount.DroneHelperTransporter"] = 0;
                 Memory.room[room.name + ".amount.DroneHelperDismantler"] = 0;
-                Memory.room[room.name + ".amount.DroneHelperControl"] = 1;
+                Memory.room[room.name + ".amount.DroneHelperControl"] = 0;
             }
             if (Game.flags.Clear) {
                 Memory.room[room.name + ".amount.DroneHelperTransporter"] = 0;
@@ -152,9 +154,9 @@ function amountCreeps() {
                 Memory.room[room.name + ".amount.DroneHelperBuilder"] = 0;
             }
         } else if (room.name == "W48S24") {
-            Memory.room[room.name + ".amount.DroneUpgrader"] = 1;
+            Memory.room[room.name + ".amount.DroneUpgrader"] = 4;
             Memory.room[room.name + ".amount.DroneBuilder"] = 1;
-            Memory.room[room.name + ".amount.DroneRefiller"] = 3;
+            Memory.room[room.name + ".amount.DroneRefiller"] = 2;
             if (Game.flags.Remoute4) {
                 Memory.room[room.name + ".amount.DroneRemouteMiner"] = 1;
                 Memory.room[room.name + ".amount.DroneRemouteTransporter"] = 2;
