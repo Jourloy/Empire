@@ -42,6 +42,7 @@ let roleSpawn = {
         if (role == "DroneBuilder" || role == "DroneUpgrader" || role == "DroneHelperBuilder" || role == "DroneHelperUpgrader" || role == "DroneRemouteRepairer") {
             pattern = [WORK, CARRY];
         }
+        
         if (role == "DroneHelperTransporter" || role == "DroneRemouteTransporter") {
             pattern = [CARRY];
             count = 30;
@@ -89,7 +90,6 @@ let roleSpawn = {
         }
         if (role == "DroneHelperControl") {
             pattern = [CLAIM];
-            count = 8;
         }
         if (role == "DroneHelperArcher") pattern = [RANGED_ATTACK];
 
