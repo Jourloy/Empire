@@ -14,18 +14,26 @@ function killCreeps(creep) {
 function destroyStructures(creep) {
     const hostileTargetStr = creep.pos.findClosestByPath(FIND_HOSTILE_STRUCTURES, {
         filter: (strc) => {
-            return !Memory.friends.includes(strc.owner.username) && strc.structureType != "rampart" && strc.structureType != "controller" && strc.structureType != "storage";
+            return !Memory.friends.includes(strc.owner.username) && strc.structureType != "rampart" && strc.structureType != "controller";
         }
     });
-    if (creep.attack(hostileTargetStr) == ERR_NOT_IN_RANGE) creep.moveTo(hostileTargetStr);
-    else {
+    const towers = creep.pos.findClosestByPath(FIND_HOSTILE_STRUCTURES, {
+        filter: (strc) => {
+            return !Memory.friends.includes(strc.owner.username) && strc.structureType == "tower";
+        }
+    });
+    if (towers) {
+        if (creep.attack(towers) == ERR_NOT_IN_RANGE) creep.moveTo(towers);
+    } else if (hostileTargetStr) {
+        if (creep.attack(hostileTargetStr) == ERR_NOT_IN_RANGE) creep.moveTo(hostileTargetStr);
+    } else {
         creep.moveTo(Game.flags.Attack)
     }
 }
 
 function attackRoom(creep) {
-
-    killCreeps(creep);
+    
+    destroyStructures(creep);
 
 }
 
