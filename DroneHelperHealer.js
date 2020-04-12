@@ -52,10 +52,9 @@ let DroneHelperHealer = {
             else if (creep.hits == creep.hitsMax) creep.memory.selfHeal = false;
 
             if (Game.flags.Heal && creep.memory.selfHeal) {
-                creep.moveTo(Game.flags.Heal);
-                healMySelf(creep);
+                healCreep(creep);
             } else if (Game.flags.Heal && !creep.memory.selfHeal) {
-                healCreep(creep, true, WarriorRole);
+                healCreep(creep);
             } else {
                 healCreep(creep, true, WarriorRole);
             }
