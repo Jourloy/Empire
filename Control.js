@@ -2,7 +2,7 @@ function clearMemory() {
     Memory.room = {};
     Memory.friends = ["JOURLOY", "kotyara", "Kartinka", "SystemParadox"]
     Memory.roles = ["DroneRefiller", "DroneBuilder", "DroneMiner1", "DroneMiner2", "DroneMineralMiner", "DroneSeller", "DroneUpgrader", "DroneWarrior", "DroneRenamer", "DroneClaimer", "DroneHelperBuilder", "DroneHelperUpgrader", "DroneHelperWarrior", "DroneHelperHealer", "DroneHelperArcher", "DroneHelperTransporter", "DroneHelperDismantler", "DroneRemouteMiner", "DroneRemouteRepairer", "DroneRemouteTransporter", "DroneRemouteReserver", "DroneRemouteWarrior", "DroneRemouteHealer", "DroneHelperControl"];
-    Memory.code = '╔══════════════════╗”\n“║................VIKINGS...............║”\n“╚══════════════════╝';
+    Memory.code = 'VIKINGS';
     Memory.storageEnergyCapacity = 250000;
 
     Memory.bannedResource = [RESOURCE_ENERGY]
@@ -59,7 +59,6 @@ function amountCreeps() {
         }
 
         if (room.name == "W49S28") {
-            Memory.room[room.name + ".amount.DroneUpgrader"] = 2;
             if (Game.flags.Remoute1) {
                 Memory.room[room.name + ".amount.DroneRemouteMiner"] = 1;
                 Memory.room[room.name + ".amount.DroneRemouteTransporter"] = 2;
@@ -79,7 +78,7 @@ function amountCreeps() {
                 Memory.room[room.name + ".amount.DroneHelperArcher"] = 0;
                 Memory.room[room.name + ".amount.DroneHelperTransporter"] = 0;
                 Memory.room[room.name + ".amount.DroneHelperDismantler"] = 0;
-                Memory.room[room.name + ".amount.DroneHelperControl"] = 0;
+                Memory.room[room.name + ".amount.DroneHelperControl"] = 1;
             }
             if (Game.flags.Clear) {
                 Memory.room[room.name + ".amount.DroneHelperTransporter"] = 0;
@@ -143,7 +142,7 @@ function amountCreeps() {
                 Memory.room[room.name + ".amount.DroneHelperArcher"] = 0;
                 Memory.room[room.name + ".amount.DroneHelperTransporter"] = 0;
                 Memory.room[room.name + ".amount.DroneHelperDismantler"] = 0;
-                Memory.room[room.name + ".amount.DroneHelperControl"] = 0;
+                Memory.room[room.name + ".amount.DroneHelperControl"] = 1;
             }
             if (Game.flags.Clear) {
                 Memory.room[room.name + ".amount.DroneHelperTransporter"] = 0;
