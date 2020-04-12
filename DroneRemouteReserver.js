@@ -1,4 +1,4 @@
-const SIGN = '╔══════════════════╗”\n“║.....Reserved by VIKINGS.....║”\n“╚══════════════════╝'
+const SIGN = 'Reserved by VIKINGS'
 
 const DroneRemouteReserver = {
     control(creep) {
