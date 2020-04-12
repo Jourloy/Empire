@@ -1,4 +1,4 @@
-const SIGN  = '╔══════════════════╗”\n“║.....Attacked by VIKINGS......║”\n“╚══════════════════╝'
+const SIGN  = 'Attacked by VIKINGS'
 
 let DroneHelperDismantler = {
     /** @param {Creep} creep **/
