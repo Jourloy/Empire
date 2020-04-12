@@ -20,8 +20,8 @@ const DroneUpgrader = {
                 } else {
                     const spawn = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, { filter: { structureType: STRUCTURE_SPAWN } });
                     if (spawn) {
-                        if (creep.pos.isNearTo(spawn)) spawn.recycleCreep(creep);
-                        else creep.moveTo(spawn, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
+                        //if (creep.pos.isNearTo(spawn)) spawn.recycleCreep(creep);
+                        //else creep.moveTo(spawn, { heuristicWeight: 1.2, range: 1, reusePath: 50 });
                     }
                 }
             } else {
