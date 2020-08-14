@@ -1024,7 +1024,7 @@ function Global_function() {
         }
     };
 
-    global.marketInfo = function() {
+    global.MarketInfo = function() {
 
         let amountSell;
         let amountBuy;
@@ -1116,7 +1116,7 @@ function Global_function() {
 }
 
 let ConsoleSetting = {
-    setting(console) {
+    setting() {
 
         Tools();
         Global_function();
