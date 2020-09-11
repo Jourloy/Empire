@@ -696,6 +696,51 @@ convert
     {ticks: number} - Default: 1.
     {rate: number} - Default: 3.2
         `;
+    },
+    creeps() {
+        return `
+If you want create creep, you can use 3 methods:
+
+=========================
+
+1. creeps({bodyArray:[]})");
+In [] you must write creep's body. For example:
+Creeps({bodyArray:[MOVE,MOVE,MOVE,MOVE,MOVE,CLAIM]})
+
+=========================
+
+2. creeps({body:{}})
+In {} you must write creep's body. For example:
+Creeps({body:{move:10, claim:2}})
+-------------------------
+BODY PARTS:
+-------------------------
+MOVE - move
+WORK - work
+CARRY - carry
+ATTACK - attack
+RANGED_ATTACK - rangedAttack
+HEAL - heal
+CLAIM - claim
+TOUGH - tough
+
+=========================
+
+3. creeps({bodyString:\"\"})
+In \"\" you must write creep's body. For example:
+Creeps({bodyString:\"15m3c\"})
+-------------------------
+BODY PARTS:
+-------------------------
+MOVE - M
+WORK - W
+CARRY - C
+ATTACK - A
+RANGED_ATTACK - R
+HEAL - H
+CLAIM - X or K
+TOUGH - T
+        `
     }
 }
 
