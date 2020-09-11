@@ -55,7 +55,7 @@ function svgBody(color, count = 1, width = 16, height = 16) {
 };
 
 /* 
- * Not used. Will be deleted
+ * Not used. Will be delete
 global.pushNotification = function(room) {
     let notification = [];
     notification = `<script>
@@ -975,10 +975,10 @@ Object.defineProperty(global, 'logger', {
 Object.defineProperty(global, 'help', {
     get: function() { 
         return `
-                                help - Print this information
-                                info - Print information about all your rooms. Add '.help()' to get more information.
-                        convert(opt) - Convert ticks to real time. Add '.help()' to get more information.
-                       creeps({opt}) - Calculate cost and time of build creep. Add '.help()' to get more information.
+         help - Print this information
+         info - Print information about all your rooms. Add '.help()' to get more information.
+ convert(opt) - Convert ticks to real time. Add '.help()' to get more information.
+creeps({opt}) - Calculate cost and time of build creep. Add '.help()' to get more information.
         `
     }
 });
