@@ -931,9 +931,9 @@ Object.defineProperty(global, 'help', {
     get: function() { 
         return `
                                 help - Print this information
-                                info - Print information about all your rooms. Add '.help()' to get more information
-         calculateTicks(ticks, rate) - Convert ticks to real time
-                      creeps({body}) - Calculate cost and time of build creep
+                                info - Print information about all your rooms. Add '.help()' to get more information.
+                        convert(opt) - Convert ticks to real time. Add '.help()' to get more information.
+                       creeps({opt}) - Calculate cost and time of build creep. Add '.help()' to get more information.
         `
     }
 });
