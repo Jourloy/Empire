@@ -1,5 +1,11 @@
 global.resources = RESOURCES_ALL;
 
+Memory.JourloyConsole = {};
+Memory.JourloyConsole.timer = 'off';
+Memory.JourloyConsole.ticks = 1;
+Memory.JourloyConsole.num = 0;
+Memory.JourloyConsole.nowDate = 0;
+
 /**
  * Return body array
  * @param {Object} info 
@@ -660,17 +666,17 @@ function creeps(info = null) {
 };
 
 function convertTicksToTime(opt) {
-    const time = opt.ticks || 1;
-    const tickRate = opt.rate || 3.2;
+    const time = opt.ticks;
+    const tickRateFunc = opt.rate;
 
     let info = [];
     info.push("Amount TICKS: " + time);
-    info.push("Amount seconds: " + Math.round(time * tickRate));
-    if (time * tickRate > 60) {
-        info.push("Amount minutes: " + Math.round(time * tickRate / 60));
-        if (time * tickRate / 60 > 60) {
-            info.push("Amount hours: " + Math.round(time * tickRate / 60 / 60));
-            if (time * tickRate / 60 / 60 > 24) info.push("Amount days: " + Math.round(time * tickRate / 60 / 60 / 24));
+    info.push("Amount seconds: " + Math.round(time * tickRateFunc));
+    if (time * tickRateFunc > 60) {
+        info.push("Amount minutes: " + Math.round(time * tickRateFunc / 60));
+        if (time * tickRateFunc / 60 > 60) {
+            info.push("Amount hours: " + Math.round(time * tickRateFunc / 60 / 60));
+            if (time * tickRateFunc / 60 / 60 > 24) info.push("Amount days: " + Math.round(time * tickRateFunc / 60 / 60 / 24));
         }
     }
     info = info.join("\n");
@@ -678,6 +684,12 @@ function convertTicksToTime(opt) {
 }
 
 const help = {
+    mem() {
+        return `
+mem
+.reset() - Reset all console memory
+        `
+    },
     info() {
         return `
 info
@@ -693,8 +705,7 @@ info
         return `
 convert
 .ticksToTime() - Convert ticks to time.
-    {ticks: number} - Default: 1.
-    {rate: number} - Default: 3.2
+    ticks - Amount of ticks.
         `;
     },
     creeps() {
@@ -741,6 +752,16 @@ HEAL - H
 CLAIM - X or K
 TOUGH - T
         `
+    }
+}
+
+const mem = {
+    reset() {
+        Memory.JourloyConsole = {};
+        Memory.JourloyConsole.timer = 'off';
+        Memory.JourloyConsole.ticks = 1;
+        Memory.JourloyConsole.num = 0;
+        return `DONE`
     }
 }
 
@@ -1004,8 +1025,13 @@ Object.defineProperty(global, 'info', {
 Object.defineProperty(global, 'convert', {
     get: function() { 
         return {
-            help() { help.convert() },
-            ticksToTime(opt) { convertTicksToTime(opt) }
+            help() { return help.convert() },
+            ticksToTime(ticks) { 
+                Memory.JourloyConsole.ticks = ticks;
+                Memory.JourloyConsole.timer = 'on'
+                Memory.JourloyConsole.num == Game.time%1;
+                return 'Wait 1 tick';
+            }
         }
     }
 });
@@ -1016,10 +1042,31 @@ Object.defineProperty(global, 'convert', {
 Object.defineProperty(global, 'creeps', {
     get: function() { 
         return {
-            help() { help.creeps() },
-            build(opt) { creeps(opt) }
+            help() { return help.creeps() },
+            build(opt) { return creeps(opt) }
         }
     }
 });
 
-module.exports = {};
+/**
+ * Reset console memory
+ */
+Object.defineProperty(global, 'memory', {
+    get: function() { 
+        return {
+            help() { return help.mem() },
+            reset() { return mem.reset() }
+        }
+    }
+});
+
+exports.run = function() {
+    if (Memory.JourloyConsole.timer != 'off') {
+        if (Game.time == Memory.JourloyConsole.num) Memory.JourloyConsole.nowDate = parseFloat(new Date().getSeconds() + '.' + new Date().getMilliseconds())
+        else if (Game.time != Memory.JourloyConsole.num) {
+            const tickRate = parseFloat(new Date().getSeconds() + '.' + new Date().getMilliseconds()) - Memory.JourloyConsole.nowDate;
+            console.log(convertTicksToTime({ticks: Memory.JourloyConsole.ticks, rate: tickRate}));
+            mem.reset();
+        }
+    }
+};
