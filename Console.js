@@ -756,6 +756,9 @@ TOUGH - T
 }
 
 const mem = {
+    /**
+     * Reset console memory
+     */
     reset() {
         Memory.JourloyConsole = {};
         Memory.JourloyConsole.timer = 'off';
@@ -1026,6 +1029,11 @@ Object.defineProperty(global, 'convert', {
     get: function() { 
         return {
             help() { return help.convert() },
+            /**
+             * Convert ticks to time
+             * @param {Number} ticks 
+             * @author Kotyara from Screeps Slack. Thank you
+             */
             ticksToTime(ticks) { 
                 Memory.JourloyConsole.ticks = ticks;
                 Memory.JourloyConsole.timer = 'on'
@@ -1059,6 +1067,7 @@ Object.defineProperty(global, 'memory', {
         }
     }
 });
+
 
 exports.run = function() {
     if (Memory.JourloyConsole.timer != 'off') {
