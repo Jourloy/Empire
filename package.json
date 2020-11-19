@@ -1,0 +1,19 @@
+{
+  "name": "screeps-console",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Console.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jourloy/Screeps-code.git"
+  },
+  "keywords": [],
+  "author": "Jourloy",
+  "bugs": {
+    "url": "https://github.com/Jourloy/Screeps-code/issues"
+  },
+  "homepage": "https://github.com/Jourloy/Screeps-code#readme"
+}
