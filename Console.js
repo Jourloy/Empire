@@ -60,24 +60,6 @@ function svgBody(color, count = 1, width = 16, height = 16) {
     return bodySvg;
 };
 
-/* 
- * Not used. Will be delete
-global.pushNotification = function(room) {
-    let notification = [];
-    notification = `<script>
-    if (!pushNotifications) {
-        var pushNotifications = {};
-    }
-    if (!pushNotifications['${room}']) {
-        pushNotifications['${room}'] = true;
-        alert('${room} is in trouble. Look into the console for the link.');
-    }
-    </script>`;
-    notification = notification.replace(/\r?\n|\r/g, ' ');
-    console.log(`<a target="_blank" href="https://screeps.com/a/#!/room/${Game.shard.name}/${room}">${room} is in trouble. Click on me to open this room!</a>`);
-    return notification;
-} */
-
 /**
  * Help function for createCreepBodyArray()
  * @param {String} bodyString
@@ -146,12 +128,7 @@ function createCreepBodyArray(bodyString) {
 }
 
 /**
- * DEPRECATED. Use creeps(body)
- */
-function CreepBuilder(bodyBuild, bodyString) { return 'DEPRECATED. Use creeps(body)' }
-
-/**
- * Return html circle of creep's body (how in game)
+ * Return html circle of creep's body
  * @param {BODY} body 
  * @param {Number} width 
  * @param {Number} height
@@ -303,7 +280,7 @@ function AmountResource(info) {
 };
 
 /**
- * return progress bar (from 0 to num when 100 is max)
+ * return progress bar (from 0 to num, 100 is max)
  * @param {Number} num 
  */
 function progressBar(num = 0) {
@@ -1070,7 +1047,7 @@ Object.defineProperty(global, 'memory', {
 
 
 exports.run = function() {
-    if (Memory.JourloyConsole.timer != 'off') {
+    if (Memory.JourloyConsole.timer !== 'off') {
         if (Game.time == Memory.JourloyConsole.num) Memory.JourloyConsole.nowDate = parseFloat(new Date().getSeconds() + '.' + new Date().getMilliseconds())
         else if (Game.time != Memory.JourloyConsole.num) {
             const tickRate = parseFloat(new Date().getSeconds() + '.' + new Date().getMilliseconds()) - Memory.JourloyConsole.nowDate;
