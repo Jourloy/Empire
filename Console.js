@@ -693,13 +693,13 @@ If you want create creep, you can use 3 methods:
 
 1. creeps({bodyArray:[]})");
 In [] you must write creep's body. For example:
-Creeps({bodyArray:[MOVE,MOVE,MOVE,MOVE,MOVE,CLAIM]})
+creeps.build({bodyArray:[MOVE,MOVE,MOVE,MOVE,MOVE,CLAIM]})
 
 =========================
 
 2. creeps({body:{}})
 In {} you must write creep's body. For example:
-Creeps({body:{move:10, claim:2}})
+creeps.build({body:{move:10, claim:2}})
 -------------------------
 BODY PARTS:
 -------------------------
@@ -716,7 +716,7 @@ TOUGH - tough
 
 3. creeps({bodyString:\"\"})
 In \"\" you must write creep's body. For example:
-Creeps({bodyString:\"15m3c\"})
+creeps.build({bodyString:\"15m3c\"})
 -------------------------
 BODY PARTS:
 -------------------------
